@@ -14,3 +14,5 @@ adminModule.getUser = function (req, res, db) {
     res.send(result);
   });
 };
+
+module.exports = adminModule;
