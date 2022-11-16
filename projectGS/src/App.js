@@ -19,7 +19,13 @@ import BoardManagement from "./components/admin/BoardManagement";
 import DisposeReport from "./components/admin/DisposeReport";
 import UserManagement from "./components/admin/UserManagement";
 
-import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
+/* 221116 순아 추가*/
+import TopBar from "./components/admin/TopBar";
+import Sidebar from "./components/admin/Sidebar";
+import Home from "./components/admin/Home";
+import AdminNotice from "./components/admin/AdminNotice";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
 function App() {
   return (
     <>
@@ -31,16 +37,24 @@ function App() {
             <Route path="/join" element={<Join />} /> {/* 회원가입 */}
             <Route path="/mypage" element={<MyPage />} /> {/* 마이페이지 */}
             <Route path="/report" element={<Report />} /> {/* 신고페이지 */}
-            <Route path="/illegalareaguide" element={<IllegalAreaGuide />} /> {/* 불법주정차구역안내 */}
+            <Route path="/illegalareaguide" element={<IllegalAreaGuide />} />
+            {/* 불법주정차구역안내 */}
             <Route path="/notice" element={<Notice />} /> {/* 공지사항 */}
             <Route path="/point" element={<Point />} /> {/* 포인트 */}
-            <Route path="/adminlogin" element={<AdminLogin />} /> {/* 관리자 - 메인 */}
-            <Route path="/adminmain" element={<AdminMain />} /> {/* 관리자 - 메인 */}
-            <Route path="/adminmain" element={<AdminMain />} /> {/* 관리자 - 메인 */}
-            <Route path="/boardmanage" element={<BoardManagement />} /> {/* 관리자 - 게시판 관리 */}
-            <Route path="/disposereport" element={<DisposeReport />} /> {/* 관리자 - 신고 처리 */}
-            <Route path="/usermanage" element={<UserManagement />} /> {/* 관리자 - 회원관리 */}
           </Route>
+          <Router element={<Sidebar />}>
+            <Route path="/adminnotice" element={<AdminNotice />} />
+            <Route path="/adminlogin" element={<AdminLogin />} />
+            {/* 관리자 - 로그인 */}
+            <Route path="/adminmain" element={<AdminMain />} />
+            {/* 관리자 - 메인 */}
+            <Route path="/boardmanage" element={<BoardManagement />} />
+            {/* 관리자 - 게시판 관리 */}
+            <Route path="/disposereport" element={<DisposeReport />} />
+            {/* 관리자 - 신고 처리 */}
+            <Route path="/usermanage" element={<UserManagement />} />
+            {/* 관리자 - 회원관리 */}
+          </Router>
           <Route path="*" element={<NotFound />} /> {/* 404 페이지 */}
         </Routes>
       </Router>

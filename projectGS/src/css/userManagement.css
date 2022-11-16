@@ -1,0 +1,15 @@
+.userManagement {
+  flex: 4;
+}
+
+.userContainer {
+  display: flex;
+}
+
+.userShow {
+  flex: 1;
+  margin: 20px;
+  padding: 20px;
+
+  box-shadow: 0px 0px 12px -1px #333;
+}
