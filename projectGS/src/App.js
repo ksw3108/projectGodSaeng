@@ -34,8 +34,7 @@ function App() {
             <Route path="/illegalareaguide" element={<IllegalAreaGuide />} /> {/* 불법주정차구역안내 */}
             <Route path="/notice" element={<Notice />} /> {/* 공지사항 */}
             <Route path="/point" element={<Point />} /> {/* 포인트 */}
-            <Route path="/adminlogin" element={<AdminLogin />} /> {/* 관리자 - 메인 */}
-            <Route path="/adminmain" element={<AdminMain />} /> {/* 관리자 - 메인 */}
+            <Route path="/adminlogin" element={<AdminLogin />} /> {/* 관리자 - 로그인 */}
             <Route path="/adminmain" element={<AdminMain />} /> {/* 관리자 - 메인 */}
             <Route path="/boardmanage" element={<BoardManagement />} /> {/* 관리자 - 게시판 관리 */}
             <Route path="/disposereport" element={<DisposeReport />} /> {/* 관리자 - 신고 처리 */}
