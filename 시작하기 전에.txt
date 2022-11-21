@@ -1,5 +1,5 @@
 1. react의 설치된 라이브러리 
-yarn add redux react-redux redux-devtools-extension redux-logger axios
+yarn add redux react-redux redux-devtools-extension redux-logger axios react-json-to-csv react-js-pagination
 yarn add sass react-icons styled-components 
 1-1. react의 실행
 C:\Project\AI_Source\AIProject\projectGS> yarn start
@@ -11,5 +11,6 @@ C:\Project\AI_Source\AIProject\NodeServer> npm run dev
 
 3. 파이썬 설치된 라이브러리
 pip install pymysql
+pip install cryptography
 3-1. 파이썬 서버의 실행
 C:\Project\AI_Source\AIProject\PythonServer> python index.py
