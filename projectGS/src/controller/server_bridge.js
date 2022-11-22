@@ -5,6 +5,7 @@ export var py_url = 'http://localhost:5000'; //파이썬 서버를 사용하게 
 var url_now = '';
 
 export const board_inner = {
+  //게시판 리스트의 베이스가 되는 객체
   BOARD_IDX: '',
   BOARD_DATE: '',
   BOARD_TIT: '',
@@ -15,6 +16,7 @@ export const board_inner = {
 };
 
 function setThisUrl() {
+  //사용할 서버 세팅
   url_now = node_url;
   return url_now;
 }
@@ -26,33 +28,3 @@ export const axios_instace = axios.create({
   //모듈화한 axios 객체.
   baseURL: setThisUrl(),
 });
-
-export function getDataAsPost(url, bodyData) {
-  var data;
-  //post로 서버통신
-  axios
-    .post(url, bodyData)
-    .then((res) => {
-      ({ data } = res);
-      console.log(data);
-    })
-    .catch((e) => {
-      console.error(e);
-    });
-  return data;
-}
-
-export async function get_DataAsPost(url, bodyData) {
-  var data;
-  //post로 서버통신
-  await axios
-    .post(url, bodyData)
-    .then((res) => {
-      ({ data } = res);
-      console.log(data);
-    })
-    .catch((e) => {
-      console.error(e);
-    });
-  return data;
-}

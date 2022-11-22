@@ -16,7 +16,9 @@ const BoardManagement = () => {
   }, []);
 
   const getList = async () => {
+    //게시글 리스트를 가져온다.
     let where = {
+      //게시글을 검색할 조건절의 데이터를 서버에 넘겨주기 위한 dict
       is_searching: searchRef.current.value !== '' ? 1 : 0,
       where_clause:
         'WHERE ' +
@@ -32,6 +34,7 @@ const BoardManagement = () => {
     setList(res.data);
   };
   const setCurrentPage = (e) => {
+    //페이징 처리용 함수
     setPage(e);
   };
   return (
@@ -60,7 +63,7 @@ const BoardManagement = () => {
         <tbody>
           {board_list &&
             board_list
-              .slice(page * itemcount - itemcount, page * itemcount)
+              .slice(page * itemcount - itemcount, page * itemcount) //여기서 보여주려고 하는 리스트를 잘라내서 페이징 처리
               .map((data, key) => {
                 return (
                   <tr key={key}>
@@ -83,11 +86,11 @@ const BoardManagement = () => {
         </tbody>
       </table>
       <div>
-        <Page
-          page={page}
-          totalcnt={totalcnt}
-          setPage={setCurrentPage}
-          itemcount={itemcount}
+        <Page //페이지네이션 객체(component/admin/Page.js)
+          page={page} //현재 페이지
+          totalcnt={totalcnt} //총 게시글 갯수
+          setPage={setCurrentPage} //페이징 처리함수
+          itemcount={itemcount} //한 페이지에 몇개를 보여줄건지를 뜻함
         />
       </div>
     </div>
