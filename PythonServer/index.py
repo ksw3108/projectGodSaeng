@@ -36,19 +36,24 @@ def sel_data() :
     return jsonify(sendData)#클라이언트에 json 형식으로 데이터를 전달
 
 @app.route("/notilist4admin", methods=["GET","POST"]) ## 이렇게 하면 Get 방식 post 방식 둘다 받을 수 있음.
-def send_noti_list() :
+def send_noti_list() :#신고리스트
     body_data = get_body_data(request)
     sendData = dbconnecter.get_noti4admin(body_data)
     return jsonify(sendData)
 
 @app.route("/updatenoti4admin", methods=["GET", "POST"])
-def updatenoti4admin() :
+def updatenoti4admin() :#신고글 수정
     body_data = get_body_data(request)
     return dbconnecter.get_noti4admin(body_data)
 
 @app.route("/uploadnoti", methods=["GET", "POST"])
 def upload_board() :#게시판(공지사항) 업로드    
-    return dbconnecter.get_noti4admin(request)
+    return dbconnecter.insert_board(request)
+
+@app.route("/updatenoti", methods=["GET", "POST"])
+def update_board() :#게시판(공지사항) 수정    
+    print("tetesfasdfsd")
+    return dbconnecter.update_board(request)
 
 @app.route("/board_list", methods=["GET", "POST"])
 def send_list() :#게시판(공지사항) 리스트

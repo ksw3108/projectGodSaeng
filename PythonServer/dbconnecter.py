@@ -78,17 +78,17 @@ def get_noti4admin(where_clause):
         return "err : " + str(e)
 
 
-def get_noti4admin(request):
+def insert_board(request):
     form_data = request.form.to_dict()
     
     #file =request.files["notifile"]
 
+    timestamp =int(time.time())
+    path = "uploads/" + str(timestamp)
     _dir = '{"filename":"'+request.files["notifile"].filename+'","dir":"'+path+"/"+request.files["notifile"].filename+'"}' if request.files else ""
 
     if _dir != "" :
         file =request.files["notifile"]
-        timestamp =int(time.time())
-        path = "uploads/" + str(timestamp)
         filename = secure_filename(file.filename)
         os.makedirs(path, exist_ok=True)
         file.save(os.path.join(path, filename))
@@ -141,5 +141,48 @@ def select_board(board_idx):#게시판(공지사항)내용 상세보기(관리�
     try :
         cursor.execute(sql)
         return cursor.fetchall()
+    except Exception as e :
+        return "err : " + str(e)
+
+def update_board(request):#공지사항(게시판) 수정
+    form_data = request.form.to_dict()
+    
+    #file =request.files["notifile"]
+    
+    timestamp =int(time.time())
+    path = "uploads/" + str(timestamp)
+    _dir = '{"filename":"'+request.files["notifile"].filename+'","dir":"'+path+"/"+request.files["notifile"].filename+'"}' if request.files else ""
+
+    if _dir != "" :
+        file =request.files["notifile"]
+        filename = secure_filename(file.filename)
+        os.makedirs(path, exist_ok=True)
+        file.save(os.path.join(path, filename))
+   
+    board_idx = form_data["board_idx"]
+    filemode = form_data["filemode"]
+    file_txt = ""
+    
+    input_arr = [ form_data["title"], form_data["content"], form_data["user_idx"]]
+    
+    if int(filemode) == 1 :
+        file_txt = ", BOARD_FILE = %s"
+        input_arr.append(_dir)
+        input_arr.append(board_idx)
+    elif int(filemode) == 2 :
+        file_txt = ", BOARD_FILE = %s"
+        input_arr.append("")
+        input_arr.append(board_idx)
+    else :
+        input_arr.append(board_idx)
+    
+    
+    sql = "UPDATE BOARD SET BOARD_TIT=%s, BOARD_TXT=%s, USER_IDX=%s" + file_txt + " WHERE BOARD_IDX=%s;"
+
+    insert_tuple = tuple(input_arr)
+    try :
+        cursor.execute(sql, insert_tuple)
+        db.commit()
+        return "success"
     except Exception as e :
         return "err : " + str(e)

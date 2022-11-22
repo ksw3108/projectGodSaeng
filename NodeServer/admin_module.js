@@ -43,13 +43,43 @@ adminModule.update_noti = function (req, res, db) {
 
 adminModule.upload_board = function (req, res, db, filedir) {
   //게시글(공지사항)업로드
-  //신고 리스트 수정하기
   title = req.body.title;
   content = req.body.content;
   user_idx = req.body.user_idx;
   const sqlQuery = `INSERT INTO BOARD(BOARD_TIT, BOARD_TXT, USER_IDX, BOARD_FILE)
                     VALUES(?, ?, ?, ? );`;
   db.query(sqlQuery, [title, content, user_idx, filedir], (err, result) => {
+    if (err) res.send("err : " + err);
+    else res.send("success");
+  });
+};
+
+adminModule.update_board = function (req, res, db, filedir) {
+  //게시글(공지사항)수정
+  title = req.body.title;
+  content = req.body.content;
+  user_idx = req.body.user_idx;
+  board_idx = req.body.board_idx;
+  filemode = req.body.filemode;
+  file_txt = "";
+  input_arr = [title, content, user_idx];
+  console.log(filemode);
+  if (parseInt(filemode) == 1) {
+    file_txt = ", BOARD_FILE = ?";
+    input_arr[3] = filedir;
+    input_arr[4] = board_idx;
+  } else if (parseInt(filemode) == 2) {
+    file_txt = ", BOARD_FILE = ?";
+    input_arr[3] = "";
+    input_arr[4] = board_idx;
+  } else {
+    input_arr[3] = board_idx;
+  }
+
+  const sqlQuery = "UPDATE BOARD SET BOARD_TIT=?, BOARD_TXT=?, USER_IDX=?" + file_txt + " WHERE BOARD_IDX=?;";
+  console.log(sqlQuery);
+  console.log(filedir);
+  db.query(sqlQuery, input_arr, (err, result) => {
     if (err) res.send("err : " + err);
     else res.send("success");
   });

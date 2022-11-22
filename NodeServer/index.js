@@ -101,6 +101,12 @@ app.post("/uploadnoti", upload.single("notifile"), (req, res) => {
   admin.upload_board(req, res, db, fileinfo);
 });
 
+app.post("/updatenoti", upload.single("notifile"), (req, res) => {
+  //공지사항 수정하기
+  fileinfo = req.file ? `{"filename":"${req.file.originalname}","dir":"${folderstr + "/" + req.file.originalname}"}` : "";
+  admin.update_board(req, res, db, fileinfo);
+});
+
 app.post("/board_list", (req, res) => {
   //공지사항 리스트
   admin.get_board_list(req, res, db);
