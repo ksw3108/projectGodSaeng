@@ -6,13 +6,44 @@ const UserManagement = () => {
     <div className="userManagement">
       <div className="userTitleContainer">
         <h3 className="userTitle">회원 관리</h3>
-      </div>
-      <div className="userContainer">
-        <div className="userShow">show</div>
-        <div className="userShow">show</div>
-        <div className="userShow">show</div>
-        <div className="userShow">show</div>
-        <div className="userShow">show</div>
+
+        <div className="userContainer">
+          <div className="userShow">
+            <ul>
+              <li>이름</li>
+              <li>연락처</li>
+              <li>이메일</li>
+            </ul>
+          </div>
+          <div className="userShow">
+            <ul>
+              <li>이름</li>
+              <li>연락처</li>
+              <li>이메일</li>
+            </ul>
+          </div>
+          <div className="userShow">
+            <ul>
+              <li>이름</li>
+              <li>연락처</li>
+              <li>이메일</li>
+            </ul>
+          </div>
+          <div className="userShow">
+            <ul>
+              <li>이름</li>
+              <li>연락처</li>
+              <li>이메일</li>
+            </ul>
+          </div>
+          <div className="userShow">
+            <ul>
+              <li>이름</li>
+              <li>연락처</li>
+              <li>이메일</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );
