@@ -8,8 +8,17 @@ const path = require("path");
 const mime = require("mime-types");
 const { v4: uuid } = require("uuid");
 
+const fs = require("fs");
+try {
+  fs.readdirSync("uploads");
+} catch (error) {
+  console.error("upload 폴더가 없어 upload폴더를 생성합니다.");
+  fs.mkdirSync("uploads");
+}
+
 const app = express(); //서버생성
 const PORT = process.env.port || 8000; //포트설정
+
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -56,6 +65,81 @@ app.post("/pytest", (req, res) => {
     res.send(dataToSend);
   });
 });
+
+//221117 선우 - 여기서부터 관리자 페이지 기능=======================================
+
+let admin = require("./admin_module");
+app.post("/notilist4admin", (req, res) => {
+  //신고 리스트 가져오기
+  admin.getNotifyList(req, res, db);
+});
+app.post("/updatenoti4admin", (req, res) => {
+  //신고 리스트 가져오기
+  admin.update_noti(req, res, db);
+});
+let folderstr = "";
+const upload = multer({
+  storage: multer.diskStorage({
+    destination(req, file, done) {
+      folderstr = "uploads/" + Date.now();
+      try {
+        fs.readdirSync(folderstr);
+      } catch (error) {
+        console.error("upload 폴더가 없어 upload폴더를 생성합니다.");
+        fs.mkdirSync(folderstr);
+      }
+      done(null, folderstr);
+    },
+    filename(req, file, done) {
+      const ext = path.extname(file.originalname); //확장자
+      //파일명과 확장자, 날짜를 연결시켜서 저장
+      //업로드하는 파일의 파일명의 중복을 피하기 위해 현재시간을 붙임
+      done(null, path.basename(file.originalname, ext) + ext);
+    },
+  }),
+  //파일 용량 제한(100gb?)
+  limits: { fileSize: 100 * 1024 * 1024 * 1024 },
+});
+
+app.post("/uploadnoti", upload.single("notifile"), (req, res) => {
+  //공지사항 올리기
+  fileinfo = req.file ? `{"filename":"${req.file.originalname}","dir":"${folderstr + "/" + req.file.originalname}"}` : "";
+  admin.upload_board(req, res, db, fileinfo);
+});
+
+app.post("/updatenoti", upload.single("notifile"), (req, res) => {
+  //공지사항 수정하기
+  fileinfo = req.file ? `{"filename":"${req.file.originalname}","dir":"${folderstr + "/" + req.file.originalname}"}` : "";
+  admin.update_board(req, res, db, fileinfo);
+});
+app.post("/delete_board", (req, res) => {
+  //공지사항 삭제하기
+  admin.delete_board(req, res, db);
+});
+app.post("/board_list", (req, res) => {
+  //공지사항 리스트
+  admin.get_board_list(req, res, db);
+});
+app.post("/board_view", (req, res) => {
+  //공지사항 내용 보기
+  admin.get_board_data(req, res, db);
+});
+app.get("/download_file/uploads/:time/:filename", (req, res) => {
+  //등록된 파일 다운로드
+  file_dir = "./uploads/" + req.params.time + "/" + req.params.filename;
+  res.download(file_dir, req.params.filename);
+});
+
+// ===============================================================================
+
+//221117 선우 - 여기서부터 일반사용자 페이지 기능=======================================
+
+let user = require("./user_module"); //회원 관련 정보만 처리
+app.post("/login", (req, res) => {
+  //로그인 신청했을때 여기서 처리.
+  user.login(req, res, db);
+});
+// ===============================================================================
 
 // ===============================================================================
 
@@ -117,8 +201,7 @@ app.post("/join", (req, res) => {
   db.query(sqlQuery1, id, (err, result) => {
     if (result[0].CNT === 0) {
       // 회원가입 요청
-      const sqlQuery2 =
-        "INSERT INTO USER(USER_ID, USER_PW, USER_NAME, USER_MAIL, USER_TEL, USER_OX) VALUES (?,?,?,?,?,?);";
+      const sqlQuery2 = "INSERT INTO USER(USER_ID, USER_PW, USER_NAME, USER_MAIL, USER_TEL, USER_OX) VALUES (?,?,?,?,?,?);";
       db.query(sqlQuery2, [id, pw, name, mail, tel, ox], (err, result) => {
         // console.log("회원가입 결과", result);
         res.send("회원가입 성공");
@@ -150,16 +233,12 @@ app.post("/report", (req, res) => {
     "INSERT INTO NOTIFY(CATEGORY_IDX, CAR_NUM, NOTIFY_DATE, NOTIFY_SPOT, NOTIFY_TXT, NOTIFY_PNUM) VALUES (?,?,?,?,?,?); \
      INSERT INTO IMG(NOTIFY_IDX, IMG_PATH) VALUES (LAST_INSERT_ID(), ?)";
 
-  db.query(
-    sqlQuery1,
-    [category, carNum, notifyDate, notifySpot, notifyTxt, notifyPnum, img],
-    (err, result) => {
-      console.log("신고접수 에러", err);
-      console.log("신고접수 결과", result);
+  db.query(sqlQuery1, [category, carNum, notifyDate, notifySpot, notifyTxt, notifyPnum, img], (err, result) => {
+    console.log("신고접수 에러", err);
+    console.log("신고접수 결과", result);
 
-      res.send("신고 접수 성공");
-    }
-  );
+    res.send("신고 접수 성공");
+  });
 });
 
 // ===============================================================================

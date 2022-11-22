@@ -24,11 +24,12 @@ const Main = () => {
   const insert_user = async () => {
     let insert_data = {};
 
-    insert_data.USER_ID = "iwish194725";
+    insert_data.USER_ID = "admin";
     insert_data.USER_PW = "1234";
-    insert_data.USER_NAME = "김선우(부캐)";
+    insert_data.USER_NAME = "관리자1";
     insert_data.USER_TEL = "01012345678";
-    insert_data.ADMIN_OX = "X";
+    insert_data.ADMIN_OX = "O";
+    insert_data.USER_OX = "O";
     //console.log(insert_data);
     const res = await server_bridge.axios_instace.post("/pydbinsert", insert_data);
     console.log(res);

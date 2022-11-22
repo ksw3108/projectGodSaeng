@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 /*
     221115 선우
     공통으로 적용되는 스타일은 여기에 기재.
@@ -30,6 +30,10 @@ const GlobalStyles = createGlobalStyle`
     
     section {
         height: auto;
+    }
+    .updownSpace{
+        width:100%;
+        height:20px;
     }
 `;
 export default GlobalStyles;

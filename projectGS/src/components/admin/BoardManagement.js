@@ -1,65 +1,95 @@
-import React from "react";
-import "../../css/BoardManagement.css";
-
-import { DataGrid } from "@mui/x-data-grid";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-
-const columns = [
-  { field: "id", headerName: "No", width: 70 },
-  { field: "heading", headerName: "제목", width: 500 },
-  { field: "writer", headerName: "작성자", width: 130 },
-  { field: "date", headerName: "작성일", width: 130 },
-  {
-    field: "action",
-    headerName: "기능",
-    width: 150,
-    renderCell: () => {
-      return (
-        <>
-          <EditIcon className="boardEdit" />
-          <button className="boardEdit">수정</button>
-          <DeleteIcon className="boardDelete" />
-          <button className="boardDelete">삭제</button>
-        </>
-      );
-    },
-  },
-];
-
-const rows = [
-  {
-    id: 1,
-    heading: "전동 킥보드 안전 수칙",
-    writer: "관리자",
-    date: "2022.05.12",
-  },
-  {
-    id: 2,
-    heading: "주정차 단속 근거 법률",
-    writer: "관리자",
-    date: "2022.05.01",
-  },
-  {
-    id: 3,
-    heading: "단속시간 및 탄력적 주차허용 공간",
-    writer: "관리자",
-    date: "2022.04.27",
-  },
-];
+import { useNavigate, Link } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import Page from './Page';
+import * as server_bridge from '../../controller/server_bridge';
 
 const BoardManagement = () => {
+  const searchRef = useRef(); //검색 텍스트
+  const optionRef = useRef(); //검색 옵션
+  const navigate = useNavigate(); //링크 네비게이터
+  const [page, setPage] = useState(1); //페이징 처리되어 나눠지는 총 게시판의 페이지 갯수
+  const itemcount = 1; //한 페이지에 보여줄 게시글 갯수
+  const [board_list, setList] = useState([]); // 게시판 리스트
+  const [totalcnt, setCnt] = useState(0); //총 게시글 갯수
+  useEffect(() => {
+    getList();
+  }, []);
+
+  const getList = async () => {
+    let where = {
+      is_searching: searchRef.current.value !== '' ? 1 : 0,
+      where_clause:
+        'WHERE ' +
+        (optionRef.current.value === 'BOARD_TIT'
+          ? 'A.BOARD_TIT'
+          : 'B.USER_NAME') +
+        ' LIKE "%' +
+        searchRef.current.value +
+        '%"',
+    };
+    const res = await server_bridge.axios_instace.post('/board_list', where);
+    setCnt(res.data.length);
+    setList(res.data);
+  };
+  const setCurrentPage = (e) => {
+    setPage(e);
+  };
   return (
-    <div className="boardManagement">
-      <h1>게시판 관리</h1>
-      <DataGrid
-        rows={rows}
-        disableSelectionOnClick
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-      />
+    <div>
+      <div>
+        검색
+        <select name="search_option" id="search_option" ref={optionRef}>
+          <option value="BOARD_TIT">제목</option>
+          <option value="USER_NAME">작성자</option>
+        </select>
+        <input type="text" name="search" id="search" ref={searchRef} />
+        <button onClick={getList}>검색</button>
+      </div>
+      <div className="updownSpace"></div>
+      <button onClick={() => navigate('/home/writenoti')}>글쓰기</button>
+      <div className="updownSpace"></div>
+      <table border={1}>
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+          </tr>
+        </thead>
+        <tbody>
+          {board_list &&
+            board_list
+              .slice(page * itemcount - itemcount, page * itemcount)
+              .map((data, key) => {
+                return (
+                  <tr key={key}>
+                    <td>{data.BOARD_IDX}</td>
+                    <td>
+                      <Link
+                        to={'/home/boardview'}
+                        state={{
+                          board_idx: data.BOARD_IDX,
+                        }}
+                      >
+                        {data.BOARD_TIT}
+                      </Link>
+                    </td>
+                    <td>{data.USER_NAME}</td>
+                    <td>{data.BOARD_DATE}</td>
+                  </tr>
+                );
+              })}
+        </tbody>
+      </table>
+      <div>
+        <Page
+          page={page}
+          totalcnt={totalcnt}
+          setPage={setCurrentPage}
+          itemcount={itemcount}
+        />
+      </div>
     </div>
   );
 };
