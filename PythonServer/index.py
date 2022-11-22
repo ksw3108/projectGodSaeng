@@ -67,6 +67,11 @@ def send_notiivew() :#게시판(공지사항) 상세보기
    board_idx = body_data["board_idx"]
    return dbconnecter.select_board(board_idx)
 
+@app.route("/delete_board", methods=["GET", "POST"])
+def delete_board() :#게시판(공지사항) 상세보기  
+   body_data = get_body_data(request)   
+   return dbconnecter.delete_board(body_data)
+
 @app.route("/download_file/<path:subpath>", methods=["GET", "POST"])
 def download_file(subpath) :#등록한 파일 다운로드하기
     return send_file(subpath, as_attachment=True)

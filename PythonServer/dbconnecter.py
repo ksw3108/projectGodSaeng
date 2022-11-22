@@ -186,3 +186,17 @@ def update_board(request):#공지사항(게시판) 수정
         return "success"
     except Exception as e :
         return "err : " + str(e)
+
+def delete_board(data):#공지사항(게시판) 삭제
+    
+    #file =request.files["notifile"]
+    
+    sql = "DELETE FROM BOARD WHERE BOARD_IDX=%d;" % (int(data["board_idx"]))
+    print(sql)
+
+    try :
+        cursor.execute(sql)
+        db.commit()
+        return "success"
+    except Exception as e :
+        return "err : " + str(e)

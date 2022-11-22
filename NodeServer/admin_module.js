@@ -54,6 +54,16 @@ adminModule.upload_board = function (req, res, db, filedir) {
   });
 };
 
+adminModule.delete_board = function (req, res, db) {
+  //게시글(공지사항)업로드
+  board_idx = req.body.board_idx;
+  const sqlQuery = `DELETE FROM BOARD WHERE BOARD_IDX=?;`;
+  db.query(sqlQuery, [board_idx], (err, result) => {
+    if (err) res.send("err : " + err);
+    else res.send("success");
+  });
+};
+
 adminModule.update_board = function (req, res, db, filedir) {
   //게시글(공지사항)수정
   title = req.body.title;

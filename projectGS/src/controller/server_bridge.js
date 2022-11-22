@@ -15,7 +15,7 @@ export const board_inner = {
 };
 
 function setThisUrl() {
-  url_now = py_url;
+  url_now = node_url;
   return url_now;
 }
 

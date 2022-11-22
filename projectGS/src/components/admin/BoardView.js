@@ -21,9 +21,22 @@ const BoardView = () => {
   };
   const updateBoard = () => {
     navigate('/home/writenoti', { state: board });
-    return;
   };
-  const deleteBoard = () => {
+  const deleteBoard = async () => {
+    var result = window.confirm('정말로 삭제하시겠습니까?');
+    if (result) {
+      const res = await server_bridge.axios_instace.post('/delete_board', {
+        board_idx: board_idx,
+      });
+
+      if (res.data === 'success') {
+        alert('삭제 완료!');
+      } else {
+        alert('삭제 실패!');
+      }
+      navigate('/home/boardmanage');
+    }
+
     return;
   };
   return (
