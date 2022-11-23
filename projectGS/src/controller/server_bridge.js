@@ -17,7 +17,7 @@ export const board_inner = {
 
 function setThisUrl() {
   //사용할 서버 세팅
-  url_now = node_url;
+  url_now = py_url;
   return url_now;
 }
 
