@@ -6,7 +6,7 @@ const Join = () => {
   // 페이지 이동 navigate
   const navigate = useNavigate();
 
-  // 로컬 회원가입 엔터키 입력시 자동 로그인 버튼 클릭
+  // 로컬 회원가입 엔터키 입력시 자동 버튼 클릭
   const onKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleRegister();
@@ -20,7 +20,7 @@ const Join = () => {
   const nameRef = useRef();
   const mailRef = useRef();
   const telRef = useRef();
- 
+
   const [idComment, setIdComment] = useState('');
   const [pwComment, setPwComment] = useState('');
   const [pwCkComment, setPwCkComment] = useState('');
@@ -28,12 +28,11 @@ const Join = () => {
   const [mailComment, setMailComment] = useState('');
   const [telComment, setTelComment] = useState('');
 
-
   // 아이디 중복 체크
   var id = '';
   const idChange = (e) => {
     id = idRef.current.value;
-    axios.post('http://localhost:8000/idCheck', { id }).then((res) => {
+    axios.post('http://localhost:5000/idCheck', { id }).then((res) => {
       setIdComment('');
       if (res.data[0].CNT !== 0) {
         setIdComment('중복된 아이디가 있습니다.');
@@ -89,7 +88,7 @@ const Join = () => {
 
     // 회원가입 요청
     axios
-      .post('http://localhost:8000/join', {
+      .post('http://localhost:5000/join', {
         id: idRef.current.value,
         pw: pwRef.current.value,
         name: nameRef.current.value,
@@ -124,68 +123,70 @@ const Join = () => {
     <div>
       <h1>회원가입</h1>
       <form>
+        <div>아이디</div>
         <input
           className="id"
           type="text"
-          name="id"
           size="20"
           defaultValue=""
           ref={idRef}
           onChange={idChange}
           placeholder="아이디 입력(6-20자)"
         />
+        <div>비밀번호</div>
         <input
           className="pw"
           type="password"
-          name="pw"
           size="20"
           defaultValue=""
           ref={pwRef}
           placeholder="비밀번호 입력(문자, 숫자, 특수문자 포함 8-20자)"
         />
+        <div>비밀번호 재입력</div>
         <input
           className="pwck"
           type="password"
-          name="pwCk"
           size="20"
           defaultValue=""
           ref={pwCkRef}
           placeholder="비밀번호 재입력"
         />
+        <div>이름</div>
         <input
           className="name"
           type="text"
-          name="name"
           size="20"
           defaultValue=""
           ref={nameRef}
           placeholder="이름 입력"
         />
+        <div>이메일</div>
         <input
           className="email"
           type="email"
-          name="email"
           size="20"
           defaultValue=""
           ref={mailRef}
           placeholder="이메일 주소 입력"
         />
+        <div>핸드폰</div>
         <input
           className="tel"
           type="text"
-          name="tel"
           size="20"
           defaultValue=""
           ref={telRef}
           placeholder="휴대폰 번호 입력"
           onKeyPress={onKeyPress}
         />
-        <input
-          className="sign_up"
-          type="button"
-          value="회원가입"
-          onClick={handleRegister}
-        />
+        <div>
+          <input
+            className="sign_up"
+            type="button"
+            value="회원가입"
+            onClick={handleRegister}
+          />
+        </div>
       </form>
     </div>
   );

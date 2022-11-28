@@ -1,6 +1,13 @@
 1. react의 설치된 라이브러리 
 yarn add redux react-redux redux-devtools-extension redux-logger axios react-json-to-csv react-js-pagination
-yarn add sass react-icons styled-components 
+yarn add sass react-icons styled-components
+
+**** 순아 추가 ****
+yarn add react-daum-postcode
+yarn add react-hook-form
+yarn add recharts
+yarn add @mui/material @emotion/react @emotion/styled
+
 1-1. react의 실행
 C:\Project\AI_Source\AIProject\projectGS> yarn start
 
@@ -12,5 +19,10 @@ C:\Project\AI_Source\AIProject\NodeServer> npm run dev
 3. 파이썬 설치된 라이브러리
 pip install pymysql
 pip install cryptography
+
+**** 순아 추가 ****
+pip install bcrypt  // 단방향 암호화해주는 파이썬 라이브러리
+pip install pyjwt  // jwt(json web token)을 암호화, 복호화해주는 라이브러리
+
 3-1. 파이썬 서버의 실행
 C:\Project\AI_Source\AIProject\PythonServer> python index.py

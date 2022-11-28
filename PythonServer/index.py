@@ -75,5 +75,31 @@ def delete_board() :#게시판(공지사항) 상세보기
 @app.route("/download_file/<path:subpath>", methods=["GET", "POST"])
 def download_file(subpath) :#등록한 파일 다운로드하기
     return send_file(subpath, as_attachment=True)
+
+@app.route("/join", methods=["POST"])
+def join():#회원가입
+    body_data = get_body_data(request)   
+    return dbconnecter.join(body_data)
+
+@app.route("/login", methods=["GET", "POST"])
+def login():#사용자 로그인
+    body_data = get_body_data(request)   
+    return dbconnecter.login(body_data)
+
+@app.route("/home/adminlogin", methods=["GET", "POST"])
+def adminlogin():#관리자 로그인
+    body_data = get_body_data(request)   
+    return dbconnecter.adminlogin(body_data)
+
+@app.route("/report", methods=["GET", "POST"])
+def report():#신고접수
+    # body_data = get_body_data(request)
+    return dbconnecter.report(request)
+
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
+

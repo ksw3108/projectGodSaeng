@@ -19,7 +19,7 @@ userModule.login = function (req, res, db) {
   var id = req.body.id;
   var pw = req.body.pw;
 
-  const sqlQuery = "SELECT * FROM TUSER WHERE USER_ID=? AND USER_PW=?;";
+  const sqlQuery = "SELECT * FROM USER WHERE USER_ID=? AND USER_PW=?;";
   db.query(sqlQuery, [id, pw], (err, result) => {
     console.log(result);
     console.log(typeof result);
