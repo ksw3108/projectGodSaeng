@@ -1,6 +1,14 @@
 import axios from "axios";
 import * as server_bridge from "../controller/server_bridge";
 
+// Swiper-slider
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation } from "swiper";
+import "swiper/css"
+import "swiper/css/navigation"
+
+import "../css/user/main.scss"
+
 const Main = () => {
   const module_test = async () => {
     //모듈화된 axios 객체 사용법
@@ -86,23 +94,54 @@ const Main = () => {
     return;
   };
 
+  // return (
+  //   <div>
+  //     <p>여기가 메인</p>
+  //     <button onClick={module_test}>서버 통신 함수 모듈화 테스트</button>
+  //     <br />
+  //     <button onClick={linkpythontest}>node2파이썬 연결 테스트</button>
+  //     <br />
+  //     <button onClick={linkdbtest}>db 연결 테스트</button>
+  //     <br />
+  //     <button onClick={linkpyserver_bypost}>파이썬 서버 연결 테스트(post)</button>
+  //     <br />
+  //     <button onClick={linkpyserver_byget}>파이썬 서버 연결 테스트(get)</button>
+  //     <br />
+  //     <button onClick={select_user}>파이썬 서버 select 연동 테스트</button>
+  //     <br />
+  //     <button onClick={insert_user}>파이썬 서버 insert 연동 테스트</button>
+  //     <br />
+  //   </div>
+  // );
   return (
-    <div>
-      <p>여기가 메인</p>
-      <button onClick={module_test}>서버 통신 함수 모듈화 테스트</button>
-      <br />
-      <button onClick={linkpythontest}>node2파이썬 연결 테스트</button>
-      <br />
-      <button onClick={linkdbtest}>db 연결 테스트</button>
-      <br />
-      <button onClick={linkpyserver_bypost}>파이썬 서버 연결 테스트(post)</button>
-      <br />
-      <button onClick={linkpyserver_byget}>파이썬 서버 연결 테스트(get)</button>
-      <br />
-      <button onClick={select_user}>파이썬 서버 select 연동 테스트</button>
-      <br />
-      <button onClick={insert_user}>파이썬 서버 insert 연동 테스트</button>
-      <br />
+    <div id="Main">
+      <div className="main-slider">
+        <Swiper
+          modules={[Autoplay, Navigation]}
+          // autoplay={{delay: 4000}}
+          // speed={1400}
+          loop={true}
+          slidesPerView={"auto"}
+          centeredSlides={true}
+          navigation={true}
+        >
+          <SwiperSlide>
+            <div className="msImg">
+              1
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="msImg">
+              2
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="msImg">
+              3
+            </div>
+          </SwiperSlide>
+        </Swiper>
+      </div>
     </div>
   );
 };

@@ -6,7 +6,11 @@ yarn add sass react-icons styled-components
 yarn add react-daum-postcode
 yarn add react-hook-form
 yarn add recharts
-yarn add @mui/material @emotion/react @emotion/styled
+yarn add @mui/material @emotion/react @emotion/styled @material-ui/icons
+
+**** 지형 추가 ****
+yarn add @mui/lab swiper
+
 
 1-1. react의 실행
 C:\Project\AI_Source\AIProject\projectGS> yarn start

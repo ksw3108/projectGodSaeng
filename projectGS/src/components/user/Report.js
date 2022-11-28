@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as server_bridge from '../../controller/server_bridge';
 
+
+import "../../css/user/sub.scss";
+
 const Report = () => {
   // ==============================================
   const navigate = useNavigate();
@@ -123,140 +126,150 @@ const Report = () => {
   }
 
   return (
-    <div className="container">
-      <span>불법주정차 신고</span>
-      <div>
-        <form onSubmit={writeReport}>
-          <div>불법 주정차 유형</div>
-          <select name="category" className="category" ref={categoryRef}>
-            <option value="none">선택하세요</option>
-            <option value="01">소화전</option>
-            <option value="02">교차로 모퉁이</option>
-            <option value="03">버스 정류소</option>
-            <option value="04">횡단보도</option>
-            <option value="05">어린이 보호구역</option>
-            <option value="06">장애인 전용구역</option>
-            <option value="07">소방차 전용구역</option>
-            <option value="08">친환경차 충전구역</option>
-            <option value="09">기타</option>
-          </select>
-          <div>사진 업로드</div>
-          <input
-            className="img"
-            name="img"
-            id="img"
-            ref={imgRef}
-            type="file"
-            accept="image/*"
-            onChange={(e) => {
-              encodeFileToBase64(e.target.files[0]);
-            }}
-          />
-          {imageSrc && <img src={imageSrc} alt="preview-img" />}
-          <div>차량 번호</div>
-          <input
-            className="carNum"
-            name="carNum"
-            ref={carNumRef}
-            type="text"
-            placeholder="차량 번호"
-            value={text}
-            onChange={onChange}
-          />
-          <input type="button" value="수정" onClick={onReset} />
-          <div>발생 지역</div>
-          <input
-            className="notifySpot"
-            name="notifySpot"
-            ref={notifySpotRef}
-            type="text"
-            placeholder="주소 입력"
-            onClick={handle.clickButton}
-            defaultValue={address}
-          />
-          <input
-            type="button"
-            value="우편번호 찾기"
-            onClick={handle.clickButton}
-          />
-          {openPostcode && (
-            <DaumPostcode
-              onComplete={onCompletePost} // 값을 선택할 경우 실행되는 이벤트
-              autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
-              defaultQuery="광주광역시 동구 제봉로 92" // 팝업을 열때 기본적으로 입력되는 검색어
+    <div id="Report" className="subPage">
+      <div className="subTop">
+        <h1>불법주정차 신고</h1>
+        <ul>
+          <li className="on"><a href="report">불법주정차 신고</a></li>
+          <li><a href="#">공유킥보드 신고</a></li>
+        </ul>
+      </div>
+
+      <div className="container section">
+        <div className="sub-title"><h2>불법주정차 신고</h2></div>
+        <div>
+          <form onSubmit={writeReport}>
+            <div>불법 주정차 유형</div>
+            <select name="category" className="category" ref={categoryRef}>
+              <option value="none">선택하세요</option>
+              <option value="01">소화전</option>
+              <option value="02">교차로 모퉁이</option>
+              <option value="03">버스 정류소</option>
+              <option value="04">횡단보도</option>
+              <option value="05">어린이 보호구역</option>
+              <option value="06">장애인 전용구역</option>
+              <option value="07">소방차 전용구역</option>
+              <option value="08">친환경차 충전구역</option>
+              <option value="09">기타</option>
+            </select>
+            <div>사진 업로드</div>
+            <input
+              className="img"
+              name="img"
+              id="img"
+              ref={imgRef}
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                encodeFileToBase64(e.target.files[0]);
+              }}
             />
-          )}
-          <div>발생 일자</div>
-          <input
-            className="notifyDate"
-            name="notifyDate"
-            type="datetime-local"
-            ref={notifyDateRef}
-          />
-          <div>신고 내용</div>
-          <textarea
-            className="notifyTxt"
-            name="notifyTxt"
-            ref={notifyTxtRef}
-            placeholder="불법 주정차 위반 사항을 입력해주세요"
-          />
-          <div>휴대전화</div>
-          <input
-            className="userTel"
-            name="userTel"
-            ref={userTelRef}
-            type="text"
-            placeholder="핸드폰 번호를 입력하세요"
-          />
-          <div>비고</div>
-          <input type="checkbox" />
-          개인정보 수집 동의
-          <input type="button" value="내용보기" onClick={onClickHide} />
-          {value === false && (
+            {imageSrc && <img src={imageSrc} alt="preview-img" />}
+            <div>차량 번호</div>
+            <input
+              className="carNum"
+              name="carNum"
+              ref={carNumRef}
+              type="text"
+              placeholder="차량 번호"
+              value={text}
+              onChange={onChange}
+            />
+            <input type="button" value="수정" onClick={onReset} />
+            <div>발생 지역</div>
+            <input
+              className="notifySpot"
+              name="notifySpot"
+              ref={notifySpotRef}
+              type="text"
+              placeholder="주소 입력"
+              onClick={handle.clickButton}
+              defaultValue={address}
+            />
+            <input
+              type="button"
+              value="우편번호 찾기"
+              onClick={handle.clickButton}
+            />
+            {openPostcode && (
+              <DaumPostcode
+                onComplete={onCompletePost} // 값을 선택할 경우 실행되는 이벤트
+                autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
+                defaultQuery="광주광역시 동구 제봉로 92" // 팝업을 열때 기본적으로 입력되는 검색어
+              />
+            )}
+            <div>발생 일자</div>
+            <input
+              className="notifyDate"
+              name="notifyDate"
+              type="datetime-local"
+              ref={notifyDateRef}
+            />
+            <div>신고 내용</div>
+            <textarea
+              className="notifyTxt"
+              name="notifyTxt"
+              ref={notifyTxtRef}
+              placeholder="불법 주정차 위반 사항을 입력해주세요"
+            />
+            <div>휴대전화</div>
+            <input
+              className="userTel"
+              name="userTel"
+              ref={userTelRef}
+              type="text"
+              placeholder="핸드폰 번호를 입력하세요"
+            />
+            <div>비고</div>
+            <input type="checkbox" />
+            개인정보 수집 동의
+            <input type="button" value="내용보기" onClick={onClickHide} />
+            {value === false && (
+              <div>
+                1. 개인정보의 수집 및 이용 목적(개인정보보호법 제15조)
+                안전꽹과리는 관계법령 등에서 정하는 소관 업무의 수행을 위하여
+                다음과 같이 개인정보를 수집 및 이용합니다. <br />
+                수집된 개인정보는 정해진 목적 이외의 용도로는 이용되지 않으며 수집
+                목적이 변경될 경우 사전에 알리고 동의를 받을 예정입니다. <br />※
+                관계법령 등 : 민원사무 처리에 관한 법률 및 동법 시행령,
+                행정안전부의 설치와 운영에 관한 법률, 전자정부법 및 동법 시행령 등{' '}
+                <br />
+                가. 민원사무 접수·처리·사후관리 서비스 제공민원신청서에 포함된
+                개인정보는 민원의 접수·처리 등 소관 업무 수행을 위해
+                행정·공공기관에서 이용합니다. <br />
+                나. 타 행정·공공기관 시스템 이용민원사무의 전자적 처리를 위해
+                내부적으로 타 시스템 연계 및 이용 시 개인정보를 이용합니다. <br />
+                다. 안전꽹과리 정책지원 안전꽹과리 서비스 향상 및 정책평가를
+                위하여 접수된 민원은 관계 법령에 따라 분석·평가 및 처리결과의
+                사후관리를 시행합니다. <br />
+                2. 수집하는 개인정보의 항목(개인정보보호법 제15조, 제16조) <br />
+                가. 필수항목: 휴대전화 <br />
+                나. 선택항목: 성명, 기업명, 이메일 <br />
+                다. 자동수집항목: IP(Internet Protocol)주소, 이용내용의 기록-
+                부정한 방법으로 타인명의를 사용하는 경우에 대비하기 위해
+                정보이용내역 등을 자동수집 합니다. <br />※ 부정한 방법으로
+                타인명의 사용 시, 주민등록법 제37조(벌칙)에 의해 처벌 받을 수
+                있습니다. <br />
+                3. 개인정보의 보유 및 이용기간(공공기록물 관리에 관한 법률 시행령
+                제26조) <br />
+                안전꽹과리는 원칙적으로 개인정보 보존기간이 경과하거나, 처리목적이
+                달성된 경우에는 지체 없이 개인정보를 파기합니다. 다만, 다른 법령에
+                따라 보존하여야 하는 경우에는 그러하지 않을 수 있습니다. <br />
+                1) 신고, 제안: 10년 <br />
+                2) 회원정보: 회원탈퇴시 즉시 파기 <br />
+                3) 자동수집항목 중 IP주소: 1년 <br />
+                4. 동의를 거부할 권리가 있다는 사실 및 동의 거부에 따른 불이익
+                내용(개인정보보호법 제16조) <br />
+                민원 신청 시 수집하는 필요한 최소한의 정보 외의 개인정보 수집에
+                동의를 거부할 권리가 있으나 최소한의 개인정보 수집동의 거부 시에는
+                민원 신청 서비스가 제한됩니다.
+              </div>
+            )}
             <div>
-              1. 개인정보의 수집 및 이용 목적(개인정보보호법 제15조)
-              안전꽹과리는 관계법령 등에서 정하는 소관 업무의 수행을 위하여
-              다음과 같이 개인정보를 수집 및 이용합니다. <br />
-              수집된 개인정보는 정해진 목적 이외의 용도로는 이용되지 않으며 수집
-              목적이 변경될 경우 사전에 알리고 동의를 받을 예정입니다. <br />※
-              관계법령 등 : 민원사무 처리에 관한 법률 및 동법 시행령,
-              행정안전부의 설치와 운영에 관한 법률, 전자정부법 및 동법 시행령 등{' '}
-              <br />
-              가. 민원사무 접수·처리·사후관리 서비스 제공민원신청서에 포함된
-              개인정보는 민원의 접수·처리 등 소관 업무 수행을 위해
-              행정·공공기관에서 이용합니다. <br />
-              나. 타 행정·공공기관 시스템 이용민원사무의 전자적 처리를 위해
-              내부적으로 타 시스템 연계 및 이용 시 개인정보를 이용합니다. <br />
-              다. 안전꽹과리 정책지원 안전꽹과리 서비스 향상 및 정책평가를
-              위하여 접수된 민원은 관계 법령에 따라 분석·평가 및 처리결과의
-              사후관리를 시행합니다. <br />
-              2. 수집하는 개인정보의 항목(개인정보보호법 제15조, 제16조) <br />
-              가. 필수항목: 휴대전화 <br />
-              나. 선택항목: 성명, 기업명, 이메일 <br />
-              다. 자동수집항목: IP(Internet Protocol)주소, 이용내용의 기록-
-              부정한 방법으로 타인명의를 사용하는 경우에 대비하기 위해
-              정보이용내역 등을 자동수집 합니다. <br />※ 부정한 방법으로
-              타인명의 사용 시, 주민등록법 제37조(벌칙)에 의해 처벌 받을 수
-              있습니다. <br />
-              3. 개인정보의 보유 및 이용기간(공공기록물 관리에 관한 법률 시행령
-              제26조) <br />
-              안전꽹과리는 원칙적으로 개인정보 보존기간이 경과하거나, 처리목적이
-              달성된 경우에는 지체 없이 개인정보를 파기합니다. 다만, 다른 법령에
-              따라 보존하여야 하는 경우에는 그러하지 않을 수 있습니다. <br />
-              1) 신고, 제안: 10년 <br />
-              2) 회원정보: 회원탈퇴시 즉시 파기 <br />
-              3) 자동수집항목 중 IP주소: 1년 <br />
-              4. 동의를 거부할 권리가 있다는 사실 및 동의 거부에 따른 불이익
-              내용(개인정보보호법 제16조) <br />
-              민원 신청 시 수집하는 필요한 최소한의 정보 외의 개인정보 수집에
-              동의를 거부할 권리가 있으나 최소한의 개인정보 수집동의 거부 시에는
-              민원 신청 서비스가 제한됩니다.
+              <button>신고하기</button>
             </div>
-          )}
-          <div>
-            <button>신고하기</button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );
