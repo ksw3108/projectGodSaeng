@@ -16,6 +16,44 @@ export const cate_small = [
   '기타',
 ];
 
+export const disport_obj = {
+  CATEGORY: '',
+  CATEGORY_IDX: 0,
+  NOTIFY_DATE: '',
+  NOTIFY_IDX: 0,
+  NOTIFY_PNUM: 0,
+  NOTIFY_SPOT: '',
+  NOTIFY_STATUS: '',
+
+  NOTIFY_RESULT: '',
+
+  USER_ID: '',
+  USER_IDX: 0,
+  USER_MAIL: '',
+  USER_NAME: '',
+  USER_OX: '',
+  USER_TEL: '',
+
+  IMG_IDX: 0,
+  IMG_PATH: '',
+};
+export const isport_detail = {
+  NOTIFY_IDX: 0,
+  NOTIFY_PNUM: 0,
+  NOTIFY_SPOT: '',
+  NOTIFY_STATUS: '',
+  NOTIFY_RESULT: '',
+
+  USER_ID: '',
+  USER_IDX: 0,
+  USER_MAIL: '',
+  USER_NAME: '',
+  USER_OX: '',
+  USER_TEL: '',
+
+  IMG_IDX: 0,
+  IMG_PATH: '',
+};
 export async function getReportList() {
   let search_option = {
     //검색 옵션

@@ -1,10 +1,13 @@
 import os
 import json
-from flask import Flask, jsonify, request, send_file
+from flask import Flask, jsonify, request, send_file, Response, make_response
 from flask_cors import CORS  # 라이브러리 설치 필요 - pip install flask_cors
 import dbconnecter
 from werkzeug.utils import secure_filename
+from functools import wraps
 import time
+import summary
+import urllib.parse
 
 app = Flask(__name__)
 CORS(app)
@@ -84,7 +87,7 @@ def send_notiivew():  # 게시판(공지사항) 상세보기
 
 
 @app.route("/delete_board", methods=["GET", "POST"])
-def delete_board():  # 게시판(공지사항) 상세보기
+def delete_board():  # 게시판(공지사항) 삭제하기
     body_data = get_body_data(request)
     return dbconnecter.delete_board(body_data)
 
@@ -101,8 +104,50 @@ def get_cate_list():  # 등록한 파일 다운로드하기
 
 
 @app.route("/get_process_list", methods=["GET"])
-def get_process_list():  # 등록한 파일 다운로드하기
+def get_process_list():  # 신고 진행 절차 받아오기
     sendData = dbconnecter.get_process_list()
+    return jsonify(sendData)
+
+
+@app.route("/getDisposeList", methods=["GET", "POST"])
+def get_dispose_list():  # 신고 리스트 받아오기
+    body_data = get_body_data(request)
+    sendData = dbconnecter.get_dispose_list(body_data)
+    return jsonify(sendData)
+    # return sendData
+
+
+@app.route("/updateDispose", methods=["GET", "POST"])
+def update_dispose():  # 등록한 파일 다운로드하기
+    body_data = get_body_data(request)
+    sendData = dbconnecter.update_dispose(body_data)
+    return jsonify(sendData)
+
+
+@app.route("/getDisposeDetail", methods=["GET", "POST"])
+def get_dispose_detail():  # 신고 리스트 받아오기
+    body_data = get_body_data(request)
+    sendData = dbconnecter.get_dispose_list_detail(body_data)
+    return jsonify(sendData)
+
+
+@app.route("/getDailySummary", methods=["GET", "POST"])
+def get_daily_summary_per_weeks():  # 오늘로부터 1주일간의 일별 통계
+    sendData = dbconnecter.get_daily_summary_per_weeks()
+    result = summary.summay_daily_record(sendData)
+    #decoded_data = urllib.parse.unquote(result, encoding='utf-8')
+    return result
+
+
+@app.route("/getNotifyMini", methods=["GET", "POST"])
+def get_notify_mini():  # 오늘로부터 1주일간의 일별 통계
+    sendData = dbconnecter.get_nofity_mini()
+    return jsonify(sendData)
+
+
+@app.route("/getBoardMini", methods=["GET", "POST"])
+def get_board_list_mini():  # 오늘로부터 1주일간의 일별 통계
+    sendData = dbconnecter.get_board_list_mini()
     return jsonify(sendData)
 
 

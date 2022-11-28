@@ -23,6 +23,7 @@ import DisposeReport from './components/admin/DisposeReport';
 import UserManagement from './components/admin/UserManagement';
 import WriteNotify from './components/admin/WriteNotify';
 import BoardView from './components/admin/BoardView';
+import DisposeDetail from './components/admin/DisposeDetail';
 
 /* 221116 순아 관리자용 페이지 추가*/
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -64,6 +65,8 @@ function App() {
             {/* 관리자 - 게시판 관리 */}
             <Route path="/home/disposereport" element={<DisposeReport />} />
             {/* 관리자 - 신고 처리 */}
+            <Route path="/home/disposedetail" element={<DisposeDetail />} />
+            {/* 관리자 - 신고 처리 상세 */}
             <Route path="/home/usermanage" element={<UserManagement />} />
             {/* 관리자 - 회원관리 */}
             <Route path="/home/writenoti" element={<WriteNotify />} />

@@ -2,6 +2,7 @@ import pymysql
 from werkzeug.utils import secure_filename
 import time
 import os
+from datetime import datetime, timedelta
 
 # 221123 선우 - 이제 사용 안하는게 좋을 것 같음
 # 이유 => connection이 닫히지 않은 상태로 유지되어있어서 클라이언트에서 비동기로 요청을 2개 이상 보낼때 오류가 발생하게 됨.
@@ -82,7 +83,7 @@ def get_noti4admin(where_clause):
 
     _where = """WHERE A.NOTIFY_DATE>= %s AND A.NOTIFY_DATE <= %s
                 AND D.CATEGORY = %s
-                AND C.NOTIFY_STATUS = %s;                
+                AND C.NOTIFY_STATUS = %s;
                 """
     where_tuple = (where_clause["start_date"],
                    where_clause["end_date"],
@@ -102,9 +103,9 @@ def get_noti4admin(where_clause):
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
-    sql = """UPDATE NOFITY SET 
-                CATEGORY_IDX = %s, 
-                NOTIFY_PNUM = %s, 
+    sql = """UPDATE NOFITY SET
+                CATEGORY_IDX = %s,
+                NOTIFY_PNUM = %s,
                 NOTIFY_RESULT = %s
             WHERE NOTIFY_IDX = %s;"""
 
@@ -128,7 +129,7 @@ def insert_board(request):
 
     form_data = request.form.to_dict()
 
-    #file =request.files["notifile"]
+    # file =request.files["notifile"]
 
     timestamp = int(time.time())
     path = "uploads/" + str(timestamp)
@@ -165,7 +166,7 @@ def get_board_list(where_clause):
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
-    sql = """SELECT 
+    sql = """SELECT
               A.BOARD_IDX AS BOARD_IDX,
               date_format(A.BOARD_DATE, '%Y-%m-%d') AS BOARD_DATE,
               A.BOARD_TIT AS BOARD_TIT,
@@ -186,7 +187,7 @@ def get_board_list(where_clause):
 def select_board(board_idx):  # 게시판(공지사항)내용 상세보기(관리자)
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
-    sql = """SELECT 
+    sql = """SELECT
               A.BOARD_IDX AS BOARD_IDX,
               date_format(A.BOARD_DATE, '%Y-%m-%d %H:%i:%S') AS BOARD_DATE,
               A.BOARD_TIT AS BOARD_TIT,
@@ -213,7 +214,7 @@ def update_board(request):  # 공지사항(게시판) 수정
 
     form_data = request.form.to_dict()
 
-    #file =request.files["notifile"]
+    # file =request.files["notifile"]
 
     timestamp = int(time.time())
     path = "uploads/" + str(timestamp)
@@ -261,7 +262,7 @@ def update_board(request):  # 공지사항(게시판) 수정
 
 def delete_board(data):  # 공지사항(게시판) 삭제
 
-    #file =request.files["notifile"]
+    # file =request.files["notifile"]
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
@@ -298,3 +299,231 @@ def get_process_list():  # 신고 프로세스 리스트
     res = cursor.fetchall()
     close_conn(db)
     return res
+
+
+def get_dispose_list(body_data):
+    db = conn_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+
+    sql = """   SELECT
+                    A.NOTIFY_IDX, A.USER_IDX, B.USER_NAME, B.USER_ID, B.USER_MAIL, B.USER_TEL, B.USER_OX,
+                    A.CATEGORY_IDX, C.CATEGORY, A.CAR_NUM, 
+                    date_format(A.NOTIFY_DATE, '%Y-%m-%d %H:%i:%S') AS NOTIFY_DATE, 
+                    A.NOTIFY_SPOT,
+                    A.NOTIFY_TXT, A.NOTIFY_PNUM, D.NOTIFY_STATUS, A.NOTIFY_RESULT,
+                    E.IMG_IDX, E.IMG_PATH                    
+                FROM IMG AS E
+                    LEFT JOIN NOTIFY    AS A ON E.NOTIFY_IDX    = A.NOTIFY_IDX
+                    LEFT JOIN USER      AS B ON A.USER_IDX      = B.USER_IDX
+                    LEFT JOIN CATEGORY  AS C ON A.CATEGORY_IDX  = C.CATEGORY_IDX
+                    LEFT JOIN PROCESS   AS D ON A.NOTIFY_PNUM   = D.NOTIFY_PNUM """
+    cate = body_data["category"]
+    proc = list(body_data["process"])
+    start_date = body_data["range"]["start_date"]
+    end_date = body_data["range"]["end_date"]
+
+    where_cate = " A.CATEGORY_IDX = " + str(cate) if cate != "" else ""
+    where_proc = ""
+
+    if len(proc) > 0:
+        where_proc += "("
+        for idx, proc_val in enumerate(proc):
+            if idx != 0:
+                where_proc += " OR "
+            where_proc += " A.NOTIFY_PNUM = " + str(proc_val)
+        where_proc += ")"
+
+    where_start_date = " A.NOTIFY_DATE >='" + \
+        start_date if start_date != "" else ""
+    where_end_date = " A.NOTIFY_DATE <='"+end_date if end_date != "" else ""
+
+    where_temp = ""
+
+    if where_cate != "":
+        where_temp += where_cate+" "
+    if where_proc != "":
+        if where_temp != "":
+            where_temp += " AND "
+        where_temp += where_proc+" "
+    if where_start_date != "":
+        if where_temp != "":
+            where_temp += " AND "
+        where_temp += ""+where_start_date + " 00:00:00' "
+    if where_end_date != "":
+        if where_temp != "":
+            where_temp += " AND "
+        where_temp += where_end_date + " 23:59:59' "
+
+    if where_temp != "":
+        sql += " WHERE " + where_temp + " "
+    sql += " ORDER BY A.NOTIFY_IDX DESC;"
+
+    print(sql)
+
+    try:
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        close_conn(db)
+        return res
+    except Exception as e:
+        close_conn(db)
+        return "err : " + str(e)
+
+
+def get_dispose_list_detail(body_data):
+    db = conn_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+
+    sql = """   SELECT
+                    A.NOTIFY_IDX, A.USER_IDX, B.USER_NAME, B.USER_ID, B.USER_MAIL, B.USER_TEL, B.USER_OX,
+                    A.CATEGORY_IDX, C.CATEGORY, A.CAR_NUM, 
+                    date_format(A.NOTIFY_DATE, '%Y-%m-%d %H:%i:%S') AS NOTIFY_DATE, 
+                    A.NOTIFY_SPOT,
+                    A.NOTIFY_TXT, A.NOTIFY_PNUM, D.NOTIFY_STATUS, A.NOTIFY_RESULT,
+                    E.IMG_IDX, E.IMG_PATH                    
+                FROM IMG AS E
+                    LEFT JOIN NOTIFY    AS A ON E.NOTIFY_IDX    = A.NOTIFY_IDX
+                    LEFT JOIN USER      AS B ON A.USER_IDX      = B.USER_IDX
+                    LEFT JOIN CATEGORY  AS C ON A.CATEGORY_IDX  = C.CATEGORY_IDX
+                    LEFT JOIN PROCESS   AS D ON A.NOTIFY_PNUM   = D.NOTIFY_PNUM """
+
+    sql += ' WHERE A.NOTIFY_IDX='+str(body_data["NOTIFY_IDX"])+";"
+
+    print(sql)
+
+    try:
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        close_conn(db)
+        return res
+    except Exception as e:
+        close_conn(db)
+        return "err : " + str(e)
+
+
+def update_dispose(body_data):
+    db = conn_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+
+    sql = "UPDATE NOTIFY SET NOTIFY_RESULT=%s, NOTIFY_PNUM=%s WHERE NOTIFY_IDX=%s;"
+
+    insert_tuple = (
+        body_data["NOTIFY_RESULT"], body_data["NOTIFY_PNUM"], body_data["NOTIFY_IDX"])
+    try:
+        cursor.execute(sql, insert_tuple)
+        db.commit()
+        close_conn(db)
+        return "success"
+    except Exception as e:
+        close_conn(db)
+        return "err : " + str(e)
+
+
+def get_daily_summary_per_weeks2():
+    db = conn_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+
+    now = datetime.now()
+    before_one_weeks = now-timedelta(days=6)
+    now = now.strftime("%Y-%m-%d")
+    before_one_weeks = before_one_weeks.strftime("%Y-%m-%d")
+
+    sql = f"""   SELECT B.NOTIFY_DATE, C.NOTIFY_STATUS, B.CNT
+                FROM (
+                    SELECT A.NOTIFY_DATE, A.NOTIFY_PNUM, COUNT(*) AS CNT
+                    FROM (
+                            SELECT DATE_FORMAT(NOTIFY_DATE, "%Y-%m-%d") as NOTIFY_DATE, NOTIFY_PNUM
+                            FROM NOTIFY) AS A
+                    GROUP BY A.NOTIFY_DATE, A.NOTIFY_PNUM) AS B
+                LEFT JOIN PROCESS AS C ON B.NOTIFY_PNUM = C.NOTIFY_PNUM
+                WHERE B.NOTIFY_DATE>='{before_one_weeks}' AND B.NOTIFY_DATE<='{now}'; """
+
+    print(sql)
+
+    try:
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        close_conn(db)
+        return res
+    except Exception as e:
+        close_conn(db)
+        return "err : " + str(e)
+
+
+def get_daily_summary_per_weeks():
+    db = conn_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+
+    now = datetime.now()
+    before_one_weeks = now-timedelta(days=6)
+    now = now.strftime("%Y-%m-%d")
+    before_one_weeks = before_one_weeks.strftime("%Y-%m-%d")
+
+    sql = f"""   SELECT DATE_FORMAT(A.NOTIFY_DATE, "%Y-%m-%d") as NOTIFY_DATE, 
+                        A.NOTIFY_PNUM AS NOTIFY_PNUM,
+                        B.NOTIFY_STATUS AS NOTIFY_STATUS
+                    FROM PROCESS AS B
+                    LEFT JOIN NOTIFY AS A ON A.NOTIFY_PNUM=B.NOTIFY_PNUM
+                WHERE A.NOTIFY_DATE>='{before_one_weeks} 00:00:00' AND A.NOTIFY_DATE<='{now} 23:59:59'; """
+
+    print(sql)
+
+    try:
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        close_conn(db)
+        return res
+    except Exception as e:
+        close_conn(db)
+        return "err : " + str(e)
+
+
+def get_nofity_mini():
+    db = conn_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+
+    sql = """   SELECT
+                    A.NOTIFY_IDX, A.USER_IDX, B.USER_NAME, B.USER_ID, B.USER_MAIL, B.USER_TEL, B.USER_OX,
+                    A.CATEGORY_IDX, C.CATEGORY, A.CAR_NUM, 
+                    date_format(A.NOTIFY_DATE, '%Y-%m-%d %H:%i:%S') AS NOTIFY_DATE, 
+                    A.NOTIFY_SPOT,
+                    A.NOTIFY_TXT, A.NOTIFY_PNUM, D.NOTIFY_STATUS, A.NOTIFY_RESULT,
+                    E.IMG_IDX, E.IMG_PATH                    
+                FROM IMG AS E
+                    LEFT JOIN NOTIFY    AS A ON E.NOTIFY_IDX    = A.NOTIFY_IDX
+                    LEFT JOIN USER      AS B ON A.USER_IDX      = B.USER_IDX
+                    LEFT JOIN CATEGORY  AS C ON A.CATEGORY_IDX  = C.CATEGORY_IDX
+                    LEFT JOIN PROCESS   AS D ON A.NOTIFY_PNUM   = D.NOTIFY_PNUM 
+                WHERE A.NOTIFY_PNUM != 4
+                ORDER BY A.NOTIFY_IDX DESC;"""
+
+    try:
+        cursor.execute(sql)
+        res = cursor.fetchall()
+        close_conn(db)
+        return res
+    except Exception as e:
+        close_conn(db)
+        return "err : " + str(e)
+
+
+def get_board_list_mini():
+    db = conn_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+
+    sql = """SELECT
+              A.BOARD_IDX AS BOARD_IDX,
+              date_format(A.BOARD_DATE, '%Y-%m-%d') AS BOARD_DATE,
+              A.BOARD_TIT AS BOARD_TIT,
+              B.USER_NAME AS USER_NAME
+            FROM BOARD AS A
+              INNER JOIN USER AS B ON A.USER_IDX = B.USER_IDX """
+    sql += "ORDER BY BOARD_IDX DESC LIMIT 3;"
+
+    try:
+        cursor.execute(sql)
+        close_conn(db)
+        return cursor.fetchall()
+    except Exception as e:
+        close_conn(db)
+        return "err : " + str(e)
