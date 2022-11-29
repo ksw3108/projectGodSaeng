@@ -1,5 +1,6 @@
 import Pagination from 'react-js-pagination';
 const Page = ({ page, totalcnt, setPage, itemcount }) => {
+  //현재 테이블 의 페이징 처리용 공용 pagination 컴포넌트
   return (
     <Pagination
       activePage={page} //현재 활성화된 페이지

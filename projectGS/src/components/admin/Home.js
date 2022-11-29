@@ -18,11 +18,12 @@ import { useEffect, useState } from 'react';
 
 const Home = () => {
   const [daily_summary, setDailySummary] = useState([]); //통계표/시각화 자료용 데이터표
-  const [noti_list, setNotiList] = useState([]);
-  const [board_list, setBoardList] = useState([]);
-  const [sum_data, setSumData] = useState({});
+  const [noti_list, setNotiList] = useState([]); //신고 리스트
+  const [board_list, setBoardList] = useState([]); //공지사항 리스트
+  const [sum_data, setSumData] = useState({}); //통계의 합계
 
   useEffect(() => {
+    //페이지가 렌더링될때마다 실행되는 hook
     get_daily_summary();
     get_notify_mini();
     get_board_mini();
@@ -35,7 +36,6 @@ const Home = () => {
   };
   const get_board_mini = async () => {
     //게시글 리스트를 가져온다.
-
     const res = await server_bridge.axios_instace.post('/getBoardMini');
     setBoardList(res.data);
   };
@@ -79,6 +79,7 @@ const Home = () => {
       total_arr.push(data);
     });
     let data_sum = {
+      //각 신고 프로세스별 합계
       c1_sum: json2Arr(summary_json[1]).reduce((acc, val) => acc + val, 0),
       c2_sum: json2Arr(summary_json[2]).reduce((acc, val) => acc + val, 0),
       c3_sum: json2Arr(summary_json[3]).reduce((acc, val) => acc + val, 0),
@@ -94,10 +95,14 @@ const Home = () => {
           <TodoList data={sum_data} />
           <div className="container">
             <ReportChart data={daily_summary} />
+            {/* 시각화자료 */}
             <DisposeSummary data={daily_summary} />
+            {/* 신고 통계 */}
             <div className="clear" style={{ clear: 'both' }} />
             <DisposeListMini data={noti_list} />
+            {/* 신고 리스트(관리자 메인페이지용) */}
             <NoticeListMini data={board_list} />
+            {/* 공지사항(관리자 메인페이지용) */}
           </div>
         </>
       ) : (

@@ -5,36 +5,27 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import uuid from 'react-uuid';
 const DisposeDetail = () => {
   const { state } = useLocation(); //게시글 상세보기에서 받아온 해당 게시글의 데이터
-  const [noti_result, setNotiResult] = useState('');
-  const [data, setDisposeData] = useState(admin_ctrl);
-  const [process, setProcess] = useState([]);
-  const processRef = useRef();
-  const resultRef = useRef();
-  const navigate = useNavigate();
+  const [data, setDisposeData] = useState(admin_ctrl); //신고내역의 상세 내용
+  const [process, setProcess] = useState([]); //신고 절차(DB의 PROCESS 테이블의 리스트)
+  const processRef = useRef(); //신고 절차의 수정을 위한 컴포넌트 접근용 ref
+  const resultRef = useRef(); //신고 결과 답변을 적은 textarea를 추적하는 ref
+  const navigate = useNavigate(); //페이지 이동용 네비게이터
   useEffect(() => {
     //페이지가 로드될때마다 실행
     if (state !== null) {
       //이전 페이지에서 넘겨받은 데이타가 있는지(수정모드인지) 체크
-
       setDisposeData(state.data); //수정하기 위한 데이터 세팅
       setProcess(state.process);
     }
   }, []);
-  const onChange = (e) => {
-    setNotiResult(e.target.value);
-  };
-  const setData = async () => {
-    // const res = await server_bridge.axios_instace.post('/getDisposeDetail', {
-    //   NOTIFY_IDX: idx,
-    // });
-    //console.log(data);
-  };
+
   const updateDispose = async (NOTIFY_IDX) => {
+    //신고 내역 수정
     if (window.confirm('정말로 수정하시겠습니까?')) {
       const res = await server_bridge.axios_instace.post('/updateDispose', {
-        NOTIFY_IDX: NOTIFY_IDX,
-        NOTIFY_PNUM: processRef.current.value,
-        NOTIFY_RESULT: resultRef.current.value,
+        NOTIFY_IDX: NOTIFY_IDX, //신고 번호
+        NOTIFY_PNUM: processRef.current.value, //신고 처리 프로세스의 변경시 사용
+        NOTIFY_RESULT: resultRef.current.value, //산고 결과
       });
       if (res.data === 'success') {
         alert('수정 성공');

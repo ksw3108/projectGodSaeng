@@ -40,15 +40,7 @@ function reducer(state, action) {
   return { ...state, [action.name]: action.value };
 }
 const UserInfoContainer = ({ data }) => {
-  const [state, dispatch] = useReducer(reducer, {
-    id: '',
-    name: '',
-    email: '',
-    tel: '',
-  });
-  const onChange = (e) => {
-    dispatch(e.target);
-  };
+  //사용자 정보 핸들링용 공용 컴포넌트
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">

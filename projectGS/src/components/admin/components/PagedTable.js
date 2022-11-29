@@ -9,7 +9,7 @@ import {
   TableHead,
 } from '@material-ui/core';
 import PaginationItem from '@material-ui/lab/PaginationItem';
-
+//컴포넌트 라이브러리로 작업해보려고 만든 공용 페이징처리되는 테이블 컨테이너(미완)
 const PagedTable = () => {
   return (
     <TableContainer>

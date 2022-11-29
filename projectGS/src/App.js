@@ -53,8 +53,6 @@ function App() {
             <Route path="/login" element={<Login />} /> {/* 회원가입 */}
           </Route>
           {/* ===================== 여기가 관리자단 ===================================*/}
-          {/* <Route path="/home" element={<Sidebar />}> */}
-          {/* 221122 선우 - 임시로 사용중인 레이아웃, 디자인 진입시 수정해소 상관없음 */}
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Home />} />
             {/* <Route path="/home/adminmain" element={<AdminMain />} /> */}

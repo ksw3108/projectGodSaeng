@@ -5,11 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import Page from './components/Page';
 
 const DisposeReport = () => {
-  const [category, setCategory] = useState([{ CATEGORY_IDX: 0, CATEGORY: '' }]);
+  const [category, setCategory] = useState([{ CATEGORY_IDX: 0, CATEGORY: '' }]); //신고 분류 리스트(DB에서 가져온 CATEGORy)
   const [process, setProcess] = useState([
+    //신고 절차 리스트(DB에서 가져온 PROCESS)
     { NOTIFY_PNUM: 0, NOTIFY_STATUS: '' },
   ]);
-  const [disport, setList] = useState([]);
+  const [disport, setList] = useState([]); //신고 리스트
   const checkRefs = useRef([]); //체크박스 리스트 ref
   const start_dateRef = useRef(); //검색할 시작날짜 ref
   const end_dateRef = useRef(); //검색할 마지막 날짜 ref
@@ -18,8 +19,10 @@ const DisposeReport = () => {
   const [page, setPage] = useState(1); //페이징 처리되어 나눠지는 총 게시판의 페이지 갯수
   const itemcount = 5; //한 페이지에 보여줄 게시글 갯수
   const [totalcnt, setCnt] = useState(0); //총 게시글 갯수
-  const navigate = useNavigate();
+  const navigate = useNavigate(); //페이지 이동용 네비게이터
+
   useEffect(() => {
+    //페이지가 렌더링될때마다 실행되는 hook
     getComponentData();
     handleReportList();
   }, []);
@@ -54,6 +57,7 @@ const DisposeReport = () => {
     //console.log(req_data);
 
     const res = await server_bridge.axios_instace.post(
+      //선택한 검색 범위에 따른 신고 결과 가져오기
       '/getDisposeList',
       req_data,
     );
@@ -77,6 +81,7 @@ const DisposeReport = () => {
     });
   };
   const downloadCSV = () => {
+    //csv 다운로드용.. 인데 현재 사용하는 component도 잘 동작하는거로 보이나 혹시 몰라서 남겨놓음
     let csv = '';
     let header = '';
     for (let key in disport[0]) {

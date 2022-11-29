@@ -2,7 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import * as server_bridge from '../../../controller/server_bridge';
 const DisposeListMini = ({ data }) => {
   const navigate = useNavigate();
+
   const moveToDetail = async (_data) => {
+    //신고내역 상세페이지 이동
     const proc = await server_bridge.axios_instace.get('/get_process_list');
     navigate('/home/disposedetail', {
       state: { data: _data, process: proc.data },
