@@ -1,6 +1,6 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import Page from './Page';
+import Page from './components/Page';
 import * as server_bridge from '../../controller/server_bridge';
 
 const BoardManagement = () => {
@@ -8,7 +8,7 @@ const BoardManagement = () => {
   const optionRef = useRef(); //검색 옵션
   const navigate = useNavigate(); //링크 네비게이터
   const [page, setPage] = useState(1); //페이징 처리되어 나눠지는 총 게시판의 페이지 갯수
-  const itemcount = 1; //한 페이지에 보여줄 게시글 갯수
+  const itemcount = 3; //한 페이지에 보여줄 게시글 갯수
   const [board_list, setList] = useState([]); // 게시판 리스트
   const [totalcnt, setCnt] = useState(0); //총 게시글 갯수
   useEffect(() => {

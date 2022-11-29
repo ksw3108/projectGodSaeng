@@ -16,17 +16,19 @@ import Point from './components/user/Point';
 import Login from './components/user/Login';
 
 /* 221115 선우 - 관리자용 페이지 관련 */
-import AdminMain from './components/admin/AdminMain';
+//import AdminMain from './components/admin/AdminMain';
 import AdminLogin from './components/admin/AdminLogin';
 import BoardManagement from './components/admin/BoardManagement';
 import DisposeReport from './components/admin/DisposeReport';
 import UserManagement from './components/admin/UserManagement';
 import WriteNotify from './components/admin/WriteNotify';
 import BoardView from './components/admin/BoardView';
+import DisposeDetail from './components/admin/DisposeDetail';
+import UserDetail from './components/admin/UserDetail';
 
 /* 221116 순아 관리자용 페이지 추가*/
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Sidebar from './components/admin/Sidebar';
+//import Sidebar from './components/admin/Sidebar';
 import Home from './components/admin/Home';
 import AdminInformation from './components/admin/AdminInformation';
 
@@ -54,9 +56,9 @@ function App() {
           {/* 221122 선우 - 임시로 사용중인 레이아웃, 디자인 진입시 수정해소 상관없음 */}
           <Route path="/home" element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path="/home/adminmain" element={<AdminMain />} />
+            {/* <Route path="/home/adminmain" element={<AdminMain />} /> */}
             {/* 관리자 - 메인 */}
-            <Route path="/home/adminlogin" element={<AdminLogin />} />
+            {/* <Route path="/home/adminlogin" element={<AdminLogin />} /> */}
             {/* 관리자 - 로그인 */}
             <Route path="/home/admininfo" element={<AdminInformation />} />
             {/* 관리자 - 내정보 */}
@@ -64,8 +66,12 @@ function App() {
             {/* 관리자 - 게시판 관리 */}
             <Route path="/home/disposereport" element={<DisposeReport />} />
             {/* 관리자 - 신고 처리 */}
+            <Route path="/home/disposedetail" element={<DisposeDetail />} />
+            {/* 관리자 - 신고 처리 상세 */}
             <Route path="/home/usermanage" element={<UserManagement />} />
             {/* 관리자 - 회원관리 */}
+            <Route path="/home/userdetail" element={<UserDetail />} />
+            {/* 관리자 - 회원 정보 상세 */}
             <Route path="/home/writenoti" element={<WriteNotify />} />
             {/* 관리자 - 게시판 작성 */}
             <Route path="/home/boardview" element={<BoardView />} />
