@@ -24,7 +24,7 @@ const BoardView = () => {
   };
   const updateBoard = () => {
     //게시글 수정 페이지로 이동
-    navigate('/home/writenoti', { state: board });
+    navigate('/admin/writenoti', { state: board });
   };
   const deleteBoard = async () => {
     //게시글 삭제 기능
@@ -39,7 +39,7 @@ const BoardView = () => {
       } else {
         alert('삭제 실패!');
       }
-      navigate('/home/boardmanage');
+      navigate('/admin/boardmanage');
     }
 
     return;
@@ -61,7 +61,7 @@ const BoardView = () => {
         {board.BOARD_FILE !== '' ? (
           <a
             href={
-              server_bridge.node_url + '/download_file/' + board.BOARD_FILE.dir
+              server_bridge.py_url + '/download_file/' + board.BOARD_FILE.dir
             }
           >
             {board.BOARD_FILE.filename}

@@ -36,7 +36,7 @@ const AdminLogin = () => {
 
     // 로그인 요청시 서버로 요청
     axios
-      .post('http://localhost:8000/home/adminlogin', {
+      .post('http://localhost:5000/home/adminlogin', {
         id: idRef.current.value,
         pw: pwRef.current.value,
       })
@@ -59,7 +59,7 @@ const AdminLogin = () => {
             window.sessionStorage.setItem('ADMIN_OX', res.data[0].ADMIN_OX);
 
             alert(res.data[0].USER_NAME + '님 환영합니다!');
-            window.location.href = '/home';
+            window.location.href = '/admin';
           } else {
             alert('관리자 권한이 없는 아이디입니다!');
             idRef.current.value = '';

@@ -26,7 +26,7 @@ const AdminInformation = () => {
       console.log(res.data);
     }
 
-    window.location.href = '/home/admininfo';
+    window.location.href = '/admin/admininfo';
   };
   const setUserInfo = async () => {
     const res = await server_bridge.axios_instace.post('/getuserinfo', {

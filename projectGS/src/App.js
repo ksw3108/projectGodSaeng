@@ -17,7 +17,7 @@ import Login from './components/user/Login';
 
 /* 221115 선우 - 관리자용 페이지 관련 */
 //import AdminMain from './components/admin/AdminMain';
-import AdminLogin from './components/admin/AdminLogin';
+//import AdminLogin from './components/admin/AdminLogin';
 import BoardManagement from './components/admin/BoardManagement';
 import DisposeReport from './components/admin/DisposeReport';
 import UserManagement from './components/admin/UserManagement';
@@ -25,6 +25,7 @@ import WriteNotify from './components/admin/WriteNotify';
 import BoardView from './components/admin/BoardView';
 import DisposeDetail from './components/admin/DisposeDetail';
 import UserDetail from './components/admin/UserDetail';
+import AdminLayout from './components/admin/components/AdminLayout';
 
 /* 221116 순아 관리자용 페이지 추가*/
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -54,27 +55,27 @@ function App() {
           {/* ===================== 여기가 관리자단 ===================================*/}
           {/* <Route path="/home" element={<Sidebar />}> */}
           {/* 221122 선우 - 임시로 사용중인 레이아웃, 디자인 진입시 수정해소 상관없음 */}
-          <Route path="/home" element={<Layout />}>
+          <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Home />} />
             {/* <Route path="/home/adminmain" element={<AdminMain />} /> */}
             {/* 관리자 - 메인 */}
             {/* <Route path="/home/adminlogin" element={<AdminLogin />} /> */}
             {/* 관리자 - 로그인 */}
-            <Route path="/home/admininfo" element={<AdminInformation />} />
+            <Route path="/admin/admininfo" element={<AdminInformation />} />
             {/* 관리자 - 내정보 */}
-            <Route path="/home/boardmanage" element={<BoardManagement />} />
+            <Route path="/admin/boardmanage" element={<BoardManagement />} />
             {/* 관리자 - 게시판 관리 */}
-            <Route path="/home/disposereport" element={<DisposeReport />} />
+            <Route path="/admin/disposereport" element={<DisposeReport />} />
             {/* 관리자 - 신고 처리 */}
-            <Route path="/home/disposedetail" element={<DisposeDetail />} />
+            <Route path="/admin/disposedetail" element={<DisposeDetail />} />
             {/* 관리자 - 신고 처리 상세 */}
-            <Route path="/home/usermanage" element={<UserManagement />} />
+            <Route path="/admin/usermanage" element={<UserManagement />} />
             {/* 관리자 - 회원관리 */}
-            <Route path="/home/userdetail" element={<UserDetail />} />
+            <Route path="/admin/userdetail" element={<UserDetail />} />
             {/* 관리자 - 회원 정보 상세 */}
-            <Route path="/home/writenoti" element={<WriteNotify />} />
+            <Route path="/admin/writenoti" element={<WriteNotify />} />
             {/* 관리자 - 게시판 작성 */}
-            <Route path="/home/boardview" element={<BoardView />} />
+            <Route path="/admin/boardview" element={<BoardView />} />
             {/* 관리자 - 게시판 내용 보기 */}
           </Route>
           <Route path="*" element={<NotFound />} /> {/* 404 페이지 */}

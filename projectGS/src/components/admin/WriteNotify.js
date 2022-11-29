@@ -92,7 +92,7 @@ const WriteNotify = () => {
       }
     }
 
-    navigate('/home/boardmanage'); //최종적으로 게시판 리스트로 이동
+    navigate('/admin/boardmanage'); //최종적으로 게시판 리스트로 이동
   };
   const changeFile = (text) => {
     //업로드할 파일 추가/변동/삭제시 수행

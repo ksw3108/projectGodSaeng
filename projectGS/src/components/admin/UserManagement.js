@@ -26,7 +26,7 @@ const UserManagement = () => {
     getUserList(0);
   };
   const move2userdetail = (user_idx) => {
-    navigate('/home/userdetail', {
+    navigate('/admin/userdetail', {
       state: { user_idx: user_idx },
     });
   };

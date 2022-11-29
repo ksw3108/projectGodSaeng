@@ -1,6 +1,6 @@
 import styles from './css/Home.module.scss';
 import React from 'react';
-import '../../css/home.css';
+import './css/Home.module.scss';
 import TodoList from './TodoList';
 // import ChartWidgets from './ChartWidgets';
 // import SummaryWidgets from './SummaryWidgets';
@@ -95,7 +95,7 @@ const Home = () => {
           <div className="container">
             <ReportChart data={daily_summary} />
             <DisposeSummary data={daily_summary} />
-            <div className="clear" />
+            <div className="clear" style={{ clear: 'both' }} />
             <DisposeListMini data={noti_list} />
             <NoticeListMini data={board_list} />
           </div>

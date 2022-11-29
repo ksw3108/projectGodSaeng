@@ -38,7 +38,7 @@ const DisposeDetail = () => {
       });
       if (res.data === 'success') {
         alert('수정 성공');
-        navigate('/home/disposereport');
+        navigate('/admin/disposereport');
       } else {
         console.log(res);
         alert('수정 실패');

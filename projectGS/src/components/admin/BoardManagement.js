@@ -49,7 +49,7 @@ const BoardManagement = () => {
         <button onClick={getList}>검색</button>
       </div>
       <div className="updownSpace"></div>
-      <button onClick={() => navigate('/home/writenoti')}>글쓰기</button>
+      <button onClick={() => navigate('/admin/writenoti')}>글쓰기</button>
       <div className="updownSpace"></div>
       <table border={1}>
         <thead>
@@ -70,7 +70,7 @@ const BoardManagement = () => {
                     <td>{data.BOARD_IDX}</td>
                     <td>
                       <Link
-                        to={'/home/boardview'}
+                        to={'/admin/boardview'}
                         state={{
                           board_idx: data.BOARD_IDX,
                         }}

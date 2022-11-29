@@ -72,7 +72,7 @@ const DisposeReport = () => {
   };
   const move2Detail = (data) => {
     console.log(data);
-    navigate('/home/disposedetail', {
+    navigate('/admin/disposedetail', {
       state: { data: data, process: process },
     });
   };
