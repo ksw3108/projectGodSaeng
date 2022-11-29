@@ -1,7 +1,7 @@
 import { useNavigate, Link } from 'react-router-dom';
 const NoticeListMini = ({ data }) => {
   return (
-    <div>
+    <div className="cell-d">
       <div>공지사항 리스트(관리자메인)</div>
       <table border={1}>
         <thead>

@@ -1,15 +1,17 @@
+import styles from './css/Home.module.scss';
 import React from 'react';
 import '../../css/home.css';
 import TodoList from './TodoList';
-import ChartWidgets from './ChartWidgets';
-import SummaryWidgets from './SummaryWidgets';
-import NotifyListWidgets from './NotifyListWidgets';
-import NoticeWidgets from './NoticeWidgets';
+// import ChartWidgets from './ChartWidgets';
+// import SummaryWidgets from './SummaryWidgets';
+// import NotifyListWidgets from './NotifyListWidgets';
+// import NoticeWidgets from './NoticeWidgets';
 
 import DisposeListMini from './home_components/DisposeListMini';
 import DisposeSummary from './home_components/DisposeSummary';
 import NoticeListMini from './home_components/NoticeListMini';
 import ReportChart from './home_components/ReportChart';
+import AdminLogin from './AdminLogin';
 import * as server_bridge from '../../controller/server_bridge';
 
 import { useEffect, useState } from 'react';
@@ -18,6 +20,7 @@ const Home = () => {
   const [daily_summary, setDailySummary] = useState([]); //통계표/시각화 자료용 데이터표
   const [noti_list, setNotiList] = useState([]);
   const [board_list, setBoardList] = useState([]);
+  const [sum_data, setSumData] = useState({});
 
   useEffect(() => {
     get_daily_summary();
@@ -75,15 +78,32 @@ const Home = () => {
       };
       total_arr.push(data);
     });
+    let data_sum = {
+      c1_sum: json2Arr(summary_json[1]).reduce((acc, val) => acc + val, 0),
+      c2_sum: json2Arr(summary_json[2]).reduce((acc, val) => acc + val, 0),
+      c3_sum: json2Arr(summary_json[3]).reduce((acc, val) => acc + val, 0),
+      c4_sum: json2Arr(summary_json[4]).reduce((acc, val) => acc + val, 0),
+    };
+    setSumData(data_sum);
     setDailySummary(total_arr);
   };
   return (
-    <div>
-      <ReportChart data={daily_summary} />
-      <DisposeSummary data={daily_summary} />
-      <DisposeListMini data={noti_list} />
-      <NoticeListMini data={board_list} />
-    </div>
+    <>
+      {window.sessionStorage.getItem('USER_ID') !== null ? (
+        <>
+          <TodoList data={sum_data} />
+          <div className="container">
+            <ReportChart data={daily_summary} />
+            <DisposeSummary data={daily_summary} />
+            <div className="clear" />
+            <DisposeListMini data={noti_list} />
+            <NoticeListMini data={board_list} />
+          </div>
+        </>
+      ) : (
+        <AdminLogin />
+      )}
+    </>
   );
 };
 export default Home;

@@ -2,7 +2,7 @@ import * as server_bridge from '../../controller/server_bridge';
 import CsvDownload from 'react-json-to-csv';
 import { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Page from './Page';
+import Page from './components/Page';
 
 const DisposeReport = () => {
   const [category, setCategory] = useState([{ CATEGORY_IDX: 0, CATEGORY: '' }]);
@@ -59,7 +59,7 @@ const DisposeReport = () => {
     );
     //console.log(res.data);
     setList(res.data);
-    console.log(res.data);
+    //console.log(res.data);
     setCnt(res.data.length);
   };
   const addToRefs = (e) => {

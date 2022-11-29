@@ -1,7 +1,7 @@
 import * as server_bridge from '../../controller/server_bridge';
 import { useRef, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import './noti.css';
+import './css/noti.css';
 const WriteNotify = () => {
   const mode_list = ['write', 'update']; //새 게시글 작성/ 수정 모드의 리스트
   const titleRef = useRef(); //제목

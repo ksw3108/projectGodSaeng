@@ -10,7 +10,7 @@ const DisposeListMini = ({ data }) => {
   };
 
   return (
-    <div>
+    <div className="cell-c">
       <div>신고 내역(관리자홈)</div>
       {data.length > 0 &&
         data.map((val, idx) => (

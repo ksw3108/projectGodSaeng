@@ -527,3 +527,57 @@ def get_board_list_mini():
     except Exception as e:
         close_conn(db)
         return "err : " + str(e)
+
+
+def update_userinfo(body_data):
+    db = conn_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+
+    sql = f"""UPDATE USER SET 
+                USER_PW = '{body_data['user_pw']}', 
+                USER_NAME='{body_data['user_name']}', 
+                USER_TEL='{body_data['user_tel']}' 
+              WHERE USER_IDX = {body_data['user_idx']}; """
+
+    try:
+        cursor.execute(sql)
+        db.commit()
+        close_conn(db)
+        return "success"
+    except Exception as e:
+        close_conn(db)
+        return "err : " + str(e)
+
+
+def get_user_info(body_data):
+    db = conn_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+
+    sql = f"""SELECT * FROM USER WHERE USER_IDX={body_data["user_idx"]}; """
+
+    try:
+        cursor.execute(sql)
+        close_conn(db)
+        return cursor.fetchall()
+    except Exception as e:
+        close_conn(db)
+        return "err : " + str(e)
+
+
+def serch_user_info(body_data):
+    db = conn_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+
+    sql = f"""SELECT * FROM USER """
+    where = ""
+    if body_data["is_searching"] == 1:
+        where = f"""WHERE {body_data["search_option"]} LIKE '%{body_data["keyword"]}%'"""
+    sql += where + ";"
+
+    try:
+        cursor.execute(sql)
+        close_conn(db)
+        return cursor.fetchall()
+    except Exception as e:
+        close_conn(db)
+        return "err : " + str(e)

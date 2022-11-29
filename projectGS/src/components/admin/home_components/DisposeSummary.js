@@ -1,6 +1,6 @@
 const DisposeSummary = ({ data }) => {
   return (
-    <div>
+    <div className="cell-b">
       <table border={1}>
         <thead>
           <tr>

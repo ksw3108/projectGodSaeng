@@ -1,6 +1,6 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import Page from './Page';
+import Page from './components/Page';
 import * as server_bridge from '../../controller/server_bridge';
 
 const BoardManagement = () => {

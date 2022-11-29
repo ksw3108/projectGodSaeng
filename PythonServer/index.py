@@ -118,14 +118,14 @@ def get_dispose_list():  # 신고 리스트 받아오기
 
 
 @app.route("/updateDispose", methods=["GET", "POST"])
-def update_dispose():  # 등록한 파일 다운로드하기
+def update_dispose():  # 신고내역 수정하기
     body_data = get_body_data(request)
     sendData = dbconnecter.update_dispose(body_data)
     return jsonify(sendData)
 
 
 @app.route("/getDisposeDetail", methods=["GET", "POST"])
-def get_dispose_detail():  # 신고 리스트 받아오기
+def get_dispose_detail():  # 신고 내역 상세 가져오기
     body_data = get_body_data(request)
     sendData = dbconnecter.get_dispose_list_detail(body_data)
     return jsonify(sendData)
@@ -140,14 +140,35 @@ def get_daily_summary_per_weeks():  # 오늘로부터 1주일간의 일별 통�
 
 
 @app.route("/getNotifyMini", methods=["GET", "POST"])
-def get_notify_mini():  # 오늘로부터 1주일간의 일별 통계
+def get_notify_mini():  # 메인페이지용 신고 통계
     sendData = dbconnecter.get_nofity_mini()
     return jsonify(sendData)
 
 
 @app.route("/getBoardMini", methods=["GET", "POST"])
-def get_board_list_mini():  # 오늘로부터 1주일간의 일별 통계
+def get_board_list_mini():  # 메인페이지용 공지사항 통계
     sendData = dbconnecter.get_board_list_mini()
+    return jsonify(sendData)
+
+
+@app.route("/updateadmininfo", methods=["GET", "POST"])
+def update_admin_info():  # 사용자 정보 업데이트
+    body_data = get_body_data(request)
+    sendData = dbconnecter.update_userinfo(body_data)
+    return jsonify(sendData)
+
+
+@app.route("/getuserinfo", methods=["GET", "POST"])
+def get_user_info():  # 유저 단일 데이터 가져오기
+    body_data = get_body_data(request)
+    sendData = dbconnecter.get_user_info(body_data)
+    return jsonify(sendData)
+
+
+@app.route("/getuserlist", methods=["GET", "POST"])
+def get_user_list():  # 유저 목록 가져오기
+    body_data = get_body_data(request)
+    sendData = dbconnecter.serch_user_info(body_data)
     return jsonify(sendData)
 
 

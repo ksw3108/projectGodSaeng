@@ -16,7 +16,8 @@ export default class ReportChart extends PureComponent {
   render() {
     const { data } = this.props;
     return (
-      <div style={{ width: '100%', height: 300 }}>
+      // <div className="cell-a" style={{ width: '100%', height: 300 }}>
+      <div className="cell-a" style={{ width: '45%', height: 200 }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             width={500}
