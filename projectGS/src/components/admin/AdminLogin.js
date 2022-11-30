@@ -53,7 +53,7 @@ const AdminLogin = () => {
             // 로그인에 성공하고 세션에 값 저장
             window.sessionStorage.setItem('USER_IDX', res.data[0].USER_IDX);
             window.sessionStorage.setItem('USER_ID', res.data[0].USER_ID);
-            window.sessionStorage.setItem('USER_NICK', res.data[0].USER_NICK);
+            window.sessionStorage.setItem('USER_MAIL', res.data[0].USER_MAIL);
             window.sessionStorage.setItem('USER_NAME', res.data[0].USER_NAME);
             window.sessionStorage.setItem('USER_TEL', res.data[0].USER_TEL);
             window.sessionStorage.setItem('ADMIN_OX', res.data[0].ADMIN_OX);
