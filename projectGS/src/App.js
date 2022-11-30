@@ -20,6 +20,9 @@ import Point from './components/user/Point';
 
 /* 221116 순아 사용자용 페이지 추가*/
 import Login from './components/user/Login';
+import PointItem from './components/user/PointItem';
+import PointOrder from './components/user/PointOrder';
+import PointPay from './components/user/PointPay';
 
 /* 221115 선우 - 관리자용 페이지 관련 */
 //import AdminMain from './components/admin/AdminMain';
@@ -50,27 +53,40 @@ function App() {
           <Route element={<Layout />}>
             <Route index element={<Main />} />
           </Route>
-
           {/* 서브 레이아웃 */}
           <Route element={<SubLayout />}>
-            <Route path="/report" element={<Report />} /> {/* 불법주정차 신고페이지 */}
-            <Route path="/quickreport" element={<QuickReport />} /> {/* 공유퀵보드 신고페이지 */}
-            <Route path="/reportend" element={<ReportEnd />} /> {/* 신고완료페이지 */}
-            <Route path="/illegalareaguide" element={<IllegalAreaGuide />} /> {/* 불법주정차 구역안내 */}
-            <Route path="/quickguide" element={<QuickGuide />} /> {/* 공유킥보드 주차금지 구역안내 */}
-
-            <Route path="/notice" element={<Notice />} /> {/* 공지사항 리스트 */}
-            <Route path="/noticeview" element={<NoticeView />} /> {/* 공지사항 뷰 */}
+            <Route path="/report" element={<Report />} />{' '}
+            {/* 불법주정차 신고페이지 */}
+            <Route path="/quickreport" element={<QuickReport />} />{' '}
+            {/* 공유퀵보드 신고페이지 */}
+            <Route path="/reportend" element={<ReportEnd />} />{' '}
+            {/* 신고완료페이지 */}
+            <Route
+              path="/illegalareaguide"
+              element={<IllegalAreaGuide />}
+            />{' '}
+            {/* 불법주정차 구역안내 */}
+            <Route path="/quickguide" element={<QuickGuide />} />{' '}
+            {/* 공유킥보드 주차금지 구역안내 */}
+            <Route path="/notice" element={<Notice />} />{' '}
+            {/* 공지사항 리스트 */}
+            <Route path="/noticeview" element={<NoticeView />} />{' '}
+            {/* 공지사항 뷰 */}
             <Route path="/point" element={<Point />} /> {/* 포인트 */}
+            <Route path="/point" element={<Point />} /> {/* 포인트 메인 */}
+            <Route path="/pointitem" element={<PointItem />} />
+            {/* 포인트 리스트 */}
+            <Route path="/pointorder" element={<PointOrder />} />
+            {/* 포인트 주문하기 */}
+            <Route path="/pointpay" element={<PointPay />} />
+            {/* 포인트 주문하기 */}
           </Route>
-
           {/* 회원 레이아웃 */}
           <Route element={<MemberLayout />}>
             <Route path="/login" element={<Login />} /> {/* 로그인 */}
             <Route path="/join" element={<Join />} /> {/* 회원가입 */}
             <Route path="/mypage" element={<MyPage />} /> {/* 마이페이지 */}
           </Route>
-
           {/* ===================== 여기가 관리자단 ===================================*/}
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Home />} />
