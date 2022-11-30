@@ -5,9 +5,10 @@ import { Outlet, Link, useNavigate } from "react-router-dom";
 
 import StraightIcon from '@mui/icons-material/Straight';
 import "../../css/user/basic.css"
+import "../../css/user/member.scss"
 import { useEffect, useState } from "react";
 
-const Layout = () => {
+const MemberLayout = () => {
   const [scrollY, setScrollY] = useState(0);
   const [scrollActive, setScrollActive] = useState(false);
 
@@ -45,11 +46,11 @@ const Layout = () => {
   }
 
   return (
-    <div>
+    <div className="memberMain">
       <header>
         <Header />
       </header>
-      <main className="main">
+      <main>
         <Outlet />
       </main>
       <button type="button" onClick={onScrollTop} className={scrollActive ? 'btn-up fixed' : 'btn-up'}><StraightIcon /></button>
@@ -59,4 +60,4 @@ const Layout = () => {
     </div>
   );
 };
-export default Layout;
+export default MemberLayout;

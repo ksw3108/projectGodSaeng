@@ -72,34 +72,37 @@ const Login = () => {
   };
 
   return (
-    <div>
-      <form>
-        <h3>로그인</h3>
-        <div>아이디</div>
-        <input
-          className="id"
-          type="text"
-          defaultValue=""
-          placeholder="아이디를 입력하세요"
-          ref={idRef}
-        />
-        <div>비밀번호</div>
-        <input
-          className="pw"
-          type="password"
-          defaultValue=""
-          placeholder="비밀번호를 입력하세요"
-          ref={pwRef}
-          onKeyPress={onKeyPress}
-        />
-        <input type="button" value="로그인" onClick={handleLogin} />
-        <div>
-          <a href="/forgot">비밀번호 찾기</a>
-        </div>
-        <div>
-          <a href="/join">회원가입 </a>
-        </div>
-      </form>
+    <div id="Login">
+      <div className="memberSection">
+        <div className="sub-title"><h2>로그인</h2></div>
+        
+        <form>
+          <div>아이디</div>
+          <input
+            className="id"
+            type="text"
+            defaultValue=""
+            placeholder="아이디를 입력하세요"
+            ref={idRef}
+          />
+          <div>비밀번호</div>
+          <input
+            className="pw"
+            type="password"
+            defaultValue=""
+            placeholder="비밀번호를 입력하세요"
+            ref={pwRef}
+            onKeyPress={onKeyPress}
+          />
+          <input type="button" value="로그인" onClick={handleLogin} />
+          <div>
+            <a href="/forgot">비밀번호 찾기</a>
+          </div>
+          <div>
+            <a href="/join">회원가입 </a>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

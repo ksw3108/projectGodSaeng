@@ -2,14 +2,20 @@
 import GlobalStyles from './components/common/GlobalStyles';
 import NotFound from './components/common/NotFound';
 import Layout from './components/layout/Layout';
+import SubLayout from './components/layout/SubLayout';
+import MemberLayout from './components/layout/MemberLayout';
 import Main from './components/Main';
 
 /* 221115 선우 - 사용자용 페이지 관련 */
 import Join from './components/user/Join';
 import MyPage from './components/user/MyPage';
 import Report from './components/user/Report';
+import QuickReport from './components/user/QuickReport';
+import ReportEnd from './components/user/ReportEnd';
 import IllegalAreaGuide from './components/user/IllegalAreaGuide';
+import QuickGuide from './components/user/QuickGuide';
 import Notice from './components/user/Notice';
+import NoticeView from './components/user/NoticeView';
 import Point from './components/user/Point';
 
 /* 221116 순아 사용자용 페이지 추가*/
@@ -40,18 +46,31 @@ function App() {
       <Router>
         <Routes>
           {/* ===================== 여기가 사용자단 ===================================*/}
+          {/* 메인 레이아웃 */}
           <Route element={<Layout />}>
             <Route index element={<Main />} />
+          </Route>
+
+          {/* 서브 레이아웃 */}
+          <Route element={<SubLayout />}>
+            <Route path="/report" element={<Report />} /> {/* 불법주정차 신고페이지 */}
+            <Route path="/quickreport" element={<QuickReport />} /> {/* 공유퀵보드 신고페이지 */}
+            <Route path="/reportend" element={<ReportEnd />} /> {/* 신고완료페이지 */}
+            <Route path="/illegalareaguide" element={<IllegalAreaGuide />} /> {/* 불법주정차 구역안내 */}
+            <Route path="/quickguide" element={<QuickGuide />} /> {/* 공유킥보드 주차금지 구역안내 */}
+
+            <Route path="/notice" element={<Notice />} /> {/* 공지사항 리스트 */}
+            <Route path="/noticeview" element={<NoticeView />} /> {/* 공지사항 뷰 */}
+            <Route path="/point" element={<Point />} /> {/* 포인트 */}
+          </Route>
+
+          {/* 회원 레이아웃 */}
+          <Route element={<MemberLayout />}>
+            <Route path="/login" element={<Login />} /> {/* 로그인 */}
             <Route path="/join" element={<Join />} /> {/* 회원가입 */}
             <Route path="/mypage" element={<MyPage />} /> {/* 마이페이지 */}
-            <Route path="/report" element={<Report />} /> {/* 신고페이지 */}
-            <Route path="/illegalareaguide" element={<IllegalAreaGuide />} />
-            {/* 불법주정차구역안내 */}
-            <Route path="/notice" element={<Notice />} /> {/* 공지사항 */}
-            <Route path="/point" element={<Point />} /> {/* 포인트 */}
-            {/* 20221118 순아 추가 ================================== */}
-            <Route path="/login" element={<Login />} /> {/* 회원가입 */}
           </Route>
+
           {/* ===================== 여기가 관리자단 ===================================*/}
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Home />} />

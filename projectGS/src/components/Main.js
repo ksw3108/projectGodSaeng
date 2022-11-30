@@ -118,29 +118,99 @@ const Main = () => {
       <div className="main-slider">
         <Swiper
           modules={[Autoplay, Navigation]}
-          // autoplay={{delay: 4000}}
-          // speed={1400}
+          autoplay={{delay: 6000}}
+          speed={1800}
           loop={true}
           slidesPerView={"auto"}
           centeredSlides={true}
           navigation={true}
         >
           <SwiperSlide>
-            <div className="msImg">
-              1
+            <div className="msImg msImg1">
+              <div className="msTxt">
+                <h1>불법 주정차 신고는 이제 <strong>안전꽹과리</strong>에서</h1>
+                <ul>
+                  <li>👍 하나. 불법 주정차 발견시 사진을 찍는다.</li>
+                  <li>✌️ 둘. 안전꽹과리 접속 후 신고한다. </li>
+                  <li>👌 셋. 포인트를 받는다.</li>
+                </ul>
+                <a href="/report" className="btn btn-navy">바로 신고하기</a>
+              </div>
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <div className="msImg">
-              2
+            <div className="msImg msImg2">
+              <div className="msTxt">
+                <h1>공유 킥보드 신고도 이제 <strong>안전꽹과리</strong>에서</h1>
+                <ul>
+                  <li>👍 하나. 불법 주정차 공유 킥보드 발견시 사진을 찍는다.</li>
+                  <li>✌️ 둘. 안전꽹과리 접속 후 신고한다. </li>
+                  <li>👌 셋. 포인트를 받는다.</li>
+                </ul>
+                <a href="/quickreport" className="btn btn-navy">바로 신고하기</a>
+              </div>
             </div>
           </SwiperSlide>
           <SwiperSlide>
-            <div className="msImg">
-              3
+            <div className="msImg msImg3">
+              <div className="msTxt">
+                <h1>쌓이는 포인트는 <strong>상품권 교환</strong>으로<i>!</i></h1>
+                <ul>
+                  <li>신고 포인트가 쌓이면<br /> 오프라인에서 사용 가능한 상품권으로 교환할 수 있어요!</li>
+                </ul>
+                <a href="/point" className="btn btn-navy">포인트 사용하기</a>
+              </div>
             </div>
           </SwiperSlide>
         </Swiper>
+      </div> {/* mainSlider */}
+
+      <div className="mSection">
+        <div className="Notice">
+          <div className="s-title"><h2>공지사항</h2></div>
+          
+          <div className="nBoxWrap">
+              <div className="nBox">
+                <a href="#">
+                  <div className="nBoxTxt">
+                    <h3>불법주정차 신고 포인트 적립 안내불법주정차 신고 포인트 적립 안내 신고 포인트 적립 안</h3>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has ...Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has</p>
+                  </div>
+                  <div className="nBoxBottom">
+                    <span className="nDate">2022-11-24</span>
+                    <i className="xi-plus-thin"></i>
+                  </div>
+                </a>
+              </div> {/* nBox */}
+
+              <div className="nBox">
+                <a href="#">
+                  <div className="nBoxTxt">
+                    <h3>불법주정차 신고 포인트 적립 안내불법주정차 신고 포인트 적립 안내 신고 포인트 적립 안</h3>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has ...Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has</p>
+                  </div>
+                  <div className="nBoxBottom">
+                    <span className="nDate">2022-11-24</span>
+                    <i className="xi-plus-thin"></i>
+                  </div>
+                </a>
+              </div> {/* nBox */}
+
+              <div className="nBox">
+                <a href="#">
+                  <div className="nBoxTxt">
+                    <h3>불법주정차 신고 포인트 적립 안내불법주정차 신고 포인트 적립 안내 신고 포인트 적립 안</h3>
+                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has ...Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has</p>
+                  </div>
+                  <div className="nBoxBottom">
+                    <span className="nDate">2022-11-24</span>
+                    <i className="xi-plus-thin"></i>
+                  </div>
+                </a>
+              </div> {/* nBox */}
+          </div>
+          {/* nBoxWrap */}
+        </div>
       </div>
     </div>
   );

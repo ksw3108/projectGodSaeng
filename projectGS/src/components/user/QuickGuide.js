@@ -67,7 +67,7 @@ function a11yProps(index) {
   };
 }
 
-const IllegalAreaGuide = () => {
+const QuickGuide = () => {
   let hydrant1 = {backgroundImage: `url(${hydrant1_1})`};
   let hydrant2 = {backgroundImage: `url(${hydrant1_2})`};
   let cross1 = {backgroundImage: `url(${cross1_1})`};
@@ -89,13 +89,13 @@ const IllegalAreaGuide = () => {
       <div className="subTop">
         <h1>불법주정차 안내</h1>
         <ul>
-          <li className="on"><a href="/illegalareaguide">불법주정차 금지 구역</a></li>
-          <li><a href="/quickguide">공유킥보드 주차 금지 구역</a></li>
+          <li><a href="/illegalareaguide">불법주정차 금지 구역</a></li>
+          <li className="on"><a href="/guickguide">공유킥보드 주차 금지 구역</a></li>
         </ul>
       </div>
 
       <div className="section">
-        <div className="sub-title"><h2>불법주정차 금지 구역</h2></div>
+        <div className="sub-title"><h2>공유킥보드 주차 금지 구역</h2></div>
 
         <div className="tabMenu">
           <Box>
@@ -441,4 +441,4 @@ const IllegalAreaGuide = () => {
     </div>
   );
 };
-export default IllegalAreaGuide;
+export default QuickGuide;

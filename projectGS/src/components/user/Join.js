@@ -120,74 +120,77 @@ const Join = () => {
   };
 
   return (
-    <div>
-      <h1>회원가입</h1>
-      <form>
-        <div>아이디</div>
-        <input
-          className="id"
-          type="text"
-          size="20"
-          defaultValue=""
-          ref={idRef}
-          onChange={idChange}
-          placeholder="아이디 입력(6-20자)"
-        />
-        <div>비밀번호</div>
-        <input
-          className="pw"
-          type="password"
-          size="20"
-          defaultValue=""
-          ref={pwRef}
-          placeholder="비밀번호 입력(문자, 숫자, 특수문자 포함 8-20자)"
-        />
-        <div>비밀번호 재입력</div>
-        <input
-          className="pwck"
-          type="password"
-          size="20"
-          defaultValue=""
-          ref={pwCkRef}
-          placeholder="비밀번호 재입력"
-        />
-        <div>이름</div>
-        <input
-          className="name"
-          type="text"
-          size="20"
-          defaultValue=""
-          ref={nameRef}
-          placeholder="이름 입력"
-        />
-        <div>이메일</div>
-        <input
-          className="email"
-          type="email"
-          size="20"
-          defaultValue=""
-          ref={mailRef}
-          placeholder="이메일 주소 입력"
-        />
-        <div>핸드폰</div>
-        <input
-          className="tel"
-          type="text"
-          size="20"
-          defaultValue=""
-          ref={telRef}
-          placeholder="휴대폰 번호 입력"
-          onKeyPress={onKeyPress}
-        />
-        <div>
+    <div id="Join">
+      <div className="memberSection">
+        <div className="sub-title"><h2>회원가입</h2></div>
+        
+        <form>
+          <div>아이디</div>
           <input
-            className="sign_up"
-            type="button"
-            value="회원가입"
-            onClick={handleRegister}
+            className="id"
+            type="text"
+            size="20"
+            defaultValue=""
+            ref={idRef}
+            onChange={idChange}
+            placeholder="아이디 입력(6-20자)"
           />
-        </div>
-      </form>
+          <div>비밀번호</div>
+          <input
+            className="pw"
+            type="password"
+            size="20"
+            defaultValue=""
+            ref={pwRef}
+            placeholder="비밀번호 입력(문자, 숫자, 특수문자 포함 8-20자)"
+          />
+          <div>비밀번호 재입력</div>
+          <input
+            className="pwck"
+            type="password"
+            size="20"
+            defaultValue=""
+            ref={pwCkRef}
+            placeholder="비밀번호 재입력"
+          />
+          <div>이름</div>
+          <input
+            className="name"
+            type="text"
+            size="20"
+            defaultValue=""
+            ref={nameRef}
+            placeholder="이름 입력"
+          />
+          <div>이메일</div>
+          <input
+            className="email"
+            type="email"
+            size="20"
+            defaultValue=""
+            ref={mailRef}
+            placeholder="이메일 주소 입력"
+          />
+          <div>핸드폰</div>
+          <input
+            className="tel"
+            type="text"
+            size="20"
+            defaultValue=""
+            ref={telRef}
+            placeholder="휴대폰 번호 입력"
+            onKeyPress={onKeyPress}
+          />
+          <div>
+            <input
+              className="sign_up"
+              type="button"
+              value="회원가입"
+              onClick={handleRegister}
+            />
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

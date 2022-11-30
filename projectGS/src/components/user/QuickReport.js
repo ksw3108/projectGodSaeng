@@ -8,7 +8,7 @@ import * as server_bridge from '../../controller/server_bridge';
 
 import "../../css/user/sub.scss";
 
-const Report = () => {
+const QuickReport = () => {
   // ==============================================
   const navigate = useNavigate();
 
@@ -37,8 +37,8 @@ const Report = () => {
     console.log(CATEGORY_VALUE);
   }; // data(인자)를 받아 lifeArr(select name 속성) LIFE_VALUE의 값에 반영한다.
 
-  // 이미지 파일 업로드 & 미리보기 =====================================
 
+  // 이미지 파일 업로드 & 미리보기 =====================================
   const [imageSrc, setImageSrc] = useState('');
 
   const encodeFileToBase64 = (fileBlob) => {
@@ -71,12 +71,13 @@ const Report = () => {
 
     if (res.data === 'success') {
       console.log('성공', res.data);
-      alert('신고 접수가 완료되었습니다.');
+      // alert('신고 접수가 완료되었습니다.');
+      navigate('/reportend');
     } else {
       console.log('실패', res.data);
       alert('신고 접수가 정상적으로 이루어지지 않았습니다.');
     }
-    navigate('/');
+    // navigate('/');
   };
 
   // 카카오 주소 검색 API ===============================================
@@ -119,10 +120,15 @@ const Report = () => {
     setText('');
   };
 
+  // const toggleOn = (e) => {
+  //   e.target.classList.toggle('on');
+  // }
+
   // 개인정보 동의 내용 숨기기
   const [value, setValue] = useState(true);
-  function onClickHide() {
+  function onClickHide(e) {
     setValue((value) => !value);
+    e.target.classList.toggle('on');
   }
 
   return (
@@ -130,13 +136,13 @@ const Report = () => {
       <div className="subTop">
         <h1>불법주정차 신고</h1>
         <ul>
-          <li className="on"><a href="report">불법주정차 신고</a></li>
-          <li><a href="/quickreport">공유킥보드 신고</a></li>
+          <li><a href="/report">불법주정차 신고</a></li>
+          <li className="on"><a href="/quickreport">공유킥보드 신고</a></li>
         </ul>
       </div>
 
       <div className="container section">
-        <div className="sub-title"><h2>불법주정차 신고</h2></div>
+        <div className="sub-title"><h2>공유킥보드 신고</h2></div>
 
         <div className="reportProcess">
           <ul>
@@ -381,4 +387,4 @@ const Report = () => {
   );
 };
 
-export default Report;
+export default QuickReport;
