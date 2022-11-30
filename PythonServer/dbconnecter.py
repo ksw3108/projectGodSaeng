@@ -593,7 +593,7 @@ def report(request):  # 신고접수
 
     form_data = request.form.to_dict()
     timestamp = int(time.time())
-    path = 'images/' + str(timestamp)
+    path = 'static/images/' + str(timestamp)
     os.makedirs(path, exist_ok=True)  # 폴더 생성
     file = request.files["img"]
     # print('파일 이름', file)

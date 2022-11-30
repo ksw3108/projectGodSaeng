@@ -65,8 +65,9 @@ const DisposeDetail = () => {
         <br />
         신고 내용 : {data.NOTIFY_TXT}
         <br />
-        {/* 사진 : <img src={val.IMG_PATH} alt="사진샘플" /> */}
-        사진 : <img src="" alt="사진샘플" />
+        사진 :{' '}
+        <img src={server_bridge.py_url + '/' + data.IMG_PATH} alt="사진샘플" />
+        {/* 사진 : <img src="" alt="사진샘플" /> */}
         <br />
         신고 처리
         <br />
