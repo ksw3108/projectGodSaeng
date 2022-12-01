@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 
 import styles from './css/UserDetail.module.scss';
 import UserInfoContainer from './components/UserInfoContainer';
+import UserDisposeList from './UserDisposeList';
 //import PagedTable from './components/PagedTable';
 import * as server_bridege from '../../controller/server_bridge';
 const UserDetail = () => {
@@ -28,6 +29,7 @@ const UserDetail = () => {
       </div>
       <div className={styles.ud_item}>
         <div>개인 신고 내역</div>
+        <UserDisposeList user_idx={state.user_idx} />
       </div>
       <div className={styles.ud_item}>
         <div>포인트 이력</div>

@@ -7,6 +7,7 @@ import ContactPageIcon from '@mui/icons-material/ContactPage';
 import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 // import SettingsIcon from "@mui/icons-material/Settings";
 import CampaignIcon from '@mui/icons-material/Campaign';
+
 import { Outlet } from 'react-router-dom';
 import TopBar from '../not_using/TopBar';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -75,6 +76,16 @@ const Sidebar = () => {
                   >
                     <ContactPageIcon />
                     회원 관리
+                  </button>
+                </li>
+                <li className="sidebarListItem">
+                  <button
+                    onClick={() => {
+                      navigate('/home/boardmanage');
+                    }}
+                  >
+                    <ContentPasteIcon />
+                    게시판 관리
                   </button>
                 </li>
                 <li className="sidebarListItem">

@@ -125,7 +125,7 @@ const UserReportList = () => {
             </tr>
           </thead>
           <tbody>
-            {body.length > 0 ? (
+            {typeof body !== 'string' && body.length > 0 ? (
               body
                 .slice(page * itemcount - itemcount, page * itemcount)
                 .map((data, key) => (
@@ -149,19 +149,21 @@ const UserReportList = () => {
                 ))
             ) : (
               <tr>
-                <td>신고내역이 존재하지 않습니다!</td>
+                <td colSpan={4}></td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
       <div className="paging">
-        <Page //페이지네이션 객체(component/admin/Page.js)
-          page={page} //현재 페이지
-          totalcnt={totalcnt} //총 게시글 갯수
-          setPage={setCurrentPage} //페이징 처리함수
-          itemcount={itemcount} //한 페이지에 몇개를 보여줄건지를 뜻함
-        />
+        {typeof body !== 'string' && (
+          <Page //페이지네이션 객체(component/admin/Page.js)
+            page={page} //현재 페이지
+            totalcnt={totalcnt} //총 게시글 갯수
+            setPage={setCurrentPage} //페이징 처리함수
+            itemcount={itemcount} //한 페이지에 몇개를 보여줄건지를 뜻함
+          />
+        )}
       </div>
     </>
   );

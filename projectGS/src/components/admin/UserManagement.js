@@ -56,7 +56,7 @@ const UserManagement = () => {
           <button onClick={reset}>초기화</button>
         </div>
         <div className="userContainer">
-          {user.length > 0 && //사용자가 1명 이상일때만 리스트를 활성화
+          {typeof user !== 'string' && user.length > 0 ? ( //사용자가 1명 이상일때만 리스트를 활성화
             user.map((data, idx) => (
               <div
                 key={idx}
@@ -69,7 +69,10 @@ const UserManagement = () => {
                   <li>{data.USER_MAIL}</li>
                 </ul>
               </div>
-            ))}
+            ))
+          ) : (
+            <div></div>
+          )}
         </div>
       </div>
     </div>

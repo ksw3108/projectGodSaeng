@@ -31,7 +31,6 @@ def conn_db():  # 디비 커넥터(연결해주는 객체를 리턴)
 
         port=3307,
         client_flag=CLIENT.MULTI_STATEMENTS,
-
     )
 
 
@@ -74,7 +73,7 @@ def insert_data(data):  # insert 문 적용시의 사용예제
 # 221117 선우 여기서부터 관리자 기능
 
 
-def get_noti4admin(where_clause):
+def get_noti4admin(where_clause):  # 안쓰는 함수
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
@@ -96,10 +95,16 @@ def get_noti4admin(where_clause):
                    where_clause["category"],
                    where_clause["process"])
     try:
-        cursor.execute(sql)
-        res = cursor.fetchall()
-        close_conn(db)
-        return res
+        row_cnt = cursor.execute(sql)
+        # db.commit()
+        if row_cnt > 0:
+            res = cursor.fetchall()
+            close_conn(db)
+            return res
+        else:
+            close_conn(db)
+            return "nothing"
+
     except Exception as e:
         close_conn(db)
         return "err : " + str(e)
@@ -165,10 +170,8 @@ def insert_board(request):
         close_conn(db)
         return "err : " + str(e)
 
-# 공지사항 관리의 게시판 리스트
 
-
-def get_board_list(where_clause):
+def get_board_list(where_clause):  # 공지사항 관리의 게시판 리스트
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
@@ -182,9 +185,16 @@ def get_board_list(where_clause):
     sql += where_clause + " ORDER BY BOARD_IDX DESC;"
 
     try:
-        cursor.execute(sql)
-        close_conn(db)
-        return cursor.fetchall()
+        row_cnt = cursor.execute(sql)
+        # db.commit()
+        if row_cnt > 0:
+            res = cursor.fetchall()
+            close_conn(db)
+            return res
+        else:
+            close_conn(db)
+            return "nothing"
+
     except Exception as e:
         close_conn(db)
         return "err : " + str(e)
@@ -206,9 +216,16 @@ def select_board(board_idx):  # 게시판(공지사항)내용 상세보기(관�
     sql += " WHERE A.BOARD_IDX = %s;" % (board_idx)
 
     try:
-        cursor.execute(sql)
-        close_conn(db)
-        return cursor.fetchall()
+        row_cnt = cursor.execute(sql)
+        # db.commit()
+        if row_cnt > 0:
+            res = cursor.fetchall()
+            close_conn(db)
+            return res
+        else:
+            close_conn(db)
+            return "nothing"
+
     except Exception as e:
         close_conn(db)
         return "err : " + str(e)
@@ -395,16 +412,22 @@ def get_dispose_list(body_data):  # 신고 리스트
     print(sql)
 
     try:
-        cursor.execute(sql)
-        res = cursor.fetchall()
-        close_conn(db)
-        return res
+        row_cnt = cursor.execute(sql)
+        # db.commit()
+        if row_cnt > 0:
+            res = cursor.fetchall()
+            close_conn(db)
+            return res
+        else:
+            close_conn(db)
+            return "nothing"
+
     except Exception as e:
         close_conn(db)
         return "err : " + str(e)
 
 
-def get_dispose_list_detail(body_data):
+def get_dispose_list_detail(body_data):  # 신고내역상세보기
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
@@ -426,16 +449,22 @@ def get_dispose_list_detail(body_data):
     print(sql)
 
     try:
-        cursor.execute(sql)
-        res = cursor.fetchall()
-        close_conn(db)
-        return res
+        row_cnt = cursor.execute(sql)
+        # db.commit()
+        if row_cnt > 0:
+            res = cursor.fetchall()
+            close_conn(db)
+            return res
+        else:
+            close_conn(db)
+            return "nothing"
+
     except Exception as e:
         close_conn(db)
         return "err : " + str(e)
 
 
-def update_dispose(body_data):
+def update_dispose(body_data):  # 신고내역 수정하기
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
@@ -457,51 +486,26 @@ def login(data):  # 사용자 로그인
     print("로그인 데이터야 나와랏", data)
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
-    login_tuple = (data["id"], data["pw"])  # 입력하고자 하는 데이터의 튜플
-    sql = "SELECT * FROM USER WHERE USER_ID=%s AND USER_PW=%s;"
-
-    try:
-        cursor.execute(sql, login_tuple)
-        db.commit()
-        close_conn(db)
-        return cursor.fetchall()
-    except Exception as e:
-        close_conn(db)
-        return "err : " + str(e)
-
-
-def get_daily_summary_per_weeks2():
-    db = conn_db()
-    cursor = db.cursor(pymysql.cursors.DictCursor)
-
-    now = datetime.now()
-    before_one_weeks = now-timedelta(days=6)
-    now = now.strftime("%Y-%m-%d")
-    before_one_weeks = before_one_weeks.strftime("%Y-%m-%d")
-
-    sql = f"""   SELECT B.NOTIFY_DATE, C.NOTIFY_STATUS, B.CNT
-                FROM (
-                    SELECT A.NOTIFY_DATE, A.NOTIFY_PNUM, COUNT(*) AS CNT
-                    FROM (
-                            SELECT DATE_FORMAT(NOTIFY_DATE, "%Y-%m-%d") as NOTIFY_DATE, NOTIFY_PNUM
-                            FROM NOTIFY) AS A
-                    GROUP BY A.NOTIFY_DATE, A.NOTIFY_PNUM) AS B
-                LEFT JOIN PROCESS AS C ON B.NOTIFY_PNUM = C.NOTIFY_PNUM
-                WHERE B.NOTIFY_DATE>='{before_one_weeks}' AND B.NOTIFY_DATE<='{now}'; """
-
+    # login_tuple = (data["id"], data["pw"])  # 입력하고자 하는 데이터의 튜플
+    sql = f"SELECT * FROM USER WHERE USER_ID='{data['id']}' AND USER_PW='{data['pw']}';"
     print(sql)
-
     try:
-        cursor.execute(sql)
-        res = cursor.fetchall()
-        close_conn(db)
-        return res
+        row_cnt = cursor.execute(sql)
+        # db.commit()
+        if row_cnt > 0:
+            res = cursor.fetchall()
+            close_conn(db)
+            return res
+        else:
+            close_conn(db)
+            return "nothing"
+
     except Exception as e:
         close_conn(db)
         return "err : " + str(e)
 
 
-def get_daily_summary_per_weeks():
+def get_daily_summary_per_weeks():  # 1주일간 통계보기
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
@@ -520,16 +524,22 @@ def get_daily_summary_per_weeks():
     print(sql)
 
     try:
-        cursor.execute(sql)
-        res = cursor.fetchall()
-        close_conn(db)
-        return res
+        row_cnt = cursor.execute(sql)
+        # db.commit()
+        if row_cnt > 0:
+            res = cursor.fetchall()
+            close_conn(db)
+            return res
+        else:
+            close_conn(db)
+            return "nothing"
+
     except Exception as e:
         close_conn(db)
         return "err : " + str(e)
 
 
-def get_nofity_mini():
+def get_nofity_mini():  # 신고내역 미니리스트
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
@@ -549,16 +559,22 @@ def get_nofity_mini():
                 ORDER BY A.NOTIFY_IDX DESC;"""
 
     try:
-        cursor.execute(sql)
-        res = cursor.fetchall()
-        close_conn(db)
-        return res
+        row_cnt = cursor.execute(sql)
+        # db.commit()
+        if row_cnt > 0:
+            res = cursor.fetchall()
+            close_conn(db)
+            return res
+        else:
+            close_conn(db)
+            return "nothing"
+
     except Exception as e:
         close_conn(db)
         return "err : " + str(e)
 
 
-def get_board_list_mini():
+def get_board_list_mini():  # 공지사항 미니(관리자 메인)
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
@@ -572,9 +588,16 @@ def get_board_list_mini():
     sql += "ORDER BY BOARD_IDX DESC LIMIT 3;"
 
     try:
-        cursor.execute(sql)
-        close_conn(db)
-        return cursor.fetchall()
+        row_cnt = cursor.execute(sql)
+        # db.commit()
+        if row_cnt > 0:
+            res = cursor.fetchall()
+            close_conn(db)
+            return res
+        else:
+            close_conn(db)
+            return "nothing"
+
     except Exception as e:
         close_conn(db)
         return "err : " + str(e)
@@ -589,10 +612,16 @@ def adminlogin(data):  # 관리자 로그인
     sql = f"SELECT * FROM USER WHERE USER_ID='{data['id']}' AND USER_PW='{data['pw']}';"
     print(sql)
     try:
-        cursor.execute(sql)
+        row_cnt = cursor.execute(sql)
         # db.commit()
-        close_conn(db)
-        return cursor.fetchall()
+        if row_cnt > 0:
+            res = cursor.fetchall()
+            close_conn(db)
+            return res
+        else:
+            close_conn(db)
+            return "nothing"
+
     except Exception as e:
         close_conn(db)
         return "err : " + str(e)
@@ -631,7 +660,7 @@ def report(request):  # 신고접수
         return "err : " + str(e)
 
 
-def update_userinfo(body_data):
+def update_userinfo(body_data):  # 사용자 정보 수정하기
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
@@ -651,22 +680,29 @@ def update_userinfo(body_data):
         return "err : " + str(e)
 
 
-def get_user_info(body_data):
+def get_user_info(body_data):  # 사용자 상세 정보 가져오기
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
     sql = f"""SELECT * FROM USER WHERE USER_IDX={body_data["user_idx"]}; """
 
     try:
-        cursor.execute(sql)
-        close_conn(db)
-        return cursor.fetchall()
+        row_cnt = cursor.execute(sql)
+        # db.commit()
+        if row_cnt > 0:
+            res = cursor.fetchall()
+            close_conn(db)
+            return res
+        else:
+            close_conn(db)
+            return "nothing"
+
     except Exception as e:
         close_conn(db)
         return "err : " + str(e)
 
 
-def serch_user_info(body_data):
+def search_user_info(body_data):  # 사용자 목록 가져오기
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
@@ -677,9 +713,185 @@ def serch_user_info(body_data):
     sql += where + ";"
 
     try:
-        cursor.execute(sql)
+        row_cnt = cursor.execute(sql)
+        # db.commit()
+        if row_cnt > 0:
+            res = cursor.fetchall()
+            close_conn(db)
+            return res
+        else:
+            close_conn(db)
+            return "nothing"
+
+    except Exception as e:
         close_conn(db)
-        return cursor.fetchall()
+        return "err : " + str(e)
+
+
+def get_poit_list_by_user(body_data):  # 사용자별 포인트 리스트 가져오기
+    db = conn_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+
+    sql = f"""            
+            SELECT A.POINT_IDX, A.POINT_PLUS, A.POINT_MINUS, A.POINT_CHANGE, A.NOTIFY_IDX,
+             date_format(A.POINT_DATE, '%Y-%m-%d %H:%i') AS POINT_DATE
+            FROM POINT AS A
+            LEFT JOIN USER AS B ON A.USER_IDX=B.USER_IDX
+            WHERE B.USER_ID = '{body_data["user_id"]}'
+            ORDER BY A.POINT_IDX DESC;
+        """
+
+    try:
+        row_cnt = cursor.execute(sql)
+        # db.commit()
+        if row_cnt > 0:
+            res = cursor.fetchall()
+            close_conn(db)
+            return res
+        else:
+            close_conn(db)
+            return "nothing"
+
+    except Exception as e:
+        close_conn(db)
+        return "err : " + str(e)
+
+
+def insert_goods(request):  # 상품권 입력하기
+    form_data = request.form.to_dict()
+
+    path = 'static/goods'
+    os.makedirs(path, exist_ok=True)  # 폴더 생성
+    file = request.files["img"]
+    # print('파일 이름', file)
+    filename = secure_filename(file.filename)  # 파일명과 경로를 합치기
+    # print('파일 네임', filename)
+    file.save(os.path.join(path, filename))
+    file_dir = path+"/"+request.files["img"].filename
+    print(file_dir)
+
+    db = conn_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+
+    sql = f"""INSERT INTO GOODS(GOODS_NAME, GOODS_PRICE, GOODS_IMG) 
+                VALUES ('{form_data["name"]}', {form_data["price"]}, '{file_dir}'); """
+
+    try:
+        cursor.execute(sql)
+        db.commit()
+        return "success"
+    except Exception as e:
+        return "err : " + str(e)
+
+
+def get_goods_list():  # 상품권 리스트 가져오기
+    db = conn_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+
+    sql = "SELECT * FROM GOODS ORDER BY GOODS_PRICE ASC;"
+
+    try:
+        row_cnt = cursor.execute(sql)
+        # db.commit()
+        if row_cnt > 0:
+            res = cursor.fetchall()
+            close_conn(db)
+            return res
+        else:
+            close_conn(db)
+            return "nothing"
+
+    except Exception as e:
+        close_conn(db)
+        return "err : " + str(e)
+
+
+def delete_goods(body_data):  # 상품권 삭제
+
+    # file =request.files["notifile"]
+    db = conn_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+
+    sql = f"""DELETE FROM GOODS WHERE GOODS_IDX={body_data["goods_idx"]};"""
+    print(sql)
+
+    try:
+        cursor.execute(sql)
+        db.commit()
+        close_conn(db)
+        return "success"
+    except Exception as e:
+        return "err : " + str(e)
+
+
+def update_goods(request):  # 상품권 수정하기
+    form_data = request.form.to_dict()
+
+    path = 'static/goods'
+    img = ""
+    if len(request.files) > 0:
+        os.makedirs(path, exist_ok=True)  # 폴더 생성
+        file = request.files["img"]
+        # print('파일 이름', file)
+        filename = secure_filename(file.filename)  # 파일명과 경로를 합치기
+        # print('파일 네임', filename)
+        file.save(os.path.join(path, filename))
+        file_dir = path+"/"+request.files["img"].filename
+        print(file_dir)
+        img = ", GOODS_IMG='"+file_dir+"' "
+
+    db = conn_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+
+    sql = f"""UPDATE GOODS SET 
+                GOODS_NAME='{form_data["name"]}', 
+                GOODS_PRICE={form_data["price"]} 
+                {img} 
+                WHERE GOODS_IDX={form_data["goods_idx"]} ; """
+
+    try:
+        cursor.execute(sql)
+        db.commit()
+        return "success"
+    except Exception as e:
+        return "err : " + str(e)
+
+
+def get_dispose_list_byuser(body_data):  # 관리자) 사용자 관리 - 신고 리스트
+    db = conn_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+
+    sql = """   SELECT
+                    A.NOTIFY_IDX, A.USER_IDX, B.USER_NAME, B.USER_ID, B.USER_MAIL, B.USER_TEL, B.USER_OX,
+                    A.CATEGORY_IDX, C.CATEGORY, A.CAR_NUM, 
+                    date_format(A.NOTIFY_DATE, '%Y-%m-%d %H:%i:%S') AS NOTIFY_DATE, 
+                    A.NOTIFY_SPOT,
+                    A.NOTIFY_TXT, A.NOTIFY_PNUM, D.NOTIFY_STATUS, A.NOTIFY_RESULT,
+                    E.IMG_IDX, E.IMG_PATH                    
+                FROM IMG AS E
+                    LEFT JOIN NOTIFY    AS A ON E.NOTIFY_IDX    = A.NOTIFY_IDX
+                    LEFT JOIN USER      AS B ON A.USER_IDX      = B.USER_IDX
+                    LEFT JOIN CATEGORY  AS C ON A.CATEGORY_IDX  = C.CATEGORY_IDX
+                    LEFT JOIN PROCESS   AS D ON A.NOTIFY_PNUM   = D.NOTIFY_PNUM """
+
+    user_idx = body_data["user_idx"]
+
+    sql += " WHERE A.USER_IDX = " + str(user_idx) + " "
+    sql += " ORDER BY A.NOTIFY_IDX DESC;"
+
+    print(sql)
+
+    try:
+        row_cnt = cursor.execute(sql)
+        # db.commit()
+        if row_cnt > 0:
+            res = cursor.fetchall()
+            close_conn(db)
+            return res
+        else:
+            close_conn(db)
+            return "nothing"
+
     except Exception as e:
         close_conn(db)
         return "err : " + str(e)

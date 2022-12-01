@@ -19,6 +19,7 @@ import NoticeView from './components/user/NoticeView';
 import Point from './components/user/Point';
 import UserReportList from './components/user/UserReportList'; // 221130 선우 - 사용자 신고내역
 import UserReportView from './components/user/UserReportView'; // 221130 선우 -  사용자 신고 상세
+import MyPoint from './components/user/MyPoint';
 
 /* 221116 순아 사용자용 페이지 추가*/
 import Login from './components/user/Login';
@@ -37,6 +38,8 @@ import BoardView from './components/admin/BoardView';
 import DisposeDetail from './components/admin/DisposeDetail';
 import UserDetail from './components/admin/UserDetail';
 import AdminLayout from './components/admin/components/AdminLayout';
+import GoodsManagement from './components/admin/GoodsManagement';
+import GoodsView from './components/admin/GoodsView';
 
 /* 221116 순아 관리자용 페이지 추가*/
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -92,6 +95,8 @@ function App() {
             {/* 221130 선우 - 내 신고내역 */}
             <Route path="/myreportview" element={<UserReportView />} />
             {/* 221130 선우 - 내 신고내역 상세 */}
+            <Route path="/mypoint" element={<MyPoint />} />
+            {/* 221201 선우 - 내 포인트 조회 */}
           </Route>
           {/* ===================== 여기가 관리자단 ===================================*/}
           <Route path="/admin" element={<AdminLayout />}>
@@ -116,6 +121,10 @@ function App() {
             {/* 관리자 - 게시판 작성 */}
             <Route path="/admin/boardview" element={<BoardView />} />
             {/* 관리자 - 게시판 내용 보기 */}
+            <Route path="/admin/goodsmanage" element={<GoodsManagement />} />
+            {/* 관리자 - 상품권관리 */}
+            <Route path="/admin/goodsview" element={<GoodsView />} />
+            {/* 관리자 - 상품권상세 */}
           </Route>
           <Route path="*" element={<NotFound />} /> {/* 404 페이지 */}
         </Routes>

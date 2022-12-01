@@ -6,6 +6,7 @@ import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 import CampaignIcon from '@mui/icons-material/Campaign';
 import HouseIcon from '@mui/icons-material/House';
 import LogoutIcon from '@mui/icons-material/Logout';
+import MoneyIcon from '@mui/icons-material/Money';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styles from '../css/AdminLayout.module.scss';
 const AdminLayout = () => {
@@ -100,6 +101,16 @@ const AdminLayout = () => {
             >
               <ContactPageIcon />
               회원 관리(미완)
+            </button>
+          </li>
+          <li className="sidebarListItem">
+            <button
+              onClick={() => {
+                navigate('/admin/goodsmanage');
+              }}
+            >
+              <MoneyIcon />
+              상품권 관리
             </button>
           </li>
           {/* <li className="sidebarListItem">

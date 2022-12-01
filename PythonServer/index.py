@@ -49,17 +49,17 @@ def sel_data():
 
 
 # 이렇게 하면 Get 방식 post 방식 둘다 받을 수 있음.
-@app.route("/notilist4admin", methods=["GET", "POST"])
-def send_noti_list():  # 신고리스트
-    body_data = get_body_data(request)
-    sendData = dbconnecter.get_noti4admin(body_data)
-    return jsonify(sendData)
+# @app.route("/notilist4admin", methods=["GET", "POST"])
+# def send_noti_list():  # 신고리스트
+#     body_data = get_body_data(request)
+#     sendData = dbconnecter.get_noti4admin(body_data)
+#     return jsonify(sendData)
 
 
-@app.route("/updatenoti4admin", methods=["GET", "POST"])
-def updatenoti4admin():  # 신고글 수정
-    body_data = get_body_data(request)
-    return dbconnecter.get_noti4admin(body_data)
+# @app.route("/updatenoti4admin", methods=["GET", "POST"])
+# def updatenoti4admin():  # 신고글 수정
+#     body_data = get_body_data(request)
+#     return dbconnecter.get_noti4admin(body_data)
 
 
 @app.route("/uploadnoti", methods=["GET", "POST"])
@@ -193,7 +193,7 @@ def get_user_info():  # 유저 단일 데이터 가져오기
 @app.route("/getuserlist", methods=["GET", "POST"])
 def get_user_list():  # 유저 목록 가져오기
     body_data = get_body_data(request)
-    sendData = dbconnecter.serch_user_info(body_data)
+    sendData = dbconnecter.search_user_info(body_data)
     return jsonify(sendData)
 
 
@@ -213,6 +213,39 @@ def read_plate():  # 자동차 번호판 인식시키기
     res = ml_easyOCR.find_plate_no(file_dir)
 
     return jsonify({"result": res, "dir": file_dir})
+
+
+@app.route("/pointlistbyuser", methods=["GET", "POST"])
+def get_poit_list_by_user():  # 사용자 포인트 목록 가져오기
+    body_data = get_body_data(request)
+    sendData = dbconnecter.get_poit_list_by_user(body_data)
+    return jsonify(sendData)
+
+
+@app.route("/insertgoods", methods=["GET", "POST"])
+def insert_goods():  # 상품권 등록하기
+    sendData = dbconnecter.insert_goods(request)
+    return jsonify(sendData)
+
+
+@app.route("/goodslist", methods=["GET", "POST"])
+def get_goods_list():  # 사용자 포인트 목록 가져오기
+    body_data = get_body_data(request)
+    sendData = dbconnecter.get_goods_list()
+    return jsonify(sendData)
+
+
+@app.route("/updategoods", methods=["GET", "POST"])
+def update_goods():  # 사용자 포인트 목록 가져오기
+    sendData = dbconnecter.update_goods(request)
+    return jsonify(sendData)
+
+
+@app.route("/getDisposeListByuser", methods=["GET", "POST"])
+def get_dispose_list_byuser():  # 신고 리스트 받아오기
+    body_data = get_body_data(request)
+    sendData = dbconnecter.get_dispose_list_byuser(body_data)
+    return jsonify(sendData)
 
 
 if __name__ == "__main__":

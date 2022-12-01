@@ -61,7 +61,7 @@ const BoardManagement = () => {
           </tr>
         </thead>
         <tbody>
-          {board_list &&
+          {typeof board_list !== 'string' && board_list.length > 0 ? (
             board_list
               .slice(page * itemcount - itemcount, page * itemcount) //여기서 보여주려고 하는 리스트를 잘라내서 페이징 처리
               .map((data, key) => {
@@ -82,16 +82,23 @@ const BoardManagement = () => {
                     <td>{data.BOARD_DATE}</td>
                   </tr>
                 );
-              })}
+              })
+          ) : (
+            <tr>
+              <td colSpan={4}></td>
+            </tr>
+          )}
         </tbody>
       </table>
       <div>
-        <Page //페이지네이션 객체(component/admin/Page.js)
-          page={page} //현재 페이지
-          totalcnt={totalcnt} //총 게시글 갯수
-          setPage={setCurrentPage} //페이징 처리함수
-          itemcount={itemcount} //한 페이지에 몇개를 보여줄건지를 뜻함
-        />
+        {typeof body !== 'string' && (
+          <Page //페이지네이션 객체(component/admin/Page.js)
+            page={page} //현재 페이지
+            totalcnt={totalcnt} //총 게시글 갯수
+            setPage={setCurrentPage} //페이징 처리함수
+            itemcount={itemcount} //한 페이지에 몇개를 보여줄건지를 뜻함
+          />
+        )}
       </div>
     </div>
   );

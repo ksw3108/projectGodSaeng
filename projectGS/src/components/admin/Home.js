@@ -58,45 +58,74 @@ const Home = () => {
     //최근 1주일간 신고 통계
     const res = await server_bridge.axios_instace.get('/getDailySummary'); //통계표를 호출한다.
     let summary_json = res.data;
-    let filtered = Object.keys(summary_json).filter(
-      //일자만을 뺀 데이터
-      (element) => element !== 'NOTIFY_DATE',
-    );
-    let date_list = json2Arr(summary_json['NOTIFY_DATE']); //일자만을 리스트로 뽑아냄.
+    if (res.data !== 'nothing') {
+      //신고 기록이 있을 경우
+      let filtered = Object.keys(summary_json).filter(
+        //일자만을 뺀 데이터
+        (element) => element !== 'NOTIFY_DATE',
+      );
+      let date_list = json2Arr(summary_json['NOTIFY_DATE']); //일자만을 리스트로 뽑아냄.
 
-    const col_arr = ['1', '2', '3', '4'];
-    const difference = col_arr.filter((x) => !filtered.includes(x)); //만약에 신고 진행사항에 없는 내역이 있으면 찾아낸다.
-    if (difference.length > 0) {
-      //신고접수/담당자배치/처리중/처리 완료 중에 하나라도 없다면 없는 부분은 0처리(결측값 처리)
-      for (let j = 0; j < difference.length; j++) {
-        let nan_data = {};
-        for (let i = 0; i < date_list.length; i++) {
-          nan_data[i] = 0;
+      const col_arr = ['1', '2', '3', '4'];
+      const difference = col_arr.filter((x) => !filtered.includes(x)); //만약에 신고 진행사항에 없는 내역이 있으면 찾아낸다.
+      if (difference.length > 0) {
+        //신고접수/담당자배치/처리중/처리 완료 중에 하나라도 없다면 없는 부분은 0처리(결측값 처리)
+        for (let j = 0; j < difference.length; j++) {
+          let nan_data = {};
+          for (let i = 0; i < date_list.length; i++) {
+            nan_data[i] = 0;
+          }
+          summary_json[difference[j]] = nan_data;
         }
-        summary_json[difference[j]] = nan_data;
       }
-    }
-    let total_arr = [];
-    date_list.forEach((_date, idx) => {
+      let total_arr = [];
+      date_list.forEach((_date, idx) => {
+        //결측값 처리한 데이터를 표나 그래프에서 사용할 수 있도록 재구성한다.
+        let data = {
+          date: _date, //접수일
+          c1: json2Arr(summary_json[1])[idx], //신고접수
+          c2: json2Arr(summary_json[2])[idx], //담당자 배치
+          c3: json2Arr(summary_json[3])[idx], //처리중
+          c4: json2Arr(summary_json[4])[idx], //처리완료
+        };
+        total_arr.push(data);
+      });
+      let data_sum = {
+        //각 신고 프로세스별 합계
+        c1_sum: json2Arr(summary_json[1]).reduce((acc, val) => acc + val, 0),
+        c2_sum: json2Arr(summary_json[2]).reduce((acc, val) => acc + val, 0),
+        c3_sum: json2Arr(summary_json[3]).reduce((acc, val) => acc + val, 0),
+        c4_sum: json2Arr(summary_json[4]).reduce((acc, val) => acc + val, 0),
+      };
+      setSumData(data_sum);
+      setDailySummary(total_arr);
+    } else {
+      //신고기록이 없을 경우
+      let total_arr = [];
       //결측값 처리한 데이터를 표나 그래프에서 사용할 수 있도록 재구성한다.
+      var date = new Date();
+      var year = date.getFullYear();
+      var month = ('0' + (1 + date.getMonth())).slice(-2);
+      var day = ('0' + date.getDate()).slice(-2);
       let data = {
-        date: _date, //접수일
-        c1: json2Arr(summary_json[1])[idx], //신고접수
-        c2: json2Arr(summary_json[2])[idx], //담당자 배치
-        c3: json2Arr(summary_json[3])[idx], //처리중
-        c4: json2Arr(summary_json[4])[idx], //처리완료
+        date: year + '-' + month + '-' + day, //접수일
+        c1: 0, //신고접수
+        c2: 0, //담당자 배치
+        c3: 0, //처리중
+        c4: 0, //처리완료
       };
       total_arr.push(data);
-    });
-    let data_sum = {
-      //각 신고 프로세스별 합계
-      c1_sum: json2Arr(summary_json[1]).reduce((acc, val) => acc + val, 0),
-      c2_sum: json2Arr(summary_json[2]).reduce((acc, val) => acc + val, 0),
-      c3_sum: json2Arr(summary_json[3]).reduce((acc, val) => acc + val, 0),
-      c4_sum: json2Arr(summary_json[4]).reduce((acc, val) => acc + val, 0),
-    };
-    setSumData(data_sum);
-    setDailySummary(total_arr);
+
+      let data_sum = {
+        //각 신고 프로세스별 합계
+        c1_sum: 0,
+        c2_sum: 0,
+        c3_sum: 0,
+        c4_sum: 0,
+      };
+      setSumData(data_sum);
+      setDailySummary(total_arr);
+    }
   };
   return (
     <>
