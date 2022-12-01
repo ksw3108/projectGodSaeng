@@ -53,6 +53,8 @@ const DisposeReport = () => {
       process: proc_arr.length > 0 ? proc_arr : '',
       range: { start_date: start_date, end_date: end_date },
       category: cate === 'default' ? '' : parseInt(cate),
+      mode: 'admin',
+      user_id: window.sessionStorage.getItem('USER_ID'),
     };
     //console.log(req_data);
 
