@@ -186,7 +186,9 @@ const DisposeReport = () => {
 
                     <tr key={key}>
                       <td>{data.NOTIFY_IDX}</td>
-                      <td>{data.USER_NAME}</td>
+                      <td>
+                        {data.USER_NAME === null ? '비회원' : data.USER_NAME}
+                      </td>
                       <td>{data.NOTIFY_STATUS}</td>
                       <td>{data.CATEGORY}</td>
                       <td>{data.NOTIFY_DATE}</td>
