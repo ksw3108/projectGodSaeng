@@ -3,7 +3,8 @@ import * as server_bridge from '../../controller/server_bridge';
 import * as admin_ctrl from '../../controller/admin_ctrl';
 import { useNavigate, useLocation } from 'react-router-dom';
 import uuid from 'react-uuid';
-const DisposeDetail = () => {
+
+const UserReportView = () => {
   const { state } = useLocation(); //게시글 상세보기에서 받아온 해당 게시글의 데이터
   const [data, setDisposeData] = useState(admin_ctrl); //신고내역의 상세 내용
   const [process, setProcess] = useState([]); //신고 절차(DB의 PROCESS 테이블의 리스트)
@@ -18,24 +19,6 @@ const DisposeDetail = () => {
       setProcess(state.process);
     }
   }, []);
-
-  const updateDispose = async (NOTIFY_IDX) => {
-    //신고 내역 수정
-    if (window.confirm('정말로 수정하시겠습니까?')) {
-      const res = await server_bridge.axios_instace.post('/updateDispose', {
-        NOTIFY_IDX: NOTIFY_IDX, //신고 번호
-        NOTIFY_PNUM: processRef.current.value, //신고 처리 프로세스의 변경시 사용
-        NOTIFY_RESULT: resultRef.current.value, //산고 결과
-      });
-      if (res.data === 'success') {
-        alert('수정 성공');
-        navigate('/admin/disposereport');
-      } else {
-        console.log(res);
-        alert('수정 실패');
-      }
-    }
-  };
   return (
     <div>
       <div>
@@ -76,11 +59,12 @@ const DisposeDetail = () => {
           rows="10"
           defaultValue={data.NOTIFY_RESULT}
           ref={resultRef}
+          disabled
         ></textarea>
         <br />
-        <button onClick={() => updateDispose(data.NOTIFY_IDX)}>처리반영</button>
+        {/* <button onClick={() => updateDispose(data.NOTIFY_IDX)}>처리반영</button> */}
       </div>
     </div>
   );
 };
-export default DisposeDetail;
+export default UserReportView;

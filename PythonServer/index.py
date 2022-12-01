@@ -3,6 +3,7 @@ import json
 from flask import Flask, jsonify, request, send_file, Response, make_response
 from flask_cors import CORS  # 라이브러리 설치 필요 - pip install flask_cors
 import dbconnecter
+import ml_easyOCR
 from werkzeug.utils import secure_filename
 from functools import wraps
 import time
@@ -194,6 +195,24 @@ def get_user_list():  # 유저 목록 가져오기
     body_data = get_body_data(request)
     sendData = dbconnecter.serch_user_info(body_data)
     return jsonify(sendData)
+
+
+@app.route("/readplate", methods=["GET", "POST"])
+def read_plate():  # 자동차 번호판 인식시키기
+
+    timestamp = int(time.time())
+    path = 'static/images/plate/' + str(timestamp)
+    os.makedirs(path, exist_ok=True)  # 폴더 생성
+    file = request.files["img"]
+    # print('파일 이름', file)
+    filename = secure_filename(file.filename)  # 파일명과 경로를 합치기
+    # print('파일 네임', filename)
+    file.save(os.path.join(path, filename))
+    file_dir = path+"/"+request.files["img"].filename
+
+    res = ml_easyOCR.find_plate_no(file_dir)
+
+    return jsonify({"result": res, "dir": file_dir})
 
 
 if __name__ == "__main__":

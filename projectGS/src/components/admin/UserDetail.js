@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 import styles from './css/UserDetail.module.scss';
 import UserInfoContainer from './components/UserInfoContainer';
-import PagedTable from './components/PagedTable';
+//import PagedTable from './components/PagedTable';
 import * as server_bridege from '../../controller/server_bridge';
 const UserDetail = () => {
   const { state } = useLocation(); //state{user_idx:user_idx}
@@ -28,8 +28,6 @@ const UserDetail = () => {
       </div>
       <div className={styles.ud_item}>
         <div>개인 신고 내역</div>
-        <PagedTable />
-        {/* 공용으로 사용할 페이징 처리된 테이블 컨테이너 */}
       </div>
       <div className={styles.ud_item}>
         <div>포인트 이력</div>

@@ -17,6 +17,8 @@ import QuickGuide from './components/user/QuickGuide';
 import Notice from './components/user/Notice';
 import NoticeView from './components/user/NoticeView';
 import Point from './components/user/Point';
+import UserReportList from './components/user/UserReportList'; // 221130 선우 - 사용자 신고내역
+import UserReportView from './components/user/UserReportView'; // 221130 선우 -  사용자 신고 상세
 
 /* 221116 순아 사용자용 페이지 추가*/
 import Login from './components/user/Login';
@@ -86,6 +88,10 @@ function App() {
             <Route path="/login" element={<Login />} /> {/* 로그인 */}
             <Route path="/join" element={<Join />} /> {/* 회원가입 */}
             <Route path="/mypage" element={<MyPage />} /> {/* 마이페이지 */}
+            <Route path="/myreport" element={<UserReportList />} />
+            {/* 221130 선우 - 내 신고내역 */}
+            <Route path="/myreportview" element={<UserReportView />} />
+            {/* 221130 선우 - 내 신고내역 상세 */}
           </Route>
           {/* ===================== 여기가 관리자단 ===================================*/}
           <Route path="/admin" element={<AdminLayout />}>

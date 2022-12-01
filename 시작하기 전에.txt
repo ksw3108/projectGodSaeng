@@ -45,5 +45,11 @@ pip install cryptography
 pip install bcrypt  // 단방향 암호화해주는 파이썬 라이브러리
 pip install pyjwt  // jwt(json web token)을 암호화, 복호화해주는 라이브러리
 
+**** 선우 추가 ****
+//ai 모델 관련
+pip install opencv-python==4.5.5.64
+pip install easyocr
+pip install matplotlib
+
 3-1. 파이썬 서버의 실행
 C:\Project\AI_Source\AIProject\PythonServer> python index.py

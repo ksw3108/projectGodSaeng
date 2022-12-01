@@ -15,8 +15,9 @@ import AdminLogin from './AdminLogin';
 import * as server_bridge from '../../controller/server_bridge';
 
 import { useEffect, useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 const Home = () => {
+  const navigate = useNavigate();
   const [daily_summary, setDailySummary] = useState([]); //통계표/시각화 자료용 데이터표
   const [noti_list, setNotiList] = useState([]); //신고 리스트
   const [board_list, setBoardList] = useState([]); //공지사항 리스트
@@ -24,9 +25,18 @@ const Home = () => {
 
   useEffect(() => {
     //페이지가 렌더링될때마다 실행되는 hook
-    get_daily_summary();
-    get_notify_mini();
-    get_board_mini();
+    const session = window.sessionStorage;
+    if (
+      session.getItem('USER_ID') !== null &&
+      session.getItem('ADMIN_OX') !== 'O'
+    ) {
+      alert('잘못된 접근입니다! 메인 페이지로 이동합니다.');
+      navigate('/');
+    } else {
+      get_daily_summary();
+      get_notify_mini();
+      get_board_mini();
+    }
   }, []);
   const json2Arr = (obj) => {
     //json객체를 리스트화하는 함수

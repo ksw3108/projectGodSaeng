@@ -327,7 +327,7 @@ def get_process_list():  # 신고 프로세스 리스트
     return res
 
 
-def get_dispose_list(body_data):
+def get_dispose_list(body_data):  # 신고 리스트
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
@@ -347,6 +347,8 @@ def get_dispose_list(body_data):
     proc = list(body_data["process"])
     start_date = body_data["range"]["start_date"]
     end_date = body_data["range"]["end_date"]
+    mode = body_data["mode"]
+    user_id = body_data["user_id"]
 
     where_cate = " A.CATEGORY_IDX = " + str(cate) if cate != "" else ""
     where_proc = ""
@@ -379,6 +381,12 @@ def get_dispose_list(body_data):
         if where_temp != "":
             where_temp += " AND "
         where_temp += where_end_date + " 23:59:59' "
+
+    # 사용자 / 관리자의 보여주는 범위 처리
+    if mode == "user":
+        if where_temp != "":
+            where_temp += " AND "
+        where_temp += f" B.USER_ID = '{user_id}'"
 
     if where_temp != "":
         sql += " WHERE " + where_temp + " "
@@ -577,11 +585,12 @@ def adminlogin(data):  # 관리자 로그인
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
     adminlogin_tuple = (data["id"], data["pw"])
-    sql = "SELECT * FROM USER WHERE USER_ID=%s AND USER_PW=%s;"
-
+    #sql = "SELECT * FROM USER WHERE USER_ID=%s AND USER_PW=%s;"
+    sql = f"SELECT * FROM USER WHERE USER_ID='{data['id']}' AND USER_PW='{data['pw']}';"
+    print(sql)
     try:
-        cursor.execute(sql, adminlogin_tuple)
-        db.commit()
+        cursor.execute(sql)
+        # db.commit()
         close_conn(db)
         return cursor.fetchall()
     except Exception as e:
@@ -592,24 +601,27 @@ def adminlogin(data):  # 관리자 로그인
 def report(request):  # 신고접수
 
     form_data = request.form.to_dict()
-    timestamp = int(time.time())
-    path = 'images/' + str(timestamp)
-    os.makedirs(path, exist_ok=True)  # 폴더 생성
-    file = request.files["img"]
-    # print('파일 이름', file)
-    filename = secure_filename(file.filename)  # 파일명과 경로를 합치기
-    # print('파일 네임', filename)
-    file.save(os.path.join(path, filename))
-    file_dir = path+"/"+request.files["img"].filename
-    print(file_dir)
+    # 221130 선우 - 파일 업로드는 번호판 인식을 위해 먼저 업로드하므로 이제는 필요없음
+    # timestamp = int(time.time())
+    # path = 'static/images/' + str(timestamp)
+    # os.makedirs(path, exist_ok=True)  # 폴더 생성
+    # file = request.files["img"]
+    # # print('파일 이름', file)
+    # filename = secure_filename(file.filename)  # 파일명과 경로를 합치기
+    # # print('파일 네임', filename)
+    # file.save(os.path.join(path, filename))
+    # file_dir = path+"/"+request.files["img"].filename
+    # print(file_dir)
 
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
     sql = "INSERT INTO NOTIFY(CATEGORY_IDX, CAR_NUM, NOTIFY_SPOT, NOTIFY_DATE, NOTIFY_TXT, NOTIFY_PNUM) VALUES (%s, %s, %s, %s, %s, %s); \
         INSERT INTO IMG(NOTIFY_IDX, IMG_PATH) VALUES (LAST_INSERT_ID(), %s);"
+    # report_tuple = (form_data["category"], form_data["carNum"], form_data["notifySpot"],
+    #                 form_data["notifyDate"], form_data["notifyTxt"], "1", file_dir)
     report_tuple = (form_data["category"], form_data["carNum"], form_data["notifySpot"],
-                    form_data["notifyDate"], form_data["notifyTxt"], "1", file_dir)
+                    form_data["notifyDate"], form_data["notifyTxt"], "1", form_data["img_path"])
 
     try:
         cursor.execute(sql, report_tuple)
