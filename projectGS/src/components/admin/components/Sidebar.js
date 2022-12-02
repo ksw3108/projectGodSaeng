@@ -91,6 +91,7 @@ const Sidebar = () => {
                 회원 관리(미완)
               </button>
             </li>
+            {/* 2212022 선우 추가 */}
             <li className="sidebarListItem">
               <button
                 onClick={() => {

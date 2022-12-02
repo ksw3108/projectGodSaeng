@@ -179,6 +179,7 @@ def get_board_list(where_clause):  # 공지사항 관리의 게시판 리스트
               A.BOARD_IDX AS BOARD_IDX,
               date_format(A.BOARD_DATE, '%Y-%m-%d') AS BOARD_DATE,
               A.BOARD_TIT AS BOARD_TIT,
+              A.BOARD_TXT AS BOARD_TXT,
               B.USER_NAME AS USER_NAME
     FROM BOARD AS A
                    INNER JOIN USER AS B ON A.USER_IDX = B.USER_IDX """
