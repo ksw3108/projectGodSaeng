@@ -87,12 +87,14 @@ const PointListComponent = ({ user_id }) => {
       </div>
       <div>
         <div>
-          <Page //페이지네이션 객체(component/admin/Page.js)
-            page={page} //현재 페이지
-            totalcnt={totalcnt} //총 게시글 갯수
-            setPage={setCurrentPage} //페이징 처리함수
-            itemcount={itemcount} //한 페이지에 몇개를 보여줄건지를 뜻함
-          />
+          {typeof list !== 'string' && (
+            <Page //페이지네이션 객체(component/admin/Page.js)
+              page={page} //현재 페이지
+              totalcnt={totalcnt} //총 게시글 갯수
+              setPage={setCurrentPage} //페이징 처리함수
+              itemcount={itemcount} //한 페이지에 몇개를 보여줄건지를 뜻함
+            />
+          )}
         </div>
       </div>
     </div>

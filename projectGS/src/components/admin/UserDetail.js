@@ -34,7 +34,7 @@ const UserDetail = () => {
       </div>
       <div className={styles.ud_item}>
         <div>포인트 이력</div>
-        <PointListComponent user_id={user.USER_ID} />
+        <PointListComponent user_id={state.user_id} />
       </div>
     </div>
   );

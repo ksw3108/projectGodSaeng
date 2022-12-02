@@ -30,10 +30,10 @@ const UserManagement = () => {
     keywordRef.current.value = '';
     getUserList(0);
   };
-  const move2userdetail = (user_idx) => {
+  const move2userdetail = (user_idx, user_id) => {
     //사용자 상세 정보 보기로 이동
     navigate('/admin/userdetail', {
-      state: { user_idx: user_idx },
+      state: { user_idx: user_idx, user_id: user_id },
     });
   };
   return (
@@ -61,7 +61,7 @@ const UserManagement = () => {
               <div
                 key={idx}
                 className="userShow"
-                onClick={() => move2userdetail(data.USER_IDX)}
+                onClick={() => move2userdetail(data.USER_IDX, data.USER_ID)}
               >
                 <ul>
                   <li>{data.USER_NAME}</li>

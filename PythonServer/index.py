@@ -229,14 +229,14 @@ def insert_goods():  # 상품권 등록하기
 
 
 @app.route("/goodslist", methods=["GET", "POST"])
-def get_goods_list():  # 사용자 포인트 목록 가져오기
+def get_goods_list():  # 상품권 목록 가져오기
     body_data = get_body_data(request)
     sendData = dbconnecter.get_goods_list()
     return jsonify(sendData)
 
 
 @app.route("/updategoods", methods=["GET", "POST"])
-def update_goods():  # 사용자 포인트 목록 가져오기
+def update_goods():  # 상품권 수정하기
     sendData = dbconnecter.update_goods(request)
     return jsonify(sendData)
 
