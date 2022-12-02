@@ -28,16 +28,16 @@ const PointItem = ({ article }) => {
   };
 
   return (
-    <div>
+    <div className="goodsItem">
       <figure onClick={onClick}>
         <img src={article.img} alt="온누리상품권" />
         <figcaption>
-          <span className="brand">{article.brand}</span>
+          {/* <span className="brand">{article.brand}</span>
           <br />
           <div className="giftCard">{article.title}</div>
-          <br />
-          <span className="won">￦</span>
-          <span className="price">{addComma(article.price)}</span>
+          <br /> */}
+          <h4><span className="won">￦</span>
+          <span className="price">{addComma(article.price)}</span></h4>
         </figcaption>
       </figure>
     </div>

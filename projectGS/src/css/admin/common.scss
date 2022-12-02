@@ -1,0 +1,68 @@
+#Admin {
+    header {
+        width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+        position: fixed;
+        min-height: 60px;
+        background: #fff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        button {
+            padding: 10px 20px;
+            box-sizing: border-box;
+        }
+    }
+
+    .Contents {
+        padding: 40px;
+        box-sizing: border-box;
+
+        // .Wrap {
+        //     background: #fff;
+        //     border-radius: 20px;
+        //     padding: 60px;
+        //     box-sizing: border-box;
+        //     overflow: hidden;
+        // }
+    }
+}
+
+
+#SideBar {
+    width: 220px;
+    background: #191d73;
+    position: fixed;
+    bottom: 0;
+    height: calc(100vh - 60px);
+    padding: 20px 0;
+    box-sizing: border-box;
+
+    ul {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+
+        li {
+
+            button {
+                padding: 15px 20px;
+                box-sizing: border-box;
+                font-size: 18px;
+                color: #fff;
+                font-weight: 400;
+                display: block;
+
+                svg {
+                    vertical-align: middle;
+                    padding-right: 10px;
+                }
+            }
+        }
+    }
+}
+
+#AdminLayout {
+    width: calc(100% - 220px);
+    padding: 60px 0 0 220px;
+}
