@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as server_bridge from '../controller/server_bridge';
+import { Link } from 'react-router-dom';
 
 // Swiper-slider
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -122,7 +123,12 @@ const Main = () => {
             {typeof board_list !== 'string' && board_list.length > 0
               ? board_list.map((data, idx) => (
                   <div className="nBox">
-                    <a href="#">
+                    <Link
+                      to={'/noticeview'}
+                      state={{
+                        board_idx: data.BOARD_IDX,
+                      }}
+                    >
                       <div className="nBoxTxt">
                         <h3>{data.BOARD_TIT}</h3>
                         <p>{data.BOARD_TXT}</p>
@@ -131,7 +137,7 @@ const Main = () => {
                         <span className="nDate">2022-11-24</span>
                         <i className="xi-plus-thin"></i>
                       </div>
-                    </a>
+                    </Link>
                   </div>
                 ))
               : ''}
