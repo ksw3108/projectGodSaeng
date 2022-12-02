@@ -88,7 +88,7 @@ const Sidebar = () => {
                 }}
               >
                 <ContactPageIcon />
-                회원 관리(미완)
+                회원 관리
               </button>
             </li>
             {/* 2212022 선우 추가 */}
