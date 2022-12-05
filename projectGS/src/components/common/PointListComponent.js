@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import * as server_bridge from '../../controller/server_bridge';
 import Page from '../../components/admin/components/Page';
+import { Navigate } from 'react-router-dom';
 
 const PointListComponent = ({ user_id }) => {
   const [list, setPointList] = useState([]);
@@ -23,6 +24,7 @@ const PointListComponent = ({ user_id }) => {
         user_id: user_id,
       },
     );
+
     calculatePoint(response.data);
     setPointList(response.data);
     setCnt(response.data.length);
