@@ -1,16 +1,23 @@
-import { React, useState, useRef } from 'react';
+import React from 'react';
+import * as server_bridge from '../../controller/server_bridge';
+import { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import items from './Items';
 import PointItem from './PointItem';
-import PointOrder from './PointOrder';
-
-
-import gift_card_5000 from '../../images/5000.png';
-import gift_card_10000 from '../../images/10000.png';
-import gift_card_30000 from '../../images/30000.png';
 
 const Point = () => {
+  const [goods, setGoods] = useState([]);
   const navigate = useNavigate();
+  useEffect(() => {
+    getGoodsList();
+  }, []);
+
+  // console.log('구우웃~', goods);
+
+  const getGoodsList = async () => {
+    const response = await server_bridge.axios_instace.get('/goodslist');
+    setGoods(response.data);
+    console.log(response.data);
+  };
 
   // 1000의 자리마다 ,를 찍어주는 정규식
   const addComma = (num) => {
@@ -18,50 +25,34 @@ const Point = () => {
     return num.toString().replace(regexp, ',');
   };
 
-  const items = [
-    {
-      id: 1,
-      img: gift_card_5000,
-      brand: '소상공인시장진흥공단',
-      title: '온누리상품권 5천원권',
-      price: 5000,
-    },
-    {
-      id: 2,
-      img: gift_card_10000,
-      brand: '소상공인시장진흥공단',
-      title: '온누리상품권 1만원권',
-      price: 10000,
-    },
-    {
-      id: 3,
-      img: gift_card_30000,
-      brand: '소상공인시장진흥공단',
-      title: '온누리상품권 3만원권',
-      price: 30000,
-    },
-  ];
-
+  console.log('상품권 리스트', goods);
   return (
-    <div id="Point" className="subPage">
-      <div className="subTop">
-        <h1>포인트 사용</h1>
-      </div>
+    <div>
+      <form>
+        <div>포인트 사용</div>
+        {goods.map((item) => {
+          return <PointItem article={item} />;
+        })}
 
-      <div className="section">
-        <div className="sub-title"><h2>포인트 사용</h2></div>
-
-        <div className="goods">
-          <form>
-            <div className="goodsList"><span>소상공인시장진흥공단</span><h3>온누리상품권</h3></div>
-            <div className="goodsWrap">
-              {items.map((article) => {
-                return <PointItem article={article} />;
-              })}
-            </div>
-          </form>
-        </div>
-      </div>
+        {/* {goods.map((item, idx) => (
+          <div
+            key={idx}
+            article={item}
+            onClick={() => navigate('/point', { state: { data: item } })}
+            style={{ cursor: 'pointer' }}
+          >
+            <img
+              src={server_bridge.py_url + '/' + item.GOODS_IMG}
+              alt="상품권 이미지"
+            />
+            <br />
+            {item.GOODS_NAME}
+            <br />
+            {addComma(item.GOODS_PRICE)} 원
+            <br />
+          </div>
+        ))} */}
+      </form>
     </div>
   );
 };
