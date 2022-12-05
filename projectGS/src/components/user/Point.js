@@ -7,6 +7,7 @@ import PointItem from './PointItem';
 const Point = () => {
   const [goods, setGoods] = useState([]);
   const navigate = useNavigate();
+
   useEffect(() => {
     getGoodsList();
   }, []);
@@ -25,34 +26,28 @@ const Point = () => {
     return num.toString().replace(regexp, ',');
   };
 
-  console.log('상품권 리스트', goods);
+  // console.log('상품권 리스트', goods);
   return (
-    <div>
-      <form>
-        <div>포인트 사용</div>
-        {goods.map((item) => {
-          return <PointItem article={item} />;
-        })}
+    <div id="Point" className="subPage">
+      <div className="subTop">
+        <h1>포인트 사용</h1>
+      </div>
 
-        {/* {goods.map((item, idx) => (
-          <div
-            key={idx}
-            article={item}
-            onClick={() => navigate('/point', { state: { data: item } })}
-            style={{ cursor: 'pointer' }}
-          >
-            <img
-              src={server_bridge.py_url + '/' + item.GOODS_IMG}
-              alt="상품권 이미지"
-            />
-            <br />
-            {item.GOODS_NAME}
-            <br />
-            {addComma(item.GOODS_PRICE)} 원
-            <br />
-          </div>
-        ))} */}
-      </form>
+
+      <div className="section">
+        <div className="sub-title"><h2>포인트 사용</h2></div>
+
+        <div className="goods">
+          <form>
+            <div className="goodsList"><span>소상공인시장진흥공단</span><h3>온누리상품권</h3></div>
+            <div className="goodsWrap">
+            {goods.map((item) => {
+              return <PointItem article={item} />;
+            })}
+            </div>
+          </form>
+        </div>
+      </div>
     </div>
   );
 };
