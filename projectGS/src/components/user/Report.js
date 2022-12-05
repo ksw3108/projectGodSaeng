@@ -291,12 +291,14 @@ const Report = () => {
                     type="text"
                     placeholder="차량 번호"
                   />
+                  {/* 
+                  221202 선우 - 필요없는 버튼이라 주석처리
                   <input
                     type="button"
                     className="inputBtn"
                     value="수정"
                     onClick={onReset}
-                  />
+                  /> */}
                 </div>
               </div>
             </div>
