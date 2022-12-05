@@ -1,6 +1,7 @@
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import * as server_bridge from '../../controller/server_bridge';
 import { useState } from 'react';
+import $ from "jquery";
 
 import logo from "../../images/logo-w.png"
 import "../../css/user/common.scss"
@@ -19,15 +20,21 @@ const Header = () => {
 
   const [login, setLogin] = useState(false);
 
-
-  const onMouse = (e) => {
-    e.target.nextElementSibling.classList.add('on');
-    // e.target.classList.add('on');
-  };
+  // const onMouse = (e) => {
+  //   e.target.nextElementSibling.classList.add('on');
+  //   // e.target.classList.add('on');
+  // };
   
-  const leaveMouse = (e) => {
-    e.target.classList.remove('on');
-  };
+  // const leaveMouse = (e) => {
+  //   e.target.classList.remove('on');
+  // };
+
+  $('.menu > ul > li').mouseover(function(){
+    $(this).children('.submenu').addClass('on');
+  });
+  $('.menu > ul > li').mouseleave(function(){
+    $(this).children('.submenu').removeClass('on');
+  });
 
 
   return (
@@ -37,14 +44,14 @@ const Header = () => {
       </div>
       <div className="menu">
         <ul>
-          <li><a onMouseOver={onMouse}>불법주정차 신고</a>
-            <ul className="submenu sub1" onMouseOut={leaveMouse}>
+          <li><a>불법주정차 신고</a>
+            <ul className="submenu sub1">
               <li><a href="/report">불법주정차 신고</a></li>
               <li><a href="/quickreport">공유킥보드 신고</a></li>
             </ul>
           </li>
-          <li><a onMouseOver={onMouse}>불법주정차 안내</a>
-            <ul className="submenu sub2" onMouseOut={leaveMouse}>
+          <li><a>불법주정차 안내</a>
+            <ul className="submenu sub2">
               <li><a href="/illegalareaguide">주정차 금지 구역</a></li>
               <li><a href="/quickguide">공유킥보드 주차 금지 구역</a></li>
             </ul>

@@ -14,6 +14,7 @@ import Sidebar from './Sidebar';
 import { Outlet, useNavigate } from 'react-router-dom';
 
 import styles from '../css/AdminLayout.module.scss';
+import "../../../css/admin/sub.scss";
 
 
 const AdminLayout = () => {

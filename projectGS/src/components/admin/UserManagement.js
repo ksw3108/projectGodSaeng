@@ -37,10 +37,11 @@ const UserManagement = () => {
     });
   };
   return (
-    <div className="userManagement">
-      <div className="userTitleContainer">
-        <h3 className="userTitle">회원 관리</h3>
-        <div>
+    <div className="userManagement Contents">
+      <div className="userTitleContainer pageWrap">
+        <div className="adminTitle"><h3>회원 관리</h3></div>
+
+        {/* <div>
           <select ref={optionRef}>
             <option value="USER_ID">아이디</option>
             <option value="USER_NAME">이름</option>
@@ -54,7 +55,23 @@ const UserManagement = () => {
           />
           <button onClick={() => getUserList(1)}>검색</button>
           <button onClick={reset}>초기화</button>
+        </div> */}
+        
+        <div className="searchWrap">
+          <div className="searchCate">
+            <select ref={optionRef}>
+              <option value="USER_ID">아이디</option>
+              <option value="USER_NAME">이름</option>
+              <option value="USER_TEL">연락처</option>
+              <option value="USER_MAIL">이메일</option>
+            </select>
+          </div>
+          <input type="text" ref={keywordRef} className="searchTxt" />
+          <button onClick={() => getUserList(1)} className="searchBtn">검색</button>
+          
+          <button onClick={reset}>초기화</button>
         </div>
+        
         <div className="userContainer">
           {typeof user !== 'string' && user.length > 0 ? ( //사용자가 1명 이상일때만 리스트를 활성화
             user.map((data, idx) => (

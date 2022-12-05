@@ -14,7 +14,7 @@
 
 [class*=cell] {
     flex: 0 0 49%;
-    min-height: 300px;
+    min-height: 320px;
     padding: 40px;
     box-sizing: border-box;
 }
@@ -36,13 +36,25 @@
 
         .todoContainer {
             padding: 20px;
-
             border-radius: 10px;
             color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .cTitle {
+                font-weight: 500;
+                margin-right: 10px;
+            }
+
+            .todoCnt {
+                font-size: 32px;
+
+            }
         }
 
         .tc1 {
-            background: rgba(168, 148, 252, 0.9);
+            background: rgba(247, 115, 87, 1);
         }
 
         .tc2 {
@@ -57,9 +69,24 @@
             background: rgba(25, 29, 115, 0.9);
         }
 
-        .cTitle {
-            font-weight: 500;
-            margin-right: 10px;
-        }
+    }
+}
+
+.mainTitle {
+    margin-bottom: 15px;
+
+    h4 {
+        font-size: 18px;
+        color: #333;
+    }
+}
+
+.cell-a {
+    height: auto !important;
+    max-height: 320px;
+
+    .recharts-responsive-container {
+        padding-bottom: 20px;
+        box-sizing: border-box;
     }
 }

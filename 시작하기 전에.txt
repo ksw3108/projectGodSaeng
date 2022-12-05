@@ -11,6 +11,7 @@ yarn add @mui/material @emotion/react @emotion/styled @material-ui/icons
 
 **** 지형 추가 ****
 yarn add @mui/lab swiper
+yarn add jquery --save
 
 yarn add sass react-icons styled-components 
 yarn add react-router-dom

@@ -37,48 +37,52 @@ const DisposeDetail = () => {
     }
   };
   return (
-    <div>
-      <div>
-        - 신고자 정보 -<br />
-        {data.USER_OX === 'O' ? '회원' : '비회원신고'}
-        <br />
-        id : {data.USER_ID}
-        <br />
-        이메일 : {data.USER_MAIL}
-        <br />
-        전화번호 : {data.USER_TEL}
-      </div>
-      <div>
-        - 신고 내용 -<br />
-        차량번호 : {data.CAR_NUM}
-        <br />
-        장소 : {data.NOTIFY_SPOT}
-        <br />
-        처리 상태 :
-        <select key={uuid()} defaultValue={data.NOTIFY_PNUM} ref={processRef}>
-          {process.map((val2, key2) => (
-            <option key={key2} value={val2.NOTIFY_PNUM}>
-              {val2.NOTIFY_STATUS}
-            </option>
-          ))}
-        </select>
-        <br />
-        신고 내용 : {data.NOTIFY_TXT}
-        <br />
-        사진 :{' '}
-        <img src={server_bridge.py_url + '/' + data.IMG_PATH} alt="사진샘플" />
-        {/* 사진 : <img src="" alt="사진샘플" /> */}
-        <br />
-        신고 처리
-        <br />
-        <textarea
-          cols="30"
-          rows="10"
-          defaultValue={data.NOTIFY_RESULT}
-          ref={resultRef}
-        ></textarea>
-        <br />
-        <button onClick={() => updateDispose(data.NOTIFY_IDX)}>처리반영</button>
+    <div className="Contents">
+      <div className="pageWrap">
+        <div className="adminTitle"><h3>신고 처리</h3></div>
+
+        <div>
+          - 신고자 정보 -<br />
+          {data.USER_OX === 'O' ? '회원' : '비회원신고'}
+          <br />
+          id : {data.USER_ID}
+          <br />
+          이메일 : {data.USER_MAIL}
+          <br />
+          전화번호 : {data.USER_TEL}
+        </div>
+        <div>
+          - 신고 내용 -<br />
+          차량번호 : {data.CAR_NUM}
+          <br />
+          장소 : {data.NOTIFY_SPOT}
+          <br />
+          처리 상태 :
+          <select key={uuid()} defaultValue={data.NOTIFY_PNUM} ref={processRef}>
+            {process.map((val2, key2) => (
+              <option key={key2} value={val2.NOTIFY_PNUM}>
+                {val2.NOTIFY_STATUS}
+              </option>
+            ))}
+          </select>
+          <br />
+          신고 내용 : {data.NOTIFY_TXT}
+          <br />
+          사진 :{' '}
+          <img src={server_bridge.py_url + '/' + data.IMG_PATH} alt="사진샘플" />
+          {/* 사진 : <img src="" alt="사진샘플" /> */}
+          <br />
+          신고 처리
+          <br />
+          <textarea
+            cols="30"
+            rows="10"
+            defaultValue={data.NOTIFY_RESULT}
+            ref={resultRef}
+          ></textarea>
+          <br />
+          <button onClick={() => updateDispose(data.NOTIFY_IDX)}>처리반영</button>
+        </div>
       </div>
     </div>
   );

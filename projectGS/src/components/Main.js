@@ -12,9 +12,12 @@ import 'swiper/css/navigation';
 import '../css/user/main.scss';
 
 const Main = () => {
+  const itemcount = 3;
+
   useEffect(() => {
     getList();
   }, []);
+
   const [board_list, setList] = useState([]); // 게시판 리스트
   const module_test = async () => {
     //모듈화된 axios 객체 사용법
@@ -33,6 +36,7 @@ const Main = () => {
     //const res = await server_bridge.axios_instace.get("/pythonserver", { params: { testdata: "from_client" } });
     console.log(res.data);
   };
+  
   const getList = async () => {
     //게시글 리스트를 가져온다.
 
@@ -42,8 +46,11 @@ const Main = () => {
       where_clause: '',
     };
     const res = await server_bridge.axios_instace.post('/board_list', where);
+    
     setList(res.data);
   };
+
+
   return (
     <div id="Main">
       <div className="main-slider">
@@ -121,7 +128,7 @@ const Main = () => {
 
           <div className="nBoxWrap">
             {typeof board_list !== 'string' && board_list.length > 0
-              ? board_list.map((data, idx) => (
+              ? board_list.slice(itemcount).map((data, idx) => (
                   <div className="nBox">
                     <Link
                       to={'/noticeview'}
@@ -134,7 +141,7 @@ const Main = () => {
                         <p>{data.BOARD_TXT}</p>
                       </div>
                       <div className="nBoxBottom">
-                        <span className="nDate">2022-11-24</span>
+                        <span className="nDate">{data.BOARD_DATE}</span>
                         <i className="xi-plus-thin"></i>
                       </div>
                     </Link>
