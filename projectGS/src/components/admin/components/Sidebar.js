@@ -14,21 +14,23 @@ import { Outlet } from 'react-router-dom';
 import TopBar from '../not_using/TopBar';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRef } from 'react';
-import $ from "jquery";
+import $ from 'jquery';
 
 import '../../../css/admin/common.scss';
 
 const Sidebar = () => {
   const navigate = useNavigate();
 
-  const [menuOn, setMenuOn] = useState('');
-
-  useEffect(()=> {
-    $('.sidebarListItem button').not('li.userSiteGo button').click(function(){
-      $('.sidebarListItem').not(this.parent).removeClass('on')
-      $(this).parent('li').addClass('on');
-    });
-  },[]);
+  const [menuOn, setMenuOn] = useState('main');
+  const storageItems = window.sessionStorage.getItem('menu');
+  useEffect(() => {
+    $('.sidebarListItem button')
+      .not('li.userSiteGo button')
+      .click(function () {
+        $('.sidebarListItem').not(this.parent).removeClass('on');
+        $(this).parent('li').addClass('on');
+      });
+  }, []);
 
   return (
     <div id="SideBar">
@@ -36,37 +38,123 @@ const Sidebar = () => {
         <div className="sidebarMenu">
           <ul className="sidebarList userSite">
             <li className="sidebarListItem userSiteGo">
-              <button onClick={() => {window.open('/');}}><LaunchIcon />사이트 바로가기</button>
+              <button
+                onClick={() => {
+                  window.open('/');
+                }}
+              >
+                <LaunchIcon />
+                사이트 바로가기
+              </button>
             </li>
           </ul>
 
           <ul className="sidebarList adminSite">
-            <li className="sidebarListItem on">
-              <button onClick={() => {navigate('/admin');}}><HouseIcon />메인페이지</button>
+            <li
+              className={
+                'sidebarListItem ' +
+                (storageItems === null || storageItems === 'main' ? ' on ' : '')
+              }
+              id="main"
+            >
+              <button
+                onClick={() => {
+                  navigate('/admin');
+                  window.sessionStorage.setItem('menu', 'main');
+                }}
+              >
+                <HouseIcon />
+                메인페이지
+              </button>
             </li>
-            <li className="sidebarListItem">
-              <button onClick={() => {navigate('/admin/admininfo');}}><FaceIcon />관리자 정보 </button>
+            <li
+              className={
+                'sidebarListItem ' + (storageItems === 'info' ? ' on ' : '')
+              }
+              id="info"
+            >
+              <button
+                onClick={() => {
+                  navigate('/admin/admininfo');
+                  window.sessionStorage.setItem('menu', 'info');
+                }}
+              >
+                <FaceIcon />
+                관리자 정보{' '}
+              </button>
             </li>
           </ul>
 
           <ul className="sidebarList">
-            <li className="sidebarListItem">
-              <button onClick={() => {navigate('/admin/boardmanage');}}><CampaignIcon />공지사항 관리</button>
+            <li
+              className={
+                'sidebarListItem ' + (storageItems === 'board' ? ' on ' : '')
+              }
+              id="board"
+            >
+              <button
+                onClick={() => {
+                  navigate('/admin/boardmanage');
+                  window.sessionStorage.setItem('menu', 'board');
+                }}
+              >
+                <CampaignIcon />
+                공지사항 관리
+              </button>
             </li>
 
-            <li className="sidebarListItem">
-              <button onClick={() => {navigate('/admin/disposereport');}}><InventoryIcon />신고 처리</button>
+            <li
+              className={
+                'sidebarListItem ' + (storageItems === 'report' ? ' on ' : '')
+              }
+              id="report"
+            >
+              <button
+                onClick={() => {
+                  navigate('/admin/disposereport');
+                  window.sessionStorage.setItem('menu', 'report');
+                }}
+              >
+                <InventoryIcon />
+                신고 처리
+              </button>
             </li>
 
-            <li className="sidebarListItem">
-              <button onClick={() => {navigate('/admin/usermanage');}}><ContactPageIcon />회원 관리</button>
+            <li
+              className={
+                'sidebarListItem ' + (storageItems === 'user' ? ' on ' : '')
+              }
+              id="user"
+            >
+              <button
+                onClick={() => {
+                  navigate('/admin/usermanage');
+                  window.sessionStorage.setItem('menu', 'user');
+                }}
+              >
+                <ContactPageIcon />
+                회원 관리
+              </button>
             </li>
             {/* 2212022 선우 추가 */}
 
-            <li className="sidebarListItem">
-              <button onClick={() => {navigate('/admin/goodsmanage');}}><MoneyIcon />상품권 관리</button>
+            <li
+              className={
+                'sidebarListItem ' + (storageItems === 'goods' ? ' on ' : '')
+              }
+              id="goods"
+            >
+              <button
+                onClick={() => {
+                  navigate('/admin/goodsmanage');
+                  window.sessionStorage.setItem('menu', 'goods');
+                }}
+              >
+                <MoneyIcon />
+                상품권 관리
+              </button>
             </li>
-            
+
             {/* <li className="sidebarListItem">
               <button
                 onClick={() => {
