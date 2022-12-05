@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../../css/user/Join.scss';
 
 const Join = () => {
   // 페이지 이동 navigate
@@ -152,73 +153,91 @@ const Join = () => {
 
   return (
     <div id="Join">
-      <div className="memberSection">
+      <div className="jo">
         <div className="sub-title">
           <h2>회원가입</h2>
         </div>
 
-        <form>
-          <div>아이디</div>
-          <input
-            className="id"
-            type="text"
-            size="20"
-            defaultValue=""
-            ref={idRef}
-            onChange={idChange}
-            placeholder="아이디 입력(6-20자)"
-          />
-          <div>비밀번호</div>
-          <input
-            className="pw"
-            type="password"
-            size="20"
-            defaultValue=""
-            ref={pwRef}
-            placeholder="비밀번호 입력(문자, 숫자, 특수문자 포함 8-20자)"
-          />
-          <div>비밀번호 재입력</div>
-          <input
-            className="pwck"
-            type="password"
-            size="20"
-            defaultValue=""
-            ref={pwCkRef}
-            placeholder="비밀번호 재입력"
-          />
-          <div>이름</div>
-          <input
-            className="name"
-            type="text"
-            size="20"
-            defaultValue=""
-            ref={nameRef}
-            placeholder="이름 입력"
-          />
-          <div>이메일</div>
-          <input
-            className="email"
-            type="email"
-            size="20"
-            defaultValue=""
-            ref={mailRef}
-            placeholder="이메일 주소 입력"
-          />
-          <div>핸드폰</div>
-          <input
-            className="tel"
-            type="text"
-            size="20"
-            defaultValue=""
-            ref={telRef}
-            placeholder="휴대폰 번호 입력"
-            onKeyPress={onKeyPress}
-          />
+        <form className="form-join">
+          <div className="input-box">
+            <input
+              className="join_id"
+              type="text"
+              size="20"
+              defaultValue=""
+              ref={idRef}
+              onChange={idRef}
+              placeholder=" "
+            />
+            <label>아이디 (문자, 숫자 포함 6-20자)</label>
+          </div>
+
+          <div className="input-box">
+            <input
+              className="join_pw"
+              type="password"
+              size="20"
+              defaultValue=""
+              ref={pwRef}
+              placeholder=" "
+            />
+            <label>비밀번호 (문자, 숫자, 특수문자 포함 8-20자)</label>
+          </div>
+
+          <div className="input-box">
+            <input
+              className="join_pwck"
+              type="password"
+              size="20"
+              defaultValue=""
+              ref={pwCkRef}
+              placeholder=" "
+            />
+            <label>비밀번호 재입력</label>
+          </div>
+
+          <div className="input-box">
+            <input
+              className="join_name"
+              type="text"
+              size="20"
+              defaultValue=""
+              ref={nameRef}
+              placeholder=" "
+            />
+            <label>이름</label>
+          </div>
+
+          <div className="input-box">
+            <input
+              className="join_email"
+              type="email"
+              size="20"
+              defaultValue=""
+              ref={mailRef}
+              placeholder=" "
+            />
+            <label>이메일</label>
+          </div>
+
+          <div className="input-box">
+            <input
+              className="join_tel"
+              type="text"
+              size="20"
+              defaultValue=""
+              ref={telRef}
+              placeholder=" "
+              onKeyPress={onKeyPress}
+            />
+            <label>핸드폰</label>
+          </div>
+
           <div>
             <input
               className="sign_up"
               type="button"
-              value="회원가입"
+              value="가입하기"
               onClick={handleRegister}
             />
           </div>
