@@ -103,10 +103,11 @@ def join():  # 회원가입
     body_data = get_body_data(request)
     return dbconnecter.join(body_data)
 
-@app.route("/idCheck", methods=["GET","POST"])
+
+@app.route("/idCheck", methods=["GET", "POST"])
 def idCheck():  # 아이디 체크
     body_data = get_body_data(request)
-    return dbconnecter.idCheck(body_data) 
+    return dbconnecter.idCheck(body_data)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -151,6 +152,12 @@ def get_dispose_list():  # 신고 리스트 받아오기
 def update_dispose():  # 신고내역 수정하기
     body_data = get_body_data(request)
     sendData = dbconnecter.update_dispose(body_data)
+
+    if (int(body_data["NOTIFY_PNUM"]) == 4) & (body_data["USER_IDX"] != "non"):
+        body_data["POINT_MINUS"] = 0
+        body_data["POINT_PLUS"] = 50
+        body_data["POINT_CHANGE"] = "신고 보상에 대한 포인트 적립"
+        sendData = dbconnecter.insert_point(body_data)
     return jsonify(sendData)
 
 
@@ -252,8 +259,9 @@ def get_dispose_list_byuser():  # 신고 리스트 받아오기
     sendData = dbconnecter.get_dispose_list_byuser(body_data)
     return jsonify(sendData)
 
+
 @app.route("/insertpoint", methods=["GET", "POST"])
-def insert_point(): 
+def insert_point():
     body_data = get_body_data(request)
     # print("푹-",  body_data)
     sendData = dbconnecter.insert_point(body_data)
