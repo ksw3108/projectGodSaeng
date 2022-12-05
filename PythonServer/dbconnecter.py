@@ -317,7 +317,7 @@ def join(data):  # 회원가입
     #       """
 
     sql = f"""INSERT INTO USER(USER_ID, USER_PW, USER_NAME, USER_MAIL, USER_TEL, USER_OX)
-              VALUES ('{data["id"]}', '{pw}', '{data["name"]}', '{data["mail"]}', '{data["tel"]}', 'O');"""
+              VALUES ('{data["id"]}', '{data["pw"]}', '{data["name"]}', '{data["mail"]}', '{data["tel"]}', 'O');"""
     print("회원가입 sql", sql)
     
     try:
