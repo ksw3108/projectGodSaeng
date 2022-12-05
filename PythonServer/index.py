@@ -103,6 +103,11 @@ def join():  # 회원가입
     body_data = get_body_data(request)
     return dbconnecter.join(body_data)
 
+@app.route("/idCheck", methods=["GET","POST"])
+def idCheck():  # 아이디 체크
+    body_data = get_body_data(request)
+    return dbconnecter.idCheck(body_data) 
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():  # 사용자 로그인

@@ -330,6 +330,19 @@ def join(data):  # 회원가입
         return "err : " + str(e)
 
 
+def idCheck(data):  # 아이디 중복 가입 체크
+    db = conn_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+
+    sql = f"SELECT * FROM USER WHERE USER_ID='{data['id']}';"
+    print(sql)
+
+    cursor.execute(sql)
+    res = cursor.fetchall()
+    close_conn(db)
+    return res
+
+
 def get_cate_list():  # 카테고리 리스트
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)

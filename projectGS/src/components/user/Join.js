@@ -22,31 +22,61 @@ const Join = () => {
   const telRef = useRef();
 
   const [idComment, setIdComment] = useState('');
-  const [pwComment, setPwComment] = useState('');
-  const [pwCkComment, setPwCkComment] = useState('');
-  const [nameComment, setNameComment] = useState('');
-  const [mailComment, setMailComment] = useState('');
-  const [telComment, setTelComment] = useState('');
+  const [password, setPassword] = useState('');
 
   // 아이디 중복 체크
   var id = '';
   const idChange = (e) => {
     id = idRef.current.value;
-    axios.post('http://localhost:5000/idCheck', { id }).then((res) => {
-      setIdComment('');
-      if (res.data[0].CNT !== 0) {
-        setIdComment('중복된 아이디가 있습니다.');
-      } else {
-        setIdComment('');
-      }
-    });
+    axios
+      .post('http://localhost:5000/idCheck', { id: idRef.current.value })
+      .then((res) => {
+        console.log('아이디', id);
+        if (res === false) {
+          alert('사용 가능한 아이디입니다.');
+          setIdComment(res);
+        } else {
+          alert('중복된 아이디입니다. 다시 시도하세요.');
+          idRef.current.focus();
+          idRef.current.value = '';
+          setIdComment(res);
+        }
+        console.log('중복체크');
+      });
+  };
+
+  // 핸드폰번호 유효성 검사
+  const checkPhonenumber = (e) => {
+    // '-' 입력 시
+    var regExp = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
+    // 숫자만 입력시
+    var regExp2 = /^01(?:0|1|[6-9])(?:\d{3}|\d{4})\d{4}$/;
+    // 형식에 맞는 경우 true 리턴
+    console.log('핸드폰번호 유효성 검사 :: ', regExp.test(e.target.value));
+  };
+
+  //비밀번호 유효성 검사
+  const checkPassword = (e) => {
+    //  8 ~ 10자 영문, 숫자,  조합
+    var regExp =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/g;
+    // 형식에 맞는 경우 true 리턴
+    console.log('비밀번호 유효성 검사 :: ', regExp.test(e.target.value));
+  };
+
+  // 이메일 유효성 검사
+  const checkEmail = (e) => {
+    var regExp =
+      /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+    // 형식에 맞는 경우 true 리턴
+    console.log('이메일 유효성 검사 :: ', regExp.test(e.target.value));
   };
 
   const handleRegister = () => {
     // 아이디 입력 확인
     if (idRef.current.value === '' || idRef.current.value === undefined) {
       alert('아이디를 입력하세요');
-      pwRef.current.focus();
+      idRef.current.focus();
       return false;
     }
     // 비밀번호 입력 확인
@@ -64,7 +94,7 @@ const Join = () => {
     // 이름 입력 확인
     if (nameRef.current.value === '' || nameRef.current.value === undefined) {
       alert('이름을 입력하세요');
-      pwRef.current.focus();
+      nameRef.current.focus();
       return false;
     }
     // 이메일 입력 확인
