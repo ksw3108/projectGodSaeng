@@ -331,17 +331,31 @@ def join(data):  # 회원가입
 
 
 def idCheck(data):  # 아이디 중복 가입 체크
+    print("데이터 출력", data)
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
-    sql = f"SELECT * FROM USER WHERE USER_ID='{data['id']}';"
+    sql = f"SELECT COUNT(*) AS CNT FROM USER WHERE USER_ID='{data['id']}';"
     print(sql)
 
-    cursor.execute(sql)
-    res = cursor.fetchall()
-    close_conn(db)
-    return res
+    try:
+        row_cnt = cursor.execute(sql)
+        # db.commit()
+        if row_cnt > 0:
+            res = cursor.fetchall()
+            close_conn(db)
+            return res
+        else:
+            close_conn(db)
+            return "nothing"
 
+    except IntegrityError as ie :
+        close_conn(db)
+        return "ierr : " + str(ie)
+
+    except Exception as e:
+        close_conn(db)
+        return "err : " + str(e)
 
 def get_cate_list():  # 카테고리 리스트
     db = conn_db()

@@ -6,15 +6,17 @@ const DisposeListMini = ({ data }) => {
   const moveToDetail = async (_data) => {
     //신고내역 상세페이지 이동
     const proc = await server_bridge.axios_instace.get('/get_process_list');
-    navigate('/home/disposedetail', {
+    navigate('/admin/disposedetail', {
       state: { data: _data, process: proc.data },
     });
   };
 
   return (
     <div className="cell-c">
-      <div className="mainTitle"><h4>신고 내역</h4></div>
-      
+      <div className="mainTitle">
+        <h4>신고 내역</h4>
+      </div>
+
       {typeof data !== 'string' && data.length > 0 ? (
         data.map((val, idx) => (
           <div key={idx}>
