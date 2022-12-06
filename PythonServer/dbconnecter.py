@@ -319,7 +319,7 @@ def join(data):  # 회원가입
     sql = f"""INSERT INTO USER(USER_ID, USER_PW, USER_NAME, USER_MAIL, USER_TEL, USER_OX)
               VALUES ('{data["id"]}', '{data["pw"]}', '{data["name"]}', '{data["mail"]}', '{data["tel"]}', 'O');"""
     print("회원가입 sql", sql)
-    
+
     try:
         cursor.execute(sql)
         db.commit()
@@ -349,13 +349,14 @@ def idCheck(data):  # 아이디 중복 가입 체크
             close_conn(db)
             return "nothing"
 
-    except IntegrityError as ie :
+    except IntegrityError as ie:
         close_conn(db)
         return "ierr : " + str(ie)
 
     except Exception as e:
         close_conn(db)
         return "err : " + str(e)
+
 
 def get_cate_list():  # 카테고리 리스트
     db = conn_db()
@@ -387,6 +388,7 @@ def get_dispose_list(body_data):  # 신고 리스트
                     A.NOTIFY_IDX, A.USER_IDX, B.USER_NAME, B.USER_ID, B.USER_MAIL, B.USER_TEL, B.USER_OX,
                     A.CATEGORY_IDX, C.CATEGORY, A.CAR_NUM, 
                     date_format(A.NOTIFY_DATE, '%Y-%m-%d %H:%i:%S') AS NOTIFY_DATE, 
+                    date_format(A.NOTIFY_REPORT_DATE, '%Y-%m-%d %H:%i:%S') AS NOTIFY_REPORT_DATE, 
                     A.NOTIFY_SPOT,
                     A.NOTIFY_TXT, A.NOTIFY_PNUM, D.NOTIFY_STATUS, A.NOTIFY_RESULT,
                     E.IMG_IDX, E.IMG_PATH                    
@@ -413,9 +415,10 @@ def get_dispose_list(body_data):  # 신고 리스트
             where_proc += " A.NOTIFY_PNUM = " + str(proc_val)
         where_proc += ")"
 
-    where_start_date = " A.NOTIFY_DATE >='" + \
+    where_start_date = f""" A.{body_data["dateopt"]} >='""" + \
         start_date if start_date != "" else ""
-    where_end_date = " A.NOTIFY_DATE <='"+end_date if end_date != "" else ""
+    where_end_date = f""" A.{body_data["dateopt"]} <='""" + \
+        end_date if end_date != "" else ""
 
     where_temp = ""
 
@@ -939,8 +942,8 @@ def insert_point(body_data):  # 포인트 증감
     print("타입 확인", type(body_data["NOTIFY_IDX"]))
 
     sql = f"""INSERT INTO """
-    
-    if body_data["NOTIFY_IDX"] !=  None:
+
+    if body_data["NOTIFY_IDX"] != None:
         sql2 = f"""POINT(NOTIFY_IDX, USER_IDX, POINT_PLUS, POINT_MINUS, POINT_CHANGE)
             VALUES(
                 '{body_data["NOTIFY_IDX"]}', 
@@ -951,7 +954,7 @@ def insert_point(body_data):  # 포인트 증감
                  );"""
         # sql += sql2 + ";"
         sql += sql2
-    else :
+    else:
         sql3 = f"""POINT(USER_IDX, POINT_PLUS, POINT_MINUS, POINT_CHANGE)
             VALUES(
                 '{body_data["USER_IDX"]}',
@@ -959,8 +962,8 @@ def insert_point(body_data):  # 포인트 증감
                 '{body_data["POINT_MINUS"]}',
                 '{body_data["POINT_CHANGE"]}'
                  );"""
-        # sql += sql3 + ";" 
-        sql += sql3 
+        # sql += sql3 + ";"
+        sql += sql3
 
     print('sql출력', sql)
     # print('타입', type of body_data["NOTIFY_IDX"])
