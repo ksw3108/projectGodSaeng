@@ -161,6 +161,7 @@ const Join = () => {
               size="20"
               defaultValue=""
               ref={idRef}
+              onChange={idChange}
               placeholder=" "
             />
             <label>아이디 (문자, 숫자 포함 6-20자)</label>
