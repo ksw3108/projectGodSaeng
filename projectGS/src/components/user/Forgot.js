@@ -1,5 +1,5 @@
 import React from 'react';
-import './Forgot.scss';
+import '../../css/user/Forgot.scss';
 
 const Forgot = () => {
   return (

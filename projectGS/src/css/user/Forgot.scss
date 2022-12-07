@@ -1,6 +1,5 @@
-#Login {
-
-    .log {
+#findpw {
+    .find {
         width: 100%;
         max-width: 850px;
         margin: 50px auto;
@@ -23,7 +22,7 @@
         }
     }
 
-    .form-login {
+    .form-find {
         margin-top: 100px;
         width: 100px;
         margin: 0 auto;
@@ -31,14 +30,14 @@
         display: inline;
     }
 
-    .input-box {
+    .input-find {
         position: relative;
         margin: 10px 0;
     }
 
-    // id, pw ////////////////////////////////////////////
-    .id_login,
-    .pw_login {
+    // id, email ////////////////////////////////////////////
+    .id_find,
+    .email_find {
         color: #DEF1FA;
         background: transparent;
         border: none;
@@ -48,21 +47,21 @@
         padding-top: 30px;
     }
 
-    .id_login::placeholder,
-    .pw_login::placeholder {
+    .id_find::placeholder,
+    .email_find::placeholder {
         color: transparent;
     }
 
-    .id_login:placeholder-shown+label,
-    .pw_login:placeholder-shown+label {
+    .id_find:placeholder-shown+label,
+    .email_find:placeholder-shown+label {
         color: #DEF1FA;
         font-size: 14pt;
         top: 15px;
     }
 
-    .id_login:focus+label,
+    .id_find:focus+label,
     label,
-    .pw_login:focus+label,
+    .email_find:focus+label,
     label {
         color: #6db5cf;
         font-size: 10pt;
@@ -76,29 +75,16 @@
         -o-transition: all 0.2s ease;
     }
 
-    .id_login:focus,
-    .id:not(:placeholder-shown),
-    .pw_login:focus,
-    .pw:not(:placeholder-shown) {
+    .id_find:focus,
+    .id_find:not(:placeholder-shown),
+    .email_find:focus,
+    .email_find:not(:placeholder-shown) {
         border-bottom: solid 1px #6db5cf;
         outline: none;
     }
 
-
-    .login_pw,
-    .gaip {
-        color: #DEF1FA;
-        display: inline-block;
-        text-align: center;
-    }
-
-    a.login_pw {
-        padding-top: 30px;
-        padding-right: 197px;
-    }
-
     // button ////////////////////////////////////////////
-    .btn-login[type=button] {
+    .btn-f[type=button] {
         background-color: #0f4391;
         border: none;
         color: #ffffff;
@@ -122,13 +108,13 @@
         transition: all 0.2s;
     }
 
-    .btn-login[type=button]:hover {
+    .btn-f[type=button]:hover {
         margin-top: 15px;
         margin-bottom: 5px;
         box-shadow: 0px 0px 0px 0px #004F6F;
     }
 
-    .btn_log {
+    .btn_find {
         width: 100%;
         padding: 10px 0;
         box-sizing: border-box;
