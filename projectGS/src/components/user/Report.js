@@ -1,483 +1,307 @@
-import React, { useState, useRef } from 'react';
-import DaumPostcode from 'react-daum-postcode';
 import axios from 'axios';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import * as server_bridge from '../../controller/server_bridge';
+import '../../css/user/Join.scss';
 
-import '../../css/user/sub.scss';
-
-const Report = () => {
-  // ==============================================
+const Join = () => {
+  // 페이지 이동 navigate
   const navigate = useNavigate();
 
-  const categoryRef = useRef();
-  const imgRef = useRef();
-  const carNumRef = useRef();
-  const notifySpotRef = useRef();
-  const notifyDateRef = useRef();
-  const notifyTxtRef = useRef();
-  const userTelRef = useRef();
-
-  const [category, setCategory] = useState('');
-  const [img, setImg] = useState('');
-  const [carNum, setCarNum] = useState('');
-  const [notifySpot, setNotifySpot] = useState('');
-  const [notifyDate, setNotifyDate] = useState();
-  const [notifyTxt, setNotifyTxt] = useState('');
-  const [notifyPnum, setNotifyPnum] = useState('');
-  const [userTel, setUserTel] = useState('');
-
-  // 신고 유형 선택 ====================================================
-  let CATEGORY_VALUE = ''; // 값이 계속 바뀌기 때문에 let으로 선언.
-  const { register, handleSubmit } = useForm(); //ref의 선택자인 register
-  const onSubmit = (data) => {
-    CATEGORY_VALUE = data.lifeArr;
-    console.log(CATEGORY_VALUE);
-  }; // data(인자)를 받아 lifeArr(select name 속성) LIFE_VALUE의 값에 반영한다.
-
-  // 이미지 파일 업로드 & 미리보기 =====================================
-
-  const [imageSrc, setImageSrc] = useState('');
-  //221130 선우 - 이미지 인식을 위해 업로드한 파일의 경로를 저장하는 state
-  const [uploadedSrc, setUploadedSrc] = useState('');
-
-  const encodeFileToBase64 = (fileBlob) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(fileBlob);
-    return new Promise((resolve) => {
-      reader.onload = () => {
-        setImageSrc(reader.result);
-        resolve();
-      };
-    });
-  };
-
-  const recognitionPlateNo = async (e) => {
-    //번호판 인식
-    //const plateImg = imgRef.current.files[0];
-    const plateImg = e.target.files[0];
-
-    const formData = new FormData(); //서버에 넘겨줄 데이터 객체
-    formData.append('img', plateImg);
-
-    setImageSrc(server_bridge.py_url + '/static/images/loading.gif'); //로딩중 이미지 세팅
-
-    const response = await server_bridge.axios_instace.post(
-      //서버에 번호판 인식 요청
-      'readplate',
-      formData,
-      {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      },
-    );
-    const result = response.data; // {dir : "파일이 저장된 경로", result:"번호판 인식 결과"}
-
-    encodeFileToBase64(plateImg); //번호판 이미지 세팅
-    carNumRef.current.value = result.result; //인식한 번호판 결과를 인풋에 전달
-    setUploadedSrc(result.dir); //저장된 번호판 이미지파일의 경로를 세팅
-  };
-
-  const writeReport = async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(); //서버에 넘겨줄 데이터 객체
-    formData.append('category', categoryRef.current.value);
-    // formData.append('img', imgRef.current.files[0]);
-    // formData.append('img_path', imgRef.current.files[0].name);
-    //console.log('이미지파일 이름', imgRef.current.files[0].name); // 파일명 확인
-    formData.append('img_path', uploadedSrc); //221130 선우 - 번호판 인식을 위해 이미 파일 업로드를 했으므로 다시 업로드할 필요가 없음
-    formData.append('carNum', carNumRef.current.value);
-    formData.append('notifySpot', notifySpotRef.current.value);
-    formData.append('notifyDate', notifyDateRef.current.value);
-    formData.append('notifyTxt', notifyTxtRef.current.value);
-    formData.append('user_idx', window.sessionStorage.getItem('USER_IDX'));
-
-    const res = await server_bridge.axios_instace.post('/report', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-
-    if (res.data === 'success') {
-      console.log('성공', res.data);
-      // alert('신고 접수가 완료되었습니다.');
-      navigate('/reportend');
-    } else {
-      console.log('실패', res.data);
-      alert('신고 접수가 정상적으로 이루어지지 않았습니다.');
+  // 로컬 회원가입 엔터키 입력시 자동 버튼 클릭
+  const onKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleRegister();
     }
-    // navigate('/');
   };
 
-  // 카카오 주소 검색 API ===============================================
-  const [openPostcode, setOpenPostcode] = useState(false);
-  const [address, setAddress] = useState('');
-  const selectAddress = (data) => {
-    // console.log(`
-    //             주소: ${data.address},
-    //             우편번호: ${data.zonecode}
-    //         `);
-    setOpenPostcode(false);
+  // 아이디 패스워드 닉네임 인풋태그 Ref
+  const idRef = useRef();
+  const pwRef = useRef();
+  const pwCkRef = useRef();
+  const nameRef = useRef();
+  const mailRef = useRef();
+  const telRef = useRef();
+  const checkEmailRef = useRef();
+  const checkPasswordRef = useRef();
+  const checkPhonenumberRef = useRef();
+
+  const [idComment, setIdComment] = useState('');
+  const [pwComment, setPwComment] = useState('');
+  const [emailComment, setEmailComment] = useState('');
+  const [phoneComment, setPhoneComment] = useState('');
+
+  // 아이디 중복 체크
+  var id = '';
+  const idChange = (e) => {
+    id = idRef.current.value;
+    axios.post('http://localhost:5000/idCheck', { id }).then((res) => {
+      setIdComment('');
+      // console.log(res);
+      // console.log(res.data);
+      if (res.data[0].CNT != 0) {
+        setIdComment('중복된 아이디가 있습니다.');
+      } else {
+        setIdComment('');
+      }
+    });
   };
 
-  const handle = {
-    // 버튼 클릭 이벤트
-    clickButton: () => {
-      setOpenPostcode((current) => !current);
-    },
-    // // 주소 선택 이벤트
-    // selectAddress: (data) => {
-    //   console.log(`
-    //             주소: ${data.address},
-    //             우편번호: ${data.zonecode}
-    //         `);
-    // },
+  //비밀번호 유효성 검사
+  const checkPassword = (e) => {
+    //  8 ~ 10자 영문, 숫자, 문자  조합
+    var regExp =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/g;
+    // 형식에 맞는 경우 true 리턴
+    console.log('비밀번호 유효성 검사 :: ', regExp.test(e));
+    console.log(regExp.test(e));
+
+    // if (regExp.test(e.target.value) == false) {
+    //   setPwComment(
+    //     '비밀번호는 영어, 숫자, 특수문자를 포함해 총 8글자 이상이어야 합니다.',
+    //   );
+    // } else {
+    //   setPwComment('');
+    // }
+
+    return regExp.test(e);
   };
 
-  const onCompletePost = (data) => {
-    console.log(data.address);
-    setAddress(data.address);
-    setOpenPostcode(false);
+  // 이메일 유효성 검사
+  const checkEmail = (e) => {
+    var regExp =
+      /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+    // 형식에 맞는 경우 true 리턴
+    // console.log('이메일 유효성 검사 :: ', regExp.test(e.target.value));
+    // console.log(regExp.test(e.target.value));
+
+    // if (regExp.test(e.target.value) == false) {
+    //   setEmailComment('올바른 이메일 형식이 아닙니다.');
+    // } else {
+    //   setEmailComment('');
+    // }
+
+    return regExp.test(e);
   };
 
-  const [text, setText] = useState('');
-  const onChange = (e) => {
-    setText(e.target.value);
+  // 핸드폰번호 유효성 검사
+  const checkPhonenumber = (e) => {
+    // '-' 입력 시
+    var regExp = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
+    // 숫자만 입력시
+    var regExp2 = /^01(?:0|1|[6-9])(?:\d{3}|\d{4})\d{4}$/;
+    // 형식에 맞는 경우 true 리턴
+    // console.log('핸드폰번호 유효성 검사 :: ', regExp2.test(e.target.value));
+    // console.log(regExp.test(e.target.value));
+
+    // if (regExp2.test(e.target.value) == false) {
+    //   setPhoneComment("'-'없이 번호만 입력해주세요");
+    // } else {
+    //   setPhoneComment('');
+    // }
+
+    return regExp2.test(e);
   };
 
-  const onReset = () => {
-    setText('');
-  };
+  const handleRegister = () => {
+    // 아이디 입력 확인
+    if (idRef.current.value === '' || idRef.current.value === undefined) {
+      alert('아이디를 입력하세요');
+      idRef.current.focus();
+      return false;
+    }
+    // 비밀번호 입력 확인
+    if (pwRef.current.value === '' || pwRef.current.value === undefined) {
+      alert('비밀번호를 입력하세요');
+      pwRef.current.focus();
+      return false;
+    }
+    // 비밀번호 재입력 확인
+    if (pwCkRef.current.value === '' || pwCkRef.current.value === undefined) {
+      alert('비밀번호를 재입력하세요');
+      pwCkRef.current.focus();
+      return false;
+    }
+    // 이름 입력 확인
+    if (nameRef.current.value === '' || nameRef.current.value === undefined) {
+      alert('이름을 입력하세요');
+      nameRef.current.focus();
+      return false;
+    }
+    // 이메일 입력 확인
+    if (mailRef.current.value === '' || mailRef.current.value === undefined) {
+      alert('이메일을 입력하세요');
+      mailRef.current.focus();
+      return false;
+    }
+    // 휴대폰 번호 입력 확인
+    if (telRef.current.value === '' || telRef.current.value === undefined) {
+      alert('핸드폰 번호를 입력하세요');
+      telRef.current.focus();
+      return false;
+    }
 
-  // 개인정보 동의 내용 숨기기
-  const [value, setValue] = useState(true);
-  function onClickHide() {
-    setValue((value) => !value);
-  }
+    // 비밀번호 와 비밀번호 체크 값 비교
+    if (pwRef.current.value !== pwCkRef.current.value) {
+      alert('비밀번호가 서로 다릅니다');
+      pwCkRef.current.focus();
+      return false;
+    }
+
+    // 비밀번호 유효성 검사
+    if (checkPassword(pwRef.current.value) == false) {
+      setPwComment('비밀번호 형식이 아닙니다');
+      pwRef.current.focus();
+      return false;
+    }
+
+    // 이메일 유효성 검사
+    if (checkEmail(mailRef.current.value) == false) {
+      setEmailComment('이메일 형식이 아닙니다');
+      mailRef.current.focus();
+      return false;
+    }
+
+    // 핸드폰 유효성 검사
+    if (checkPhonenumber(telRef.current.value) == false) {
+      setPhoneComment('핸드폰 형식이 아닙니다');
+      telRef.current.focus();
+      return false;
+    }
+
+    // axios
+    //   .post('http://localhost:5000/join', {
+    //     id: idRef.current.value,
+    //     pw: pwRef.current.value,
+    //     name: nameRef.current.value,
+    //     mail: mailRef.current.value,
+    //     tel: telRef.current.value,
+    //   })
+    //   .then((res) => {
+    //     console.log(res);
+    //     //회원가입에 성공하면
+    //     if (res.data === 'success') {
+    //       alert('회원가입 성공');
+    //       //로그인 페이지로 이동
+    //       navigate('/login');
+    //     } else {
+    //       // 회원가입에 실패하면 input value 초기화
+    //       idRef.current.value = '';
+    //       pwRef.current.value = '';
+    //       pwCkRef.current.value = '';
+    //       nameRef.current.value = '';
+    //       mailRef.current.value = '';
+    //       telRef.current.value = '';
+
+    //       // 회원가입 페이지로 이동
+    //       navigate('/join');
+    //     }
+    //   })
+    //   .catch((e) => {
+    //     console.error(e);
+    //   });
+  };
 
   return (
-    <div id="Report" className="subPage">
-      <div className="subTop">
-        <h1>불법주정차 신고</h1>
-        <ul>
-          <li className="on">
-            <a href="report">불법주정차 신고</a>
-          </li>
-          <li>
-            <a href="/quickreport">공유킥보드 신고</a>
-          </li>
-        </ul>
-      </div>
-
-      <div className="container section">
+    <div id="Join">
+      <div className="jo">
         <div className="sub-title">
-          <h2>불법주정차 신고</h2>
+          <h2>회원가입</h2>
         </div>
 
-        <div className="reportProcess">
-          <ul>
-            <li className="on">
-              <span>1</span>신고서 작성
-            </li>
-            <li>
-              <i></i>
-              <i></i>
-              <i></i>
-            </li>
-            <li>
-              <span>2</span>접수 완료
-            </li>
-          </ul>
-        </div>
+        <form className="form-join">
+          <div className="input-box">
+            <p>{idComment}</p>
+            <input
+              className="join_id"
+              type="text"
+              size="20"
+              defaultValue=""
+              ref={idRef}
+              onChange={idChange}
+              placeholder=" "
+            />
+            <label>아이디 (문자, 숫자 포함 6-20자)</label>
+          </div>
 
-        <div className="reportForm">
-          <form onSubmit={writeReport}>
-            <div className="row">
-              <div className="col-2 col-sm-12">
-                <div className="rTitle">
-                  <h3>불법 주정차 유형</h3>
-                </div>
-              </div>
-              <div className="col-10 col-sm-12">
-                <div className="reportCate">
-                  <select
-                    name="category"
-                    className="category"
-                    ref={categoryRef}
-                  >
-                    <option value="none">선택하세요</option>
-                    <option value="01">소화전</option>
-                    <option value="02">교차로 모퉁이</option>
-                    <option value="03">버스 정류소</option>
-                    <option value="04">횡단보도</option>
-                    <option value="05">어린이 보호구역</option>
-                    <option value="06">장애인 전용구역</option>
-                    <option value="07">소방차 전용구역</option>
-                    <option value="08">친환경차 충전구역</option>
-                    <option value="09">기타</option>
-                  </select>
-                  {/* <ul name="category" className="category" ref={categoryRef}>
-                    <li><button value="01">소화전</button></li>
-                    <li><button value="02">교차로 모퉁이</button></li>
-                    <li><button value="03">버스정류소</button></li>
-                    <li><button value="04">횡단보도</button></li>
-                    <li><button value="05">어린이 보호구역</button></li>
-                    <li><button value="06">장애인 전용구역</button></li>
-                    <li><button value="07">소방차 전용구역</button></li>
-                    <li><button value="08">친환경차 충전구역</button></li>
-                    <li><button value="09">기타</button></li>
-                  </ul> */}
-                </div>
-              </div>
-            </div>
+          <div className="input-box">
+            <p>{pwComment}</p>
+            <input
+              className="join_pw"
+              type="password"
+              size="20"
+              defaultValue=""
+              ref={pwRef}
+              placeholder=" "
+              onBlur={checkPassword}
+            />
+            <label>비밀번호 (문자, 숫자, 특수문자 포함 8-20자)</label>
+          </div>
 
-            <div className="row">
-              <div className="col-2 col-sm-12">
-                <div className="rTitle">
-                  <h3>사진 업로드</h3>
-                </div>
-              </div>
-              <div className="col-10 col-sm-12">
-                {/* 
-                221130 선우 - 혹시 또 쓸지 몰라 주석처리만 해놨음
-                <input
-                  className="img reportImg"
-                  name="img"
-                  id="img"
-                  ref={imgRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    encodeFileToBase64(e.target.files[0]);
-                  }}
-                /> */}
-                <input
-                  className="img reportImg"
-                  name="img"
-                  id="img"
-                  ref={imgRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={recognitionPlateNo}
-                />
+          <div className="input-box">
+            <input
+              className="join_pwck"
+              type="password"
+              size="20"
+              defaultValue=""
+              ref={pwCkRef}
+              placeholder=" "
+            />
+            <label>비밀번호 재입력</label>
+          </div>
 
-                {imageSrc && (
-                  <div className="viewImg">
-                    <img src={imageSrc} alt="preview-img" />
-                  </div>
-                )}
-              </div>
-            </div>
+          <div className="input-box">
+            <input
+              className="join_name"
+              type="text"
+              size="20"
+              defaultValue=""
+              ref={nameRef}
+              placeholder=" "
+            />
+            <label>이름</label>
+          </div>
 
-            <div className="row">
-              <div className="col-2 col-sm-12">
-                <div className="rTitle">
-                  <h3>차량 번호</h3>
-                </div>
-              </div>
+          <div className="input-box">
+            <p>{emailComment}</p>
+            <input
+              className="join_email"
+              type="email"
+              size="20"
+              defaultValue=""
+              ref={mailRef}
+              placeholder=" "
+              onBlur={checkEmail}
+            />
+            <label>이메일</label>
+          </div>
 
-              <div className="col-10 col-sm-12">
-                <div className="inputWrap">
-                  {/* <input
-                    className="carNum"
-                    name="carNum"
-                    ref={carNumRef}
-                    type="text"
-                    placeholder="차량 번호"
-                    value={text}
-                    onChange={onChange}
-                  /> */}
-                  <input
-                    className="carNum"
-                    name="carNum"
-                    ref={carNumRef}
-                    type="text"
-                    placeholder="차량 번호"
-                  />
-                  {/* <input
-                    type="button"
-                    className="inputBtn"
-                    value="수정"
-                    onClick={onReset}
-                  /> */}
-                </div>
-              </div>
-            </div>
+          <div className="input-box">
+            <p>{phoneComment}</p>
+            <input
+              className="join_tel"
+              type="text"
+              size="20"
+              defaultValue=""
+              ref={telRef}
+              placeholder=" "
+              onKeyPress={onKeyPress}
+              onBlur={checkPhonenumber}
+            />
+            <label>핸드폰('-'없이 숫자만 입력)</label>
+          </div>
 
-            <div className="row">
-              <div className="col-2 col-sm-12">
-                <div className="rTitle">
-                  <h3>발생 일자</h3>
-                </div>
-              </div>
-              <div className="col-10 col-sm-12">
-                <input
-                  className="notifyDate half"
-                  name="notifyDate"
-                  type="datetime-local"
-                  ref={notifyDateRef}
-                />
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-2 col-sm-12">
-                <div className="rTitle">
-                  <h3>발생 지역</h3>
-                </div>
-              </div>
-              <div className="col-10 col-sm-12">
-                <div className="inputWrap inputWrap2">
-                  <input
-                    className="notifySpot"
-                    name="notifySpot"
-                    ref={notifySpotRef}
-                    type="text"
-                    placeholder="장소를 입력해주세요"
-                    onClick={handle.clickButton}
-                    defaultValue={address}
-                  />
-                  <input
-                    type="button"
-                    className="inputBtn"
-                    value="우편번호 찾기"
-                    onClick={handle.clickButton}
-                  />
-                </div>
-                {openPostcode && (
-                  <div className="postWrap">
-                    <DaumPostcode
-                      onComplete={onCompletePost} // 값을 선택할 경우 실행되는 이벤트
-                      autoClose={false} // 값을 선택할 경우 사용되는 DOM을 제거하여 자동 닫힘 설정
-                      defaultQuery="" // 팝업을 열때 기본적으로 입력되는 검색어
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-2 col-sm-12">
-                <div className="rTitle">
-                  <h3>신고 내용</h3>
-                </div>
-              </div>
-              <div className="col-10 col-sm-12">
-                <textarea
-                  className="notifyTxt"
-                  name="notifyTxt"
-                  ref={notifyTxtRef}
-                  placeholder="불법 주정차 위반 사항을 입력해주세요"
-                />
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-2 col-sm-12">
-                <div className="rTitle">
-                  <h3>휴대전화</h3>
-                </div>
-              </div>
-
-              <div className="col-10 col-sm-12">
-                <div className="col-12">
-                  <input
-                    className="userTel half"
-                    name="userTel"
-                    ref={userTelRef}
-                    type="text"
-                    placeholder="핸드폰 번호를 입력해주세요"
-                  />
-                </div>
-
-                <div className="col-12">
-                  {/* <input type="radio" id="checkOk" name="privacyCk" />
-                  <label for="checkOk">예</label>
-                  <input type="radio" id="checkNo" name="privacyCk" />
-                  <label for="checkNo">아니오</label> */}
-
-                  <div className="half checkWrap">
-                    <input type="checkbox" id="checkOk" />
-                    <label for="checkOk">개인정보 수집 동의</label>
-
-                    <button
-                      type="button"
-                      className="privacyBtn"
-                      onClick={onClickHide}
-                    >
-                      내용보기
-                    </button>
-                  </div>
-                  {value === false && (
-                    <div className="privacyTxt">
-                      <strong>
-                        1. 개인정보의 수집 및 이용 목적(개인정보보호법 제15조)
-                      </strong>
-                      <br />
-                      안전꽹과리는 관계법령 등에서 정하는 소관 업무의 수행을
-                      위하여 다음과 같이 개인정보를 수집 및 이용합니다. 수집된
-                      개인정보는 정해진 목적 이외의 용도로는 이용되지 않으며
-                      수집 목적이 변경될 경우 사전에 알리고 동의를 받을
-                      예정입니다.
-                      <br />※ 관계법령 등 : 민원사무 처리에 관한 법률 및 동법
-                      시행령, 행정안전부의 설치와 운영에 관한 법률, 전자정부법
-                      및 동법 시행령 등 <br />
-                      <br />
-                      가. 민원사무 접수·처리·사후관리 서비스 제공민원신청서에
-                      포함된 개인정보는 민원의 접수·처리 등 소관 업무 수행을
-                      위해 행정·공공기관에서 이용합니다. <br />
-                      나. 타 행정·공공기관 시스템 이용민원사무의 전자적 처리를
-                      위해 내부적으로 타 시스템 연계 및 이용 시 개인정보를
-                      이용합니다. <br />
-                      다. 안전꽹과리 정책지원 안전꽹과리 서비스 향상 및
-                      정책평가를 위하여 접수된 민원은 관계 법령에 따라 분석·평가
-                      및 처리결과의 사후관리를 시행합니다.
-                      <br />
-                      <br />
-                      <strong>
-                        2. 수집하는 개인정보의 항목(개인정보보호법 제15조,
-                        제16조)
-                      </strong>
-                      <br />
-                      가. 필수항목: 휴대전화 <br />
-                      나. 선택항목: 성명, 기업명, 이메일 <br />
-                      다. 자동수집항목: IP(Internet Protocol)주소, 이용내용의
-                      기록- 부정한 방법으로 타인명의를 사용하는 경우에 대비하기
-                      위해 정보이용내역 등을 자동수집 합니다. <br />※ 부정한
-                      방법으로 타인명의 사용 시, 주민등록법 제37조(벌칙)에 의해
-                      처벌 받을 수 있습니다. <br />
-                      <br />
-                      <strong>
-                        3. 개인정보의 보유 및 이용기간(공공기록물 관리에 관한
-                        법률 시행령 제26조)
-                      </strong>
-                      <br />
-                      안전꽹과리는 원칙적으로 개인정보 보존기간이 경과하거나,
-                      처리목적이 달성된 경우에는 지체 없이 개인정보를
-                      파기합니다. 다만, 다른 법령에 따라 보존하여야 하는
-                      경우에는 그러하지 않을 수 있습니다. <br />
-                      1) 신고, 제안: 10년 <br />
-                      2) 회원정보: 회원탈퇴시 즉시 파기 <br />
-                      3) 자동수집항목 중 IP주소: 1년 <br />
-                      4. 동의를 거부할 권리가 있다는 사실 및 동의 거부에 따른
-                      불이익 내용(개인정보보호법 제16조) <br />
-                      민원 신청 시 수집하는 필요한 최소한의 정보 외의 개인정보
-                      수집에 동의를 거부할 권리가 있으나 최소한의 개인정보
-                      수집동의 거부 시에는 민원 신청 서비스가 제한됩니다.
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-            {/* <div>비고</div> */}
-
-            <div className="btn-wrap">
-              <button className="btn btn-navy">신고하기</button>
-            </div>
-          </form>
-        </div>
+          <div>
+            <input
+              className="sign_up"
+              type="button"
+              value="가입하기"
+              onClick={handleRegister}
+            />
+          </div>
+        </form>
       </div>
     </div>
   );
 };
 
-export default Report;
+export default Join;

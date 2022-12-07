@@ -12,7 +12,7 @@ const GoodsManagement = () => {
   }, []);
   const deleteGoods = async (goods_idx) => {
     if (window.confirm('정말로 삭제하시겠습니까?')) {
-      const response = await server_bridge.axios_instace.post('/goodslist', {
+      const response = await server_bridge.axios_instace.post('/deletegoods', {
         goods_idx: goods_idx,
       });
       if (response.data === 'success') {
@@ -52,7 +52,9 @@ const GoodsManagement = () => {
   return (
     <div className="Contents">
       <div className="pageWrap">
-        <div className="adminTitle"><h3>상품권 관리</h3></div>
+        <div className="adminTitle">
+          <h3>상품권 관리</h3>
+        </div>
 
         <div>상품권 목록</div>
         <div>

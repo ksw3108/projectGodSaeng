@@ -253,6 +253,13 @@ def update_goods():  # 상품권 수정하기
     return jsonify(sendData)
 
 
+@app.route("/deletegoods", methods=["GET", "POST"])
+def delete_goods():  # 상품권 수정하기
+    body_data = get_body_data(request)
+    sendData = dbconnecter.delete_goods(body_data)
+    return jsonify(sendData)
+
+
 @app.route("/getDisposeListByuser", methods=["GET", "POST"])
 def get_dispose_list_byuser():  # 신고 리스트 받아오기
     body_data = get_body_data(request)
