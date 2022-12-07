@@ -718,7 +718,7 @@ def report(request):  # 신고접수
         sql += sql3
 
     try:
-        cursor.execute(sql, report_tuple)
+        cursor.execute(sql)
         db.commit()
         return "success"
     except Exception as e:
