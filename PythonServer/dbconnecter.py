@@ -180,6 +180,7 @@ def get_board_list(where_clause):  # 공지사항 관리의 게시판 리스트
               date_format(A.BOARD_DATE, '%Y-%m-%d') AS BOARD_DATE,
               A.BOARD_TIT AS BOARD_TIT,
               A.BOARD_TXT AS BOARD_TXT,
+              A.BOARD_FILE AS BOARD_FILE,
               B.USER_NAME AS USER_NAME
     FROM BOARD AS A
                    INNER JOIN USER AS B ON A.USER_IDX = B.USER_IDX """
@@ -585,6 +586,7 @@ def get_nofity_mini():  # 신고내역 미니리스트
                     A.NOTIFY_IDX, A.USER_IDX, B.USER_NAME, B.USER_ID, B.USER_MAIL, B.USER_TEL, B.USER_OX,
                     A.CATEGORY_IDX, C.CATEGORY, A.CAR_NUM, 
                     date_format(A.NOTIFY_DATE, '%Y-%m-%d %H:%i:%S') AS NOTIFY_DATE, 
+                    date_format(A.NOTIFY_REPORT_DATE, '%Y-%m-%d %H:%i:%S') AS NOTIFY_REPORT_DATE,
                     A.NOTIFY_SPOT,
                     A.NOTIFY_TXT, A.NOTIFY_PNUM, D.NOTIFY_STATUS, A.NOTIFY_RESULT,
                     E.IMG_IDX, E.IMG_PATH                    
@@ -594,7 +596,7 @@ def get_nofity_mini():  # 신고내역 미니리스트
                     LEFT JOIN CATEGORY  AS C ON A.CATEGORY_IDX  = C.CATEGORY_IDX
                     LEFT JOIN PROCESS   AS D ON A.NOTIFY_PNUM   = D.NOTIFY_PNUM 
                 WHERE A.NOTIFY_PNUM != 4
-                ORDER BY A.NOTIFY_IDX DESC LIMIT 5;"""
+                ORDER BY A.NOTIFY_IDX DESC LIMIT 3;"""
 
     try:
         row_cnt = cursor.execute(sql)
@@ -714,7 +716,7 @@ def report(request):  # 신고접수
                             '{form_data["notifyTxt"]}', 
                             '1');
                     INSERT INTO IMG(NOTIFY_IDX, IMG_PATH) VALUES (LAST_INSERT_ID(), '{form_data["img_path"]}');"""
-                
+
         sql += sql3
 
     try:

@@ -146,7 +146,11 @@ const Main = () => {
                     </Link>
                   </div>
                 ))
-              : ''}
+              : (
+                <div className="noContents">
+                  <p>등록된 게시물이 없습니다.</p>
+                </div>
+              )}
             {/* nBox */}
           </div>
           {/* nBoxWrap */}
