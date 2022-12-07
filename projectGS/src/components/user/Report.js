@@ -91,6 +91,7 @@ const Report = () => {
     formData.append('notifySpot', notifySpotRef.current.value);
     formData.append('notifyDate', notifyDateRef.current.value);
     formData.append('notifyTxt', notifyTxtRef.current.value);
+    formData.append('user_idx', window.sessionStorage.getItem('USER_IDX'));
 
     const res = await server_bridge.axios_instace.post('/report', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
