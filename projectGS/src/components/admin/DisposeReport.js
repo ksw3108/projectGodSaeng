@@ -15,6 +15,7 @@ const DisposeReport = () => {
   const start_dateRef = useRef(); //검색할 시작날짜 ref
   const end_dateRef = useRef(); //검색할 마지막 날짜 ref
   const categoryRef = useRef(); //카테고리 ref
+  const dateoptRef = useRef();
 
   const [page, setPage] = useState(1); //페이징 처리되어 나눠지는 총 게시판의 페이지 갯수
   const itemcount = 5; //한 페이지에 보여줄 게시글 갯수
@@ -49,8 +50,10 @@ const DisposeReport = () => {
 
     //카테고리 값 가져오기
     const cate = categoryRef.current.value;
+    const dateOpt = dateoptRef.current.value;
     const req_data = {
       process: proc_arr.length > 0 ? proc_arr : '',
+      dateopt: dateOpt,
       range: { start_date: start_date, end_date: end_date },
       category: cate === 'default' ? '' : parseInt(cate),
       mode: 'admin',
@@ -118,10 +121,16 @@ const DisposeReport = () => {
   return (
     <div className="Contents">
       <div className="pageWrap">
-        <div className="adminTitle"><h3>신고 처리</h3></div>
-        
+        <div className="adminTitle">
+          <h3>신고 처리</h3>
+        </div>
+
         <div>
-          기간 : <input type="date" ref={start_dateRef} /> ~{' '}
+          <select ref={dateoptRef}>
+            <option value="NOTIFY_DATE">신고일시</option>
+            <option value="NOTIFY_REPORT_DATE">접수일시</option>
+          </select>
+          : <input type="date" ref={start_dateRef} /> ~{' '}
           <input type="date" ref={end_dateRef} />
         </div>
         <div>
@@ -175,6 +184,7 @@ const DisposeReport = () => {
                   <th>처리상태</th>
                   <th>카테고리</th>
                   <th>신고일시</th>
+                  <th>접수일시</th>
                   <th>더보기</th>
                 </tr>
               </thead>
@@ -194,6 +204,7 @@ const DisposeReport = () => {
                         <td>{data.NOTIFY_STATUS}</td>
                         <td>{data.CATEGORY}</td>
                         <td>{data.NOTIFY_DATE}</td>
+                        <td>{data.NOTIFY_REPORT_DATE}</td>
                         <td>
                           <button onClick={() => move2Detail(data)}>
                             상세보기
