@@ -21,10 +21,16 @@ const Join = () => {
   const nameRef = useRef();
   const mailRef = useRef();
   const telRef = useRef();
+  const checkEmailRef = useRef();
+  const checkPasswordRef = useRef();
+  const checkPhonenumberRef = useRef();
+
+  const [idComment, setIdComment] = useState('');
+  const [pwComment, setPwComment] = useState('');
+  const [emailComment, setEmailComment] = useState('');
+  const [phoneComment, setPhoneComment] = useState('');
 
   // 아이디 중복 체크
-  const [idComment, setIdComment] = useState('');
-
   var id = '';
   const idChange = (e) => {
     id = idRef.current.value;
@@ -41,50 +47,59 @@ const Join = () => {
   };
 
   //비밀번호 유효성 검사
-  const [pwComment, setPwComment] = useState('');
   const checkPassword = (e) => {
     //  8 ~ 10자 영문, 숫자, 문자  조합
     var regExp =
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/g;
     // 형식에 맞는 경우 true 리턴
-    console.log('비밀번호 유효성 검사 :: ', regExp.test(e.target.value));
-    if (regExp.test(e.target.value) == false) {
-      setPwComment(
-        '비밀번호는 영어, 숫자, 특수문자를 포함해 총 8글자 이상이어야 합니다.',
-      );
-    } else {
-      setPwComment('');
-    }
+    console.log('비밀번호 유효성 검사 :: ', regExp.test(e));
+    console.log(regExp.test(e));
+
+    // if (regExp.test(e.target.value) == false) {
+    //   setPwComment(
+    //     '비밀번호는 영어, 숫자, 특수문자를 포함해 총 8글자 이상이어야 합니다.',
+    //   );
+    // } else {
+    //   setPwComment('');
+    // }
+
+    return regExp.test(e);
   };
 
   // 이메일 유효성 검사
-  const [emailComment, setEmailComment] = useState('');
   const checkEmail = (e) => {
     var regExp =
       /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
     // 형식에 맞는 경우 true 리턴
-    console.log('이메일 유효성 검사 :: ', regExp.test(e.target.value));
-    if (regExp.test(e.target.value) == false) {
-      setEmailComment('올바른 이메일 형식이 아닙니다.');
-    } else {
-      setEmailComment('');
-    }
+    // console.log('이메일 유효성 검사 :: ', regExp.test(e.target.value));
+    // console.log(regExp.test(e.target.value));
+
+    // if (regExp.test(e.target.value) == false) {
+    //   setEmailComment('올바른 이메일 형식이 아닙니다.');
+    // } else {
+    //   setEmailComment('');
+    // }
+
+    return regExp.test(e);
   };
 
   // 핸드폰번호 유효성 검사
-  const [phoneComment, setPhoneComment] = useState('');
   const checkPhonenumber = (e) => {
     // '-' 입력 시
     var regExp = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
     // 숫자만 입력시
     var regExp2 = /^01(?:0|1|[6-9])(?:\d{3}|\d{4})\d{4}$/;
     // 형식에 맞는 경우 true 리턴
-    console.log('핸드폰번호 유효성 검사 :: ', regExp2.test(e.target.value));
-    if (regExp2.test(e.target.value) == false) {
-      setPhoneComment("'-'없이 번호만 입력해주세요");
-    } else {
-      setPhoneComment('');
-    }
+    // console.log('핸드폰번호 유효성 검사 :: ', regExp2.test(e.target.value));
+    // console.log(regExp.test(e.target.value));
+
+    // if (regExp2.test(e.target.value) == false) {
+    //   setPhoneComment("'-'없이 번호만 입력해주세요");
+    // } else {
+    //   setPhoneComment('');
+    // }
+
+    return regExp2.test(e);
   };
 
   const handleRegister = () => {
@@ -114,7 +129,7 @@ const Join = () => {
     }
     // 이메일 입력 확인
     if (mailRef.current.value === '' || mailRef.current.value === undefined) {
-      alert('이름을 입력하세요');
+      alert('이메일을 입력하세요');
       mailRef.current.focus();
       return false;
     }
@@ -124,6 +139,7 @@ const Join = () => {
       telRef.current.focus();
       return false;
     }
+
     // 비밀번호 와 비밀번호 체크 값 비교
     if (pwRef.current.value !== pwCkRef.current.value) {
       alert('비밀번호가 서로 다릅니다');
@@ -131,7 +147,27 @@ const Join = () => {
       return false;
     }
 
-    // 회원가입 요청
+    // 비밀번호 유효성 검사
+    if (checkPassword(pwRef.current.value) == false) {
+      alert('비밀번호 형식이 아닙니다');
+      pwRef.current.focus();
+      return false;
+    }
+
+    // 이메일 유효성 검사
+    if (checkEmail(mailRef.current.value) == false) {
+      alert('이메일 형식이 아닙니다');
+      mailRef.current.focus();
+      return false;
+    }
+
+    // 핸드폰 유효성 검사
+    if (checkPhonenumber(telRef.current.value) == false) {
+      alert('핸드폰 형식이 아닙니다');
+      telRef.current.focus();
+      return false;
+    }
+
     axios
       .post('http://localhost:5000/join', {
         id: idRef.current.value,
@@ -251,7 +287,7 @@ const Join = () => {
               onKeyPress={onKeyPress}
               onBlur={checkPhonenumber}
             />
-            <label>핸드폰</label>
+            <label>핸드폰('-'없이 숫자만 입력)</label>
           </div>
 
           <div>
