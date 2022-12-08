@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import * as server_bridge from '../../controller/server_bridge';
 
 import '../../css/user/sub.scss';
+import exImg from '../../images/exImg.png';
 
 const Report = () => {
   // ==============================================
@@ -38,7 +39,7 @@ const Report = () => {
   }; // data(인자)를 받아 lifeArr(select name 속성) LIFE_VALUE의 값에 반영한다.
 
   // 이미지 파일 업로드 & 미리보기 =====================================
-
+  
   const [imageSrc, setImageSrc] = useState('');
   //221130 선우 - 이미지 인식을 위해 업로드한 파일의 경로를 저장하는 state
   const [uploadedSrc, setUploadedSrc] = useState('');
@@ -338,6 +339,10 @@ const Report = () => {
                   accept="image/*"
                   onChange={recognitionPlateNo}
                 />
+
+                <div className="viewImg">
+                  <img src={exImg} alt="eximg" className='eximg' horizontal-align="left" /> <p></p>
+                </div>
 
                 {imageSrc && (
                   <div className="viewImg">
