@@ -730,17 +730,18 @@ def report(request):  # 신고접수
 def notifyidx(body_data):  # 신고접수번호
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
+
     sql = f""" SELECT A.NOTIFY_IDX 
                FROM NOTIFY AS A
                LEFT JOIN USER AS B ON A.USER_IDX = B.USER_IDX
                WHERE A.USER_IDX = {body_data["user_idx"]}
                ORDER BY A.NOTIFY_IDX DESC
                LIMIT 1; """
-    print(sql)
+
     try:
         row_cnt = cursor.execute(sql)
         if row_cnt > 0:
-            res = cursor.fetchall()  # select문이라면 요거로 리턴시켜야 디비에서 검색한 결과 넘겨줄수있음
+            res = cursor.fetchall() 
             close_conn(db)
             return res
         else:

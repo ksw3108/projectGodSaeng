@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import DaumPostcode from 'react-daum-postcode';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as server_bridge from '../../controller/server_bridge';
 
@@ -20,9 +20,10 @@ const ReportEnd = () => {
       user_idx: window.sessionStorage.getItem('USER_IDX'),
     });
     setIdx(res.data[0].NOTIFY_IDX);
-    console.log('나와라', res.data[0].NOTIFY_IDX);
+    console.log('나와라', res.data[0]);
   };
 
+  console.log(idx);
   return (
     <div id="ReportEnd" className="subPage">
       <div className="subTop">
@@ -62,7 +63,8 @@ const ReportEnd = () => {
           <img src={checkIcon} alt="체크표시" />
           <h2>
             신고가 정상적으로 접수되었습니다. <br />
-            접수번호는 <strong className="ft_og">{idx}</strong> 입니다.
+            접수번호는 <strong className="ft_og">{idx}</strong>
+            입니다.
           </h2>
         </div>
 
