@@ -30,6 +30,9 @@ yarn add react-hook-form
 yarn add @material-ui/lab
 yarn add @mui/material
 
+**** 선우 추가 ****
+yarn add socket.io-client
+
 1-1. react의 실행
 C:\Project\AI_Source\AIProject\projectGS> yarn start
 
@@ -51,6 +54,12 @@ pip install pyjwt  // jwt(json web token)을 암호화, 복호화해주는 라�
 pip install opencv-python==4.5.5.64
 pip install easyocr
 pip install matplotlib
+pip install flask-socketio
+pip install eventlet
+
+//소켓통신
+pip install flask-socketio
+pip install eventlet
 
 3-1. 파이썬 서버의 실행
 C:\Project\AI_Source\AIProject\PythonServer> python index.py
