@@ -16,7 +16,7 @@ const ReportEnd = () => {
   }, []);
 
   const notifyidx = async () => {
-    const res = await server_bridge.axios_instace.get('./notifyidx', {
+    const res = await server_bridge.axios_instace.post('./notifyidx', {
       user_idx: window.sessionStorage.getItem('USER_IDX'),
     });
     setIdx(res.data[0].NOTIFY_IDX);
