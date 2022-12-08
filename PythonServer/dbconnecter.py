@@ -691,7 +691,7 @@ def report(request):  # 신고접수
     # #                 form_data["notifyDate"], form_data["notifyTxt"], "1", file_dir)
     # report_tuple = (form_data["user_idx"], form_data["category"], form_data["carNum"], form_data["notifySpot"],
     #                 form_data["notifyDate"], form_data["notifyTxt"], "1", form_data["img_path"])
-
+    print(form_data)
     sql = f"INSERT INTO "
     if form_data["user_idx"] != "null":
         sql2 = f""" NOTIFY(USER_IDX, CATEGORY_IDX, CAR_NUM, NOTIFY_SPOT, NOTIFY_DATE, NOTIFY_TXT, NOTIFY_PNUM) 
@@ -707,18 +707,33 @@ def report(request):  # 신고접수
         sql += sql2
 
     else:
-        sql3 = f""" NOTIFY(CATEGORY_IDX, CAR_NUM, NOTIFY_SPOT, NOTIFY_DATE, NOTIFY_TXT, NOTIFY_PNUM) 
+        sql3 = f""" 
+                    USER(USER_ID, USER_PW, USER_NAME, USER_TEL, USER_OX) 
                     VALUES (
+                        '{form_data["user_name"]}', 
+                        '0000', 
+                        '{form_data["user_name"]}', 
+                        '{form_data["user_tel"]}',
+                        'X');
+
+                    INSERT INTO NOTIFY( 
+                        USER_IDX, CATEGORY_IDX, CAR_NUM, NOTIFY_SPOT, 
+                        NOTIFY_DATE, NOTIFY_TXT, NOTIFY_PNUM) 
+                    VALUES (
+                            LAST_INSERT_ID(),
                             '{form_data["category"]}', 
                             '{form_data["carNum"]}', 
                             '{form_data["notifySpot"]}',
                             '{form_data["notifyDate"]}', 
                             '{form_data["notifyTxt"]}', 
                             '1');
-                    INSERT INTO IMG(NOTIFY_IDX, IMG_PATH) VALUES (LAST_INSERT_ID(), '{form_data["img_path"]}');"""
+
+                    INSERT INTO IMG(NOTIFY_IDX, IMG_PATH) 
+                    VALUES (LAST_INSERT_ID(), '{form_data["img_path"]}');
+                    """
 
         sql += sql3
-
+    print(sql)
     try:
         cursor.execute(sql)
         db.commit()
@@ -731,17 +746,21 @@ def notifyidx(body_data):  # 신고접수번호
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
+    if body_data["user_idx"] == None:
+        where_clause = f""" B.USER_NAME = '{body_data["user_name"]}' """
+    else:
+        where_clause = f""" A.USER_IDX = {body_data["user_idx"]} """
     sql = f""" SELECT A.NOTIFY_IDX 
                FROM NOTIFY AS A
                LEFT JOIN USER AS B ON A.USER_IDX = B.USER_IDX
-               WHERE A.USER_IDX = {body_data["user_idx"]}
+               WHERE {where_clause}
                ORDER BY A.NOTIFY_IDX DESC
                LIMIT 1; """
-
+    print(sql)
     try:
         row_cnt = cursor.execute(sql)
         if row_cnt > 0:
-            res = cursor.fetchall() 
+            res = cursor.fetchall()
             close_conn(db)
             return res
         else:

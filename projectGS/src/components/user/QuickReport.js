@@ -21,6 +21,32 @@ const QuickReport = () => {
 
   // 이미지 파일 업로드 & 미리보기 =====================================
   const [imageSrc, setImageSrc] = useState('');
+  //221208 선우 - 이미지 인식을 위해 업로드한 파일의 경로를 저장하는 state
+  const [uploadedSrc, setUploadedSrc] = useState('');
+
+  const saveImage = async (e) => {
+    //번호판 인식
+    //const plateImg = imgRef.current.files[0];
+    const plateImg = e.target.files[0];
+
+    const formData = new FormData(); //서버에 넘겨줄 데이터 객체
+    formData.append('img', plateImg);
+
+    setImageSrc(server_bridge.py_url + '/static/images/loading.gif'); //로딩중 이미지 세팅
+
+    const response = await server_bridge.axios_instace.post(
+      //서버에 번호판 인식 요청
+      '/savequick',
+      formData,
+      {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      },
+    );
+    const result = response.data; // {dir : "파일이 저장된 경로", result:"번호판 인식 결과"}
+
+    encodeFileToBase64(plateImg); //번호판 이미지 세팅
+    setUploadedSrc(result.dir); //저장된 번호판 이미지파일의 경로를 세팅
+  };
 
   const encodeFileToBase64 = (fileBlob) => {
     const reader = new FileReader();
@@ -100,13 +126,37 @@ const QuickReport = () => {
     }
 
     const formData = new FormData(); //서버에 넘겨줄 데이터 객체
-    formData.append('img', imgRef.current.files[0]);
-    formData.append('img_path', imgRef.current.files[0].name);
+    //221208 선우 - 카테고리는 없지만 넣어야하므로 고정값으로 "기타"에 해당
+    formData.append('category', 10);
+    // formData.append('img', imgRef.current.files[0]);
+    // formData.append('img_path', imgRef.current.files[0].name);
+    formData.append('img_path', uploadedSrc);
+    //221130 선우 - 번호판 인식을 위해 이미 파일 업로드를 했으므로 다시 업로드할 필요가 없음
     console.log('이미지파일 이름', imgRef.current.files[0].name); // 파일명 확인
-    formData.append('company', companyRef.current.value);
+    //221208 선우 - 원래는 회사명이지만 회사명 컬럼이 따로 없기때문에 차량번호 컬럼에 저장
+    formData.append('carNum', companyRef.current.value);
     formData.append('notifySpot', notifySpotRef.current.value);
     formData.append('notifyDate', notifyDateRef.current.value);
     formData.append('notifyTxt', notifyTxtRef.current.value);
+
+    // 221208 선우 비회원의 회원가리 처리용 데이터
+    formData.append(
+      'user_idx',
+      window.sessionStorage.getItem('USER_IDX') !== null
+        ? window.sessionStorage.getItem('USER_IDX')
+        : 'null',
+    ); //비회원 신고일경우 'null'
+    formData.append('user_tel', userTelRef.current.value); //비회원이던 아니던 전화번호는 일단 보낸다.
+
+    let timestamp = '';
+    timestamp += Date.now();
+    let name = 'member_' + timestamp; //비회원용 아이디, 이름
+    formData.append(
+      'user_name',
+      window.sessionStorage.getItem('USER_IDX') === null ? name : '',
+    ); //비회원 신고용 user_name
+
+    console.log(window.sessionStorage.getItem('USER_IDX'));
 
     const res = await server_bridge.axios_instace.post('/report', formData, {
       headers: { 'Content-Type': 'multipart/form-data' },
@@ -115,7 +165,15 @@ const QuickReport = () => {
     if (res.data === 'success') {
       console.log('성공', res.data);
       // alert('신고 접수가 완료되었습니다.');
-      navigate('/reportend');
+      navigate('/reportend', {
+        state: {
+          is_non_member:
+            window.sessionStorage.getItem('USER_IDX') === null ? true : false,
+          name: name,
+        },
+      });
+      //반약에 비회원 신고였을 경우에는 여기서 미리 설정한 비회원 아이디를 넘겨줘서
+      //신고 완료 페이지에서 비회원신고일 경우 회원번호를 state로 넘겨준 비회원아이디로 검색한다.
     } else {
       console.log('실패', res.data);
       alert('신고 접수가 정상적으로 이루어지지 않았습니다.');
@@ -225,9 +283,7 @@ const QuickReport = () => {
                   ref={imgRef}
                   type="file"
                   accept="image/*"
-                  onChange={(e) => {
-                    encodeFileToBase64(e.target.files[0]);
-                  }}
+                  onChange={saveImage}
                 />
 
                 {imageSrc && (
@@ -354,7 +410,7 @@ const QuickReport = () => {
                   <label for="checkNo">아니오</label> */}
 
                   <div className="half checkWrap">
-                    <input type="checkbox" id="checkOk" />
+                    <input type="checkbox" id="checkOk" ref={btnRef} />
                     <label for="checkOk">개인정보 수집 동의</label>
 
                     <button

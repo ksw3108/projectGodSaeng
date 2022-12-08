@@ -133,10 +133,11 @@ def report():  # 신고접수
 
 
 @app.route("/notifyidx", methods=["GET", "POST"])
-def notifyidx(): # 신고접수번호
+def notifyidx():  # 신고접수번호
     body_data = get_body_data(request)
     sendData = dbconnecter.notifyidx(body_data)
     return jsonify(sendData)
+
 
 @app.route("/get_cate_list", methods=["GET"])
 def get_cate_list():  # 등록한 파일 다운로드하기
@@ -235,6 +236,22 @@ def read_plate():  # 자동차 번호판 인식시키기
     res = ml_easyOCR.find_plate_no(file_dir)
 
     return jsonify({"result": res, "dir": file_dir})
+
+
+@ app.route("/savequick", methods=["GET", "POST"])
+def save_quick():  # 자동차 번호판 인식시키기
+
+    timestamp = int(time.time())
+    path = 'static/images/quick/' + str(timestamp)
+    os.makedirs(path, exist_ok=True)  # 폴더 생성
+    file = request.files["img"]
+    # print('파일 이름', file)
+    filename = secure_filename(file.filename)  # 파일명과 경로를 합치기
+    # print('파일 네임', filename)
+    file.save(os.path.join(path, filename))
+    file_dir = path+"/"+request.files["img"].filename
+
+    return jsonify({"result": 'success', "dir": file_dir})
 
 
 @ app.route("/pointlistbyuser", methods=["GET", "POST"])

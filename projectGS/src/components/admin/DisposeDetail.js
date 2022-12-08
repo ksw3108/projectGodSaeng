@@ -63,7 +63,8 @@ const DisposeDetail = () => {
         </div>
         <div>
           - 신고 내용 -<br />
-          차량번호 : {data.CAR_NUM}
+          {data.CATEGORY_IDX === 10 ? '킥보드회사명' : '차량번호'} :
+          {data.CAR_NUM}
           <br />
           장소 : {data.NOTIFY_SPOT}
           <br />
