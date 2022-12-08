@@ -11,30 +11,12 @@ const QuickReport = () => {
   // ==============================================
   const navigate = useNavigate();
 
-  const categoryRef = useRef();
   const imgRef = useRef();
-  const carNumRef = useRef();
+  const companyRef = useRef();
   const notifySpotRef = useRef();
   const notifyDateRef = useRef();
   const notifyTxtRef = useRef();
   const userTelRef = useRef();
-
-  const [category, setCategory] = useState('');
-  const [img, setImg] = useState('');
-  const [carNum, setCarNum] = useState('');
-  const [notifySpot, setNotifySpot] = useState('');
-  const [notifyDate, setNotifyDate] = useState();
-  const [notifyTxt, setNotifyTxt] = useState('');
-  const [notifyPnum, setNotifyPnum] = useState('');
-  const [userTel, setUserTel] = useState('');
-
-  // 신고 유형 선택 ====================================================
-  let CATEGORY_VALUE = ''; // 값이 계속 바뀌기 때문에 let으로 선언.
-  const { register, handleSubmit } = useForm(); //ref의 선택자인 register
-  const onSubmit = (data) => {
-    CATEGORY_VALUE = data.lifeArr;
-    console.log(CATEGORY_VALUE);
-  }; // data(인자)를 받아 lifeArr(select name 속성) LIFE_VALUE의 값에 반영한다.
 
   // 이미지 파일 업로드 & 미리보기 =====================================
   const [imageSrc, setImageSrc] = useState('');
@@ -52,13 +34,68 @@ const QuickReport = () => {
 
   const writeReport = async (e) => {
     e.preventDefault();
+    // 사진 업로드 확인
+    if (imgRef.current.value === '' || imgRef.current.value === undefined) {
+      alert('불법주정차 공유킥보드 사진을 등록하세요');
+      imgRef.current.focus();
+      return false;
+    }
+
+    // 회사명 입력 확인
+    if (
+      companyRef.current.value === '' ||
+      companyRef.current.value === undefined
+    ) {
+      alert('킥보드 회사명을 입력하세요');
+      companyRef.current.focus();
+      return false;
+    }
+
+    // 발생일자 입력 확인
+    if (
+      notifyDateRef.current.value === '' ||
+      notifyDateRef.current.value === undefined
+    ) {
+      alert('발생일자를 입력하세요');
+      notifyDateRef.current.focus();
+      return false;
+    }
+
+    // 발생지역 입력 확인
+    if (
+      notifySpotRef.current.value === '' ||
+      notifySpotRef.current.value === undefined
+    ) {
+      alert('발생지역을 입력하세요');
+      notifySpotRef.current.focus();
+      return false;
+    }
+
+    // 신고내역 입력 확인
+    if (
+      notifyTxtRef.current.value === '' ||
+      notifyTxtRef.current.value === undefined
+    ) {
+      alert('신고내용을 입력하세요');
+      notifyTxtRef.current.focus();
+      return false;
+    }
+
+    // 휴대폰 번호 입력 확인
+    if (
+      userTelRef.current.value === '' ||
+      userTelRef.current.value === undefined
+    ) {
+      alert('휴대폰 번호를 입력하세요');
+      userTelRef.current.focus();
+      return false;
+    }
 
     const formData = new FormData(); //서버에 넘겨줄 데이터 객체
-    formData.append('category', categoryRef.current.value);
     formData.append('img', imgRef.current.files[0]);
     formData.append('img_path', imgRef.current.files[0].name);
     console.log('이미지파일 이름', imgRef.current.files[0].name); // 파일명 확인
-    formData.append('carNum', carNumRef.current.value);
+    formData.append('company', companyRef.current.value);
     formData.append('notifySpot', notifySpotRef.current.value);
     formData.append('notifyDate', notifyDateRef.current.value);
     formData.append('notifyTxt', notifyTxtRef.current.value);
@@ -166,39 +203,6 @@ const QuickReport = () => {
 
         <div className="reportForm">
           <form onSubmit={writeReport}>
-            {/* <div className="row">
-              <div className="col-2 col-sm-12">
-                <div className="rTitle"><h3>불법 주정차 유형</h3></div>
-              </div>
-              <div className="col-10 col-sm-12">
-                <div className="reportCate">
-                  <select name="category" className="category" ref={categoryRef}>
-                    <option value="none">선택하세요</option>
-                    <option value="01">소화전</option>
-                    <option value="02">교차로 모퉁이</option>
-                    <option value="03">버스 정류소</option>
-                    <option value="04">횡단보도</option>
-                    <option value="05">어린이 보호구역</option>
-                    <option value="06">장애인 전용구역</option>
-                    <option value="07">소방차 전용구역</option>
-                    <option value="08">친환경차 충전구역</option>
-                    <option value="09">기타</option>
-                  </select>
-                  <ul name="category" className="category" ref={categoryRef}>
-                    <li><button value="01">소화전</button></li>
-                    <li><button value="02">교차로 모퉁이</button></li>
-                    <li><button value="03">버스정류소</button></li>
-                    <li><button value="04">횡단보도</button></li>
-                    <li><button value="05">어린이 보호구역</button></li>
-                    <li><button value="06">장애인 전용구역</button></li>
-                    <li><button value="07">소방차 전용구역</button></li>
-                    <li><button value="08">친환경차 충전구역</button></li>
-                    <li><button value="09">기타</button></li>
-                  </ul>
-                </div>
-              </div>
-            </div> */}
-
             <div className="row">
               <div className="col-2 col-sm-12">
                 <div className="rTitle">
@@ -238,7 +242,7 @@ const QuickReport = () => {
                   <input
                     className="carNum"
                     name="carNum"
-                    ref={carNumRef}
+                    ref={companyRef}
                     type="text"
                     placeholder="킥보드 회사명을 입력해주세요"
                     value={text}
