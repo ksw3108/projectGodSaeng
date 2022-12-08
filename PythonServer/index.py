@@ -131,6 +131,11 @@ def report():  # 신고접수
     socket_io.emit("response", {"data": "insert"})
     return dbconnecter.report(request)
 
+@app.route("/notifyidx", methods=["GET", "POST"])
+def notifyidx(): # 신고접수번호
+    body_data = get_body_data(request)
+    sendData = dbconnecter.notifyidx(body_data)
+    return jsonify(sendData)
 
 @app.route("/get_cate_list", methods=["GET"])
 def get_cate_list():  # 등록한 파일 다운로드하기
