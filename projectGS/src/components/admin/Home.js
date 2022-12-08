@@ -14,12 +14,10 @@ import ReportChart from './home_components/ReportChart';
 import AdminLogin from './AdminLogin';
 import * as server_bridge from '../../controller/server_bridge';
 
-
-import "../../css/admin/main.scss";
+import '../../css/admin/main.scss';
 
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 
 const Home = () => {
   const navigate = useNavigate();
@@ -136,7 +134,7 @@ const Home = () => {
     <div className="Contents">
       <div className="Wrap">
         <TodoList data={sum_data} />
-        
+
         <div className="container">
           <ReportChart data={daily_summary} />
           {/* 시각화자료 */}

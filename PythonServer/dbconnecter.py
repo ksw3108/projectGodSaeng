@@ -730,14 +730,13 @@ def report(request):  # 신고접수
 def notifyidx(body_data):  # 신고접수번호
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
-
     sql = f""" SELECT A.NOTIFY_IDX 
                FROM NOTIFY AS A
                LEFT JOIN USER AS B ON A.USER_IDX = B.USER_IDX
                WHERE A.USER_IDX = {body_data["user_idx"]}
                ORDER BY A.NOTIFY_IDX DESC
                LIMIT 1; """
-
+    print(sql)
     try:
         row_cnt = cursor.execute(sql)
         if row_cnt > 0:
