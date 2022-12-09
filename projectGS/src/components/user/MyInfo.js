@@ -93,6 +93,7 @@ const MyInfo = () => {
   const nameRef = useRef();
   const mailRef = useRef();
   const telRef = useRef();
+  const btnRef = useRef();
   const newPassRef = useRef();
   const newPassChkRef = useRef();
   const [captchaPass, setCaptchaPass] = useState(false);
@@ -205,6 +206,14 @@ const MyInfo = () => {
   };
 
   const changePassMode = (e) => {
+    let btn = btnRef.current;
+
+    if (!passMode) {
+      btn.className = 'btn';
+    } else {
+      btn.className = 'btn btn-navy';
+    }
+
     setPassMode(!passMode);
     e.preventDefault();
   };
@@ -229,7 +238,13 @@ const MyInfo = () => {
           </div>
 
           <div className="input-box">
-            <button onClick={changePassMode}>비밀번호 수정하기</button>
+            <button
+              ref={btnRef}
+              className="btn btn-navy"
+              onClick={changePassMode}
+            >
+              비밀번호 수정하기
+            </button>
           </div>
           {passMode && (
             <>
