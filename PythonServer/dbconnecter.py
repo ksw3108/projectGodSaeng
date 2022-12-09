@@ -779,7 +779,9 @@ def update_userinfo(body_data):  # 사용자 정보 수정하기
     sql = f"""UPDATE USER SET 
                 USER_PW = '{body_data['user_pw']}', 
                 USER_NAME='{body_data['user_name']}', 
-                USER_TEL='{body_data['user_tel']}' 
+                USER_MAIL='{body_data['user_mail']}',
+                USER_TEL='{body_data['user_tel']}',
+                ADMIN_OX='{body_data["admin_ox"]}'
               WHERE USER_IDX = {body_data['user_idx']}; """
 
     try:
@@ -819,9 +821,9 @@ def search_user_info(body_data):  # 사용자 목록 가져오기
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
     sql = f"""SELECT * FROM USER """
-    where = ""
+    where = " WHERE ADMIN_OX IS NULL "
     if body_data["is_searching"] == 1:
-        where = f"""WHERE {body_data["search_option"]} LIKE '%{body_data["keyword"]}%'"""
+        where = f"""AND {body_data["search_option"]} LIKE '%{body_data["keyword"]}%'"""
     sql += where + ";"
 
     try:

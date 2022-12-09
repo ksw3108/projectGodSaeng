@@ -41,10 +41,15 @@ const PointListComponent = ({ user_id }) => {
   };
   return (
     <div>
-      <div> 사용 가능한 포인트 {point} point</div>
+      <div>
+        {' '}
+        사용 가능한 포인트 {typeof list !== 'string' ? point : 0} point
+      </div>
 
       <div>
-        <div>전체 point 내역 {list.length} 건</div>
+        <div>
+          전체 point 내역 {typeof list !== 'string' ? list.length : 0} 건
+        </div>
         <table>
           <thead>
             <tr>

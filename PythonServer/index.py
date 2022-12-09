@@ -206,6 +206,13 @@ def update_admin_info():  # 사용자 정보 업데이트
     return jsonify(sendData)
 
 
+@ app.route("/updateuserinfo", methods=["GET", "POST"])
+def update_user_info():  # 사용자 정보 업데이트
+    body_data = get_body_data(request)
+    sendData = dbconnecter.update_userinfo(body_data)
+    return jsonify(sendData)
+
+
 @ app.route("/getuserinfo", methods=["GET", "POST"])
 def get_user_info():  # 유저 단일 데이터 가져오기
     body_data = get_body_data(request)
