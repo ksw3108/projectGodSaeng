@@ -89,6 +89,7 @@ const AdminInformation = () => {
                     id="pass"
                     ref={passRef}
                     defaultValue={user.USER_PW}
+                    style={{ width: '120px' }}
                   />
                 )}
               </td>
@@ -102,6 +103,7 @@ const AdminInformation = () => {
                     id="name"
                     defaultValue={user.USER_NAME}
                     ref={nameRef}
+                    style={{ width: '100px' }}
                   />
                 )}
               </td>
@@ -115,6 +117,7 @@ const AdminInformation = () => {
                     id="tel"
                     defaultValue={user.USER_TEL}
                     ref={telRef}
+                    style={{ width: '150px' }}
                   />
                 )}
               </td>
