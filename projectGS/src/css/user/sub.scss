@@ -1143,12 +1143,19 @@ Notice.js 공지사항
 
     .noticeView {
         .title {
+            text-align: center;
+            border-bottom: 1px solid #424242;
+            border-top: 3px solid #424242;
+            line-height: 30px;
+            color: #333333;
+
             width: 100%;
             // border: 1px solid #191D73;
             border-left: 0;
             border-right: 0;
             padding: 20px;
             box-sizing: border-box;
+
 
             h3 {
                 font-size: 22px;
@@ -1167,11 +1174,33 @@ Notice.js 공지사항
         }
 
         .contents {
-            // border-bottom: 1px solid #666;
-            padding: 20px;
+            border-top: 1px solid #424242;
+            border-bottom: 1px solid #424242;
+            padding: 50px 75px 50px;
             box-sizing: border-box;
             overflow: hidden;
+            line-height: 30px;
+        }
 
+        .notice_info {
+            width: 100%;
+            
+            li {
+                padding: 10px 10px 10px 95px;
+                border-bottom: 1px solid #dddddd;
+                font-size: 17px;
+
+                span {
+                    display: inline-block;
+                    width: 180px;
+                    margin-left: -30px;
+                    padding-left: 12px;
+                    color: #424242;
+                    font-weight: bold;
+                    letter-spacing: -1px;
+                    font-size: 17px;
+                }
+            }
         }
     }
 }
