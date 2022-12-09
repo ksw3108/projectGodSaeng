@@ -258,6 +258,10 @@ const Report = () => {
     setText('');
   };
 
+  // 유저 핸드폰 번호
+  const tel = window.sessionStorage.getItem('USER_TEL');
+  console.log(window.sessionStorage.getItem('USER_TEL'));
+
   // 개인정보 동의 내용 숨기기
   const [value, setValue] = useState(true);
   function onClickHide() {
@@ -517,6 +521,7 @@ const Report = () => {
                     ref={userTelRef}
                     type="text"
                     placeholder="핸드폰 번호를 입력해주세요"
+                    efaultValue={tel}
                   />
                 </div>
 
