@@ -772,6 +772,27 @@ def notifyidx(body_data):  # 신고접수번호
         return "err : " + str(e)
 
 
+def get_userpass(body_data):  # 사용자 비밀번호 대조용
+    db = conn_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+
+    sql = f""" SELECT USER_PW FROM USER WHERE USER_IDX={body_data["user_idx"]}; """
+    print(sql)
+    try:
+        row_cnt = cursor.execute(sql)
+        if row_cnt > 0:
+            res = cursor.fetchall()
+            close_conn(db)
+            return res
+        else:
+            close_conn(db)
+            return "nothing"
+
+    except Exception as e:
+        close_conn(db)
+        return "err : " + str(e)
+
+
 def update_userinfo(body_data):  # 사용자 정보 수정하기
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)

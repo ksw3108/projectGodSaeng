@@ -220,6 +220,14 @@ def get_user_info():  # 유저 단일 데이터 가져오기
     return jsonify(sendData)
 
 
+@ app.route("/getuserpass", methods=["GET", "POST"])
+def get_user_pass():  # 유저 단일 데이터 가져오기
+    body_data = get_body_data(request)
+    print(body_data)
+    sendData = dbconnecter.get_userpass(body_data)
+    return jsonify(sendData)
+
+
 @ app.route("/getuserlist", methods=["GET", "POST"])
 def get_user_list():  # 유저 목록 가져오기
     body_data = get_body_data(request)
