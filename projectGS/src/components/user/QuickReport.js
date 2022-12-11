@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as server_bridge from '../../controller/server_bridge';
-
+import Swal from 'sweetalert2';
 import '../../css/user/sub.scss';
 
 const QuickReport = () => {
@@ -63,7 +63,14 @@ const QuickReport = () => {
     e.preventDefault();
     // 사진 업로드 확인
     if (imgRef.current.value === '' || imgRef.current.value === undefined) {
-      alert('불법주정차 공유킥보드 사진을 등록하세요');
+      // alert('불법주정차 공유킥보드 사진을 등록하세요');
+      Swal.fire({
+        title: '불법주정차 공유킥보드 사진을 등록하세요.',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: '#191d73',
+        backdrop: `rgba(0,0,0,0.4)`,
+      });
       imgRef.current.focus();
       return false;
     }
@@ -73,7 +80,14 @@ const QuickReport = () => {
       companyRef.current.value === '' ||
       companyRef.current.value === undefined
     ) {
-      alert('킥보드 회사명을 입력하세요');
+      // alert('킥보드 회사명을 입력하세요');
+      Swal.fire({
+        title: '킥보드 회사명을 입력하세요.',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: '#191d73',
+        backdrop: `rgba(0,0,0,0.4)`,
+      });
       companyRef.current.focus();
       return false;
     }
@@ -83,7 +97,14 @@ const QuickReport = () => {
       notifyDateRef.current.value === '' ||
       notifyDateRef.current.value === undefined
     ) {
-      alert('발생일자를 입력하세요');
+      // alert('발생일자를 입력하세요');
+      Swal.fire({
+        title: '발생일자를 입력하세요.',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: '#191d73',
+        backdrop: `rgba(0,0,0,0.4)`,
+      });
       notifyDateRef.current.focus();
       return false;
     }
@@ -93,7 +114,14 @@ const QuickReport = () => {
       notifySpotRef.current.value === '' ||
       notifySpotRef.current.value === undefined
     ) {
-      alert('발생지역을 입력하세요');
+      // alert('발생지역을 입력하세요');
+      Swal.fire({
+        title: '발생지역을 입력하세요.',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: '#191d73',
+        backdrop: `rgba(0,0,0,0.4)`,
+      });
       notifySpotRef.current.focus();
       return false;
     }
@@ -103,7 +131,14 @@ const QuickReport = () => {
       notifyTxtRef.current.value === '' ||
       notifyTxtRef.current.value === undefined
     ) {
-      alert('신고내용을 입력하세요');
+      // alert('신고내용을 입력하세요');
+      Swal.fire({
+        title: '신고내용을 입력하세요.',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: '#191d73',
+        backdrop: `rgba(0,0,0,0.4)`,
+      });
       notifyTxtRef.current.focus();
       return false;
     }
@@ -113,14 +148,28 @@ const QuickReport = () => {
       userTelRef.current.value === '' ||
       userTelRef.current.value === undefined
     ) {
-      alert('휴대폰 번호를 입력하세요');
+      // alert('휴대폰 번호를 입력하세요');
+      Swal.fire({
+        title: '휴대폰 번호를 입력하세요.',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: '#191d73',
+        backdrop: `rgba(0,0,0,0.4)`,
+      });
       userTelRef.current.focus();
       return false;
     }
 
     // 개인정보 수집 동의 체크 확인
     if (btnRef.current.checked === false) {
-      alert('개인정보 수집 동의하세요');
+      // alert('개인정보 수집 동의하세요');
+      Swal.fire({
+        title: '개인정보 수집 동의하세요.',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: '#191d73',
+        backdrop: `rgba(0,0,0,0.4)`,
+      });
       userTelRef.current.focus();
       return false;
     }
@@ -176,7 +225,14 @@ const QuickReport = () => {
       //신고 완료 페이지에서 비회원신고일 경우 회원번호를 state로 넘겨준 비회원아이디로 검색한다.
     } else {
       console.log('실패', res.data);
-      alert('신고 접수가 정상적으로 이루어지지 않았습니다.');
+      // alert('신고 접수가 정상적으로 이루어지지 않았습니다.');
+      Swal.fire({
+        title: '신고 접수가 정상적으로 이루어지지 않았습니다.',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: '#191d73',
+        backdrop: `rgba(0,0,0,0.4)`,
+      });
     }
     // navigate('/');
   };
@@ -231,6 +287,13 @@ const QuickReport = () => {
     setValue((value) => !value);
     e.target.classList.toggle('on');
   }
+
+  // 달력 미래 선택 금지
+  const now_utc = Date.now(); // 지금 날짜를 밀리초로
+  // getTimezoneOffset()은 현재 시간과의 차이를 분 단위로 반환
+  const timeOff = new Date().getTimezoneOffset() * 60000; // 분단위를 밀리초로 변환
+  // new Date(now_utc-timeOff).toISOString()은 '2022-12-07T11:07:00.134Z'를 반환
+  const today = new Date(now_utc - timeOff).toISOString().substring(0, 16);
 
   return (
     <div id="Report" className="subPage">
@@ -328,6 +391,7 @@ const QuickReport = () => {
                   className="notifyDate half"
                   name="notifyDate"
                   type="datetime-local"
+                  max={today}
                   ref={notifyDateRef}
                 />
               </div>

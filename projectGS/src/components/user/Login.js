@@ -2,13 +2,13 @@ import React from 'react';
 import axios from 'axios';
 import { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Swal from "sweetalert2";
+import Swal from 'sweetalert2';
 import '../../css/user/Login.scss';
 
 const Login = () => {
   // 페이지 이동 navigate
   const navigate = useNavigate();
-  const Swal = require('sweetalert2')
+  const Swal = require('sweetalert2');
 
   // 로컬 로그인 엔터키 입력시 자동 로그인 버튼 클릭
   const onKeyPress = (e) => {
@@ -31,7 +31,7 @@ const Login = () => {
         icon: 'warning',
         confirmButtonText: '확인',
         confirmButtonColor: '#191d73',
-        backdrop:`rgba(0,0,0,0.4)`
+        backdrop: `rgba(0,0,0,0.4)`,
       });
       idRef.current.focus();
       return false;
@@ -45,7 +45,7 @@ const Login = () => {
         icon: 'warning',
         confirmButtonText: '확인',
         confirmButtonColor: '#191d73',
-        backdrop:`rgba(0,0,0,0.4)`
+        backdrop: `rgba(0,0,0,0.4)`,
       });
       pwRef.current.focus();
       return false;
@@ -75,12 +75,12 @@ const Login = () => {
           window.sessionStorage.setItem('ADMIN_OX', res.data[0].ADMIN_OX);
 
           // alert(res.data[0].USER_NAME + '님 환영합니다!');
-          // Swal.fire({
-          //   title: res.data[0].USER_NAME + '님 환영합니다!',
-          //   confirmButtonText: '확인',
-          //   confirmButtonColor: '#191d73',
-          //   backdrop:`rgba(0,0,0,0.4)`
-          // });
+          Swal.fire({
+            title: res.data[0].USER_NAME + '님 환영합니다!',
+            confirmButtonText: '확인',
+            confirmButtonColor: '#191d73',
+            backdrop: `rgba(0,0,0,0.4)`,
+          });
           // 세션에 값 저장후 메인페이지로 이동
           navigate('/');
         } else {
@@ -88,7 +88,14 @@ const Login = () => {
           console.log('실패 name', res.data[0].USER_NAME);
           console.log('실패 데이터', res.data[0]);
           //아이디 비밀번호 잘못 입력할 경우 input value 초기화
-          alert('잘못된 아이디와 비밀번호입니다!');
+          // alert('잘못된 아이디와 비밀번호입니다!');
+          Swal.fire({
+            title: '잘못된 아이디와 비밀번호입니다!',
+            icon: 'warning',
+            confirmButtonText: '확인',
+            confirmButtonColor: '#191d73',
+            backdrop: `rgba(0,0,0,0.4)`,
+          });
           idRef.current.value = '';
           pwRef.current.value = '';
 

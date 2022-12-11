@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../css/user/Join.scss';
 import * as server_bridge from '../../controller/server_bridge';
+import Swal from 'sweetalert2';
 
 import {
   loadCaptchaEnginge,
@@ -102,19 +103,40 @@ const MyInfo = () => {
   const updateUserInfo = async () => {
     // 이름 입력 확인
     if (nameRef.current.value === '' || nameRef.current.value === undefined) {
-      alert('이름을 입력하세요');
+      // alert('이름을 입력하세요');
+      Swal.fire({
+        title: '이름을 입력하세요',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: '#191d73',
+        backdrop: `rgba(0,0,0,0.4)`,
+      });
       nameRef.current.focus();
       return false;
     }
     // 이메일 입력 확인
     if (mailRef.current.value === '' || mailRef.current.value === undefined) {
-      alert('이메일을 입력하세요');
+      // alert('이메일을 입력하세요');
+      Swal.fire({
+        title: '이메일을 입력하세요',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: '#191d73',
+        backdrop: `rgba(0,0,0,0.4)`,
+      });
       mailRef.current.focus();
       return false;
     }
     // 휴대폰 번호 입력 확인
     if (telRef.current.value === '' || telRef.current.value === undefined) {
-      alert('핸드폰 번호를 입력하세요');
+      // alert('핸드폰 번호를 입력하세요');
+      Swal.fire({
+        title: '핸드폰 번호를 입력하세요',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: '#191d73',
+        backdrop: `rgba(0,0,0,0.4)`,
+      });
       telRef.current.focus();
       return false;
     }
@@ -124,14 +146,28 @@ const MyInfo = () => {
     if (passMode === true) {
       // 비밀번호 입력 확인
       if (passRef.current.value === '' || passRef.current.value === undefined) {
-        alert('기존 비밀번호를 입력하세요');
+        // alert('기존 비밀번호를 입력하세요');
+        Swal.fire({
+          title: '기존 비밀번호를 입력하세요',
+          icon: 'warning',
+          confirmButtonText: '확인',
+          confirmButtonColor: '#191d73',
+          backdrop: `rgba(0,0,0,0.4)`,
+        });
         passRef.current.focus();
         return false;
       }
 
       //비밀번호가 기존 비밀번호와 동일한지 확인
       if (passRef.current.value !== user.USER_PW) {
-        alert('기존 비밀번호가 일치하지 않습니다!');
+        // alert('기존 비밀번호가 일치하지 않습니다!');
+        Swal.fire({
+          title: '기존 비밀번호가 일치하지 않습니다!',
+          icon: 'warning',
+          confirmButtonText: '확인',
+          confirmButtonColor: '#191d73',
+          backdrop: `rgba(0,0,0,0.4)`,
+        });
         passRef.current.focus();
         passRef.current.value = '';
         return false;
@@ -142,13 +178,27 @@ const MyInfo = () => {
         newPassRef.current.value === '' ||
         newPassRef.current.value === undefined
       ) {
-        alert('새 비밀번호를 입력하세요');
+        // alert('새 비밀번호를 입력하세요');
+        Swal.fire({
+          title: '새 비밀번호를 입력하세요!',
+          icon: 'warning',
+          confirmButtonText: '확인',
+          confirmButtonColor: '#191d73',
+          backdrop: `rgba(0,0,0,0.4)`,
+        });
         newPassRef.current.focus();
         return false;
       }
       // 비밀번호 와 비밀번호 체크 값 비교
       if (newPassRef.current.value !== newPassChkRef.current.value) {
-        alert('새 비밀번호가 서로 다릅니다');
+        // alert('새 비밀번호가 서로 다릅니다');
+        Swal.fire({
+          title: '새 비밀번호가 서로 다릅니다!',
+          icon: 'warning',
+          confirmButtonText: '확인',
+          confirmButtonColor: '#191d73',
+          backdrop: `rgba(0,0,0,0.4)`,
+        });
         newPassRef.current.value = '';
         newPassChkRef.current.value = '';
         newPassRef.current.focus();
@@ -157,7 +207,14 @@ const MyInfo = () => {
 
       // 비밀번호 유효성 검사
       if (checkPassword(newPassRef.current.value) == false) {
-        alert('비밀번호 형식이 아닙니다');
+        // alert('비밀번호 형식이 아닙니다');
+        Swal.fire({
+          title: '비밀번호 형식이 아닙니다!',
+          icon: 'warning',
+          confirmButtonText: '확인',
+          confirmButtonColor: '#191d73',
+          backdrop: `rgba(0,0,0,0.4)`,
+        });
         newPassRef.current.focus();
         return false;
       }
@@ -166,14 +223,28 @@ const MyInfo = () => {
 
     // 이메일 유효성 검사
     if (checkEmail(mailRef.current.value) == false) {
-      alert('이메일 형식이 아닙니다');
+      // alert('이메일 형식이 아닙니다');
+      Swal.fire({
+        title: '이메일 형식이 아닙니다!',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: '#191d73',
+        backdrop: `rgba(0,0,0,0.4)`,
+      });
       mailRef.current.focus();
       return false;
     }
 
     // 핸드폰 유효성 검사
     if (checkPhonenumber(telRef.current.value) == false) {
-      alert('핸드폰 형식이 아닙니다');
+      // alert('핸드폰 형식이 아닙니다');
+      Swal.fire({
+        title: '핸드폰 형식이 아닙니다!',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: '#191d73',
+        backdrop: `rgba(0,0,0,0.4)`,
+      });
       telRef.current.focus();
       return false;
     }
@@ -183,7 +254,14 @@ const MyInfo = () => {
       document.getElementById('user_captcha_input').value;
 
     if (validateCaptcha(user_captcha_value) === false) {
-      alert('자동입력 방지 문자가 다릅니다!!');
+      // alert('자동입력 방지 문자가 다릅니다!!');
+      Swal.fire({
+        title: '자동입력 방지 문자가 다릅니다!!',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: '#191d73',
+        backdrop: `rgba(0,0,0,0.4)`,
+      });
       return false;
     }
 
@@ -197,11 +275,25 @@ const MyInfo = () => {
     });
 
     if (res.data === 'success') {
-      alert('회원정보 수정 성공!');
+      // alert('회원정보 수정 성공!');
+      Swal.fire({
+        title: '회원정보 수정 성공!',
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: '#191d73',
+        backdrop: `rgba(0,0,0,0.4)`,
+      });
       //로그인 페이지로 이동
       navigate('/');
     } else {
-      alert('회원정보 수정 실패!' + '\r\n' + res.data);
+      // alert('회원정보 수정 실패!' + '\r\n' + res.data);
+      Swal.fire({
+        title: '회원정보 수정 실패!' + '\r\n' + res.data,
+        icon: 'warning',
+        confirmButtonText: '확인',
+        confirmButtonColor: '#191d73',
+        backdrop: `rgba(0,0,0,0.4)`,
+      });
     }
   };
 
