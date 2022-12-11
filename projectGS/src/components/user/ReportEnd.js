@@ -72,7 +72,7 @@ const ReportEnd = () => {
         </div>
 
         <div className="btn-wrap">
-          <a className="btn btn-navy" href="/">
+          <a className="button btn btn-navy" href="/">
             메인으로
           </a>
         </div>

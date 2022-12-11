@@ -43,6 +43,7 @@
     "socket.io-client": "^4.5.4",
     "styled-components": "^5.3.6",
     "styled-reset": "^4.4.3",
+    "sweetalert2": "^11.6.15",
     "swiper": "^8.4.5",
     "web-vitals": "^2.1.0",
     "web-worker": "^1.2.0"

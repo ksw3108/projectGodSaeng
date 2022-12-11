@@ -191,7 +191,7 @@ const PointPay = () => {
                 </tr>
               </table>
 
-              <button type="button" onClick={pointForm} className="btn btn-navy">결제하기</button>
+              <button type="button" onClick={pointForm} className="button btn btn-navy">결제하기</button>
             </div>
 
           </div>

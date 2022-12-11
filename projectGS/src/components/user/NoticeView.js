@@ -70,7 +70,8 @@ const Notice = () => {
           {/* </div> */}
 
           <div>
-            {/* 221202 선우 - 이게 파일 다운로드 (여기에 파일 다운로드를 배치하는건 어떠십니까)  */}
+            {/* 221202 선우 - 이게 파일 다운로드 (여기에 파일 다운로드를 배치하는건 어떠십니까)
+                221210 지형 - 이제야,,보았는데,, 사라님께 레이아웃 요청해서 수정완료했습니다!  */}
             {/* {board.BOARD_FILE !== '' ? (
               <>
                 파일 다운로드 :
@@ -89,9 +90,9 @@ const Notice = () => {
             )} */}
           </div>
 
-          <div className="contents">{board.BOARD_TXT}</div>
+          <div className="contents"><p>{board.BOARD_TXT}</p></div>
           <div className="btn-wrap">
-            <button type="button" className="btn btn-navy" onClick={goToList}>
+            <button type="button" className="button btn btn-navy" onClick={goToList}>
               목록
             </button>
           </div>

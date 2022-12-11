@@ -802,7 +802,7 @@ def update_userinfo(body_data):  # 사용자 정보 수정하기
                 USER_NAME='{body_data['user_name']}', 
                 USER_MAIL='{body_data['user_mail']}',
                 USER_TEL='{body_data['user_tel']}',
-                ADMIN_OX='{body_data["admin_ox"]}'
+                USER_OX='{body_data["user_ox"]}'
               WHERE USER_IDX = {body_data['user_idx']}; """
 
     try:

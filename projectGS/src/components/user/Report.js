@@ -351,7 +351,7 @@ const Report = () => {
               </div>
             </div>
 
-            <div className="row">
+            <div className="row notAlign">
               <div className="col-2 col-sm-12">
                 <div className="rTitle">
                   <h3>사진 업로드</h3>
@@ -490,7 +490,7 @@ const Report = () => {
               </div>
             </div>
 
-            <div className="row">
+            <div className="row notAlign">
               <div className="col-2 col-sm-12">
                 <div className="rTitle">
                   <h3>신고 내용</h3>
@@ -506,7 +506,7 @@ const Report = () => {
               </div>
             </div>
 
-            <div className="row">
+            <div className="row notAlign">
               <div className="col-2 col-sm-12">
                 <div className="rTitle">
                   <h3>휴대전화</h3>
@@ -607,7 +607,7 @@ const Report = () => {
             {/* <div>비고</div> */}
 
             <div className="btn-wrap">
-              <button className="btn btn-navy">신고하기</button>
+              <button className="button btn btn-navy">신고하기</button>
             </div>
           </form>
         </div>

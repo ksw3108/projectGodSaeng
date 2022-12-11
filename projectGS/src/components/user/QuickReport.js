@@ -369,7 +369,7 @@ const QuickReport = () => {
               </div>
             </div>
 
-            <div className="row">
+            <div className="row notAlign">
               <div className="col-2 col-sm-12">
                 <div className="rTitle">
                   <h3>신고 내용</h3>
@@ -385,7 +385,7 @@ const QuickReport = () => {
               </div>
             </div>
 
-            <div className="row">
+            <div className="row notAlign">
               <div className="col-2 col-sm-12">
                 <div className="rTitle">
                   <h3>휴대전화</h3>

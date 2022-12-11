@@ -113,12 +113,11 @@ const GoodsManagement = () => {
                     <h4>{item.GOODS_NAME}</h4>
                     <p>{item.GOODS_PRICE} 원</p>
                   </div>
-
-                  
-                  <button onClick={() => deleteGoods(item.GOODS_IDX)} className="btnTrash" title="삭제하기">
-                    <i className="xi-trash-o"></i>
-                  </button>
                 </div>
+                
+                <button onClick={() => deleteGoods(item.GOODS_IDX)} className="btnTrash" title="삭제하기">
+                  <i className="xi-trash-o"></i>
+                </button>
               </div>
             ))
           ) : (

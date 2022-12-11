@@ -44,58 +44,114 @@ const DisposeDetail = () => {
   };
   return (
     <div className="Contents">
+      <div className="adminTitle"><h3>신고 처리</h3></div>
       <div className="pageWrap">
-        <div className="adminTitle">
-          <h3>신고 처리</h3>
+        <div className="reportInfo">
+          <div className="subTitle"><h4>신고자 정보</h4></div>
+          <table className="boardTable boardTable2" border="0" cellPadding="0" cellSpacing="0">
+            <colgroup>
+              <col width="15%" />
+              <col width="35%" />
+              <col width="15%" />
+              <col width="35%" />
+            </colgroup>
+              {data.USER_OX === 'O'? (
+                <tbody>
+                  <tr>
+                    <th>회원번호</th>
+                    <td>{data.USER_IDX}</td>
+                    <th>아이디</th>
+                    <td>{data.USER_ID}</td>
+                  </tr>
+                  <tr>
+                    <th>이메일</th>
+                    <td>{data.USER_MAIL}</td>
+                    <th>연락처</th>
+                    <td>{data.USER_TEL}</td>
+                  </tr>
+                </tbody>
+              ):(
+                <tbody>
+                  <tr>
+                    <th>신고자</th>
+                    <td>비회원</td>
+                    <th>연락처</th>
+                    <td>{data.USER_TEL}</td>
+                  </tr>
+                </tbody>
+              )}
+          </table> 
         </div>
 
-        <div>
-          - 신고자 정보 -<br />
-          {data.USER_OX === 'O' ? '회원' : '비회원신고'}
-          <br />
-          회원번호 : {data.USER_IDX === null ? 'non' : data.USER_IDX}
-          <br />
-          id : {data.USER_ID}
-          <br />
-          이메일 : {data.USER_MAIL}
-          <br />
-          전화번호 : {data.USER_TEL}
+        <div className="reportDetail">
+          <div className="subTitle"><h4>신고내용</h4></div>
+
+          <table className="boardTable boardTable2" border="0" cellPadding="0" cellSpacing="0">
+            <colgroup>
+              <col width="15%" />
+              <col width="35%" />
+              <col width="15%" />
+              <col width="35%" />
+            </colgroup>
+            <tbody>
+              <tr>
+                <th>차량번호</th>
+                <td>{data.CAR_NUM}</td>
+                <th>위반장소</th>
+                <td>{data.NOTIFY_SPOT}</td>
+              </tr>
+              <tr>
+                <th>신고사진</th>
+                <td colSpan={3}>
+                  <img src={server_bridge.py_url + '/' + data.IMG_PATH} alt={data.CAR_NUM} />
+                </td>
+              </tr>
+              <tr>
+                <th>신고내용</th>
+                <td colSpan={3}>{data.NOTIFY_TXT}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div>
-          - 신고 내용 -<br />
-          {data.CATEGORY_IDX === 10 ? '킥보드회사명' : '차량번호'} :
-          {data.CAR_NUM}
-          <br />
-          장소 : {data.NOTIFY_SPOT}
-          <br />
-          처리 상태 :
-          <select key={uuid()} defaultValue={data.NOTIFY_PNUM} ref={processRef}>
-            {process.map((val2, key2) => (
-              <option key={key2} value={val2.NOTIFY_PNUM}>
-                {val2.NOTIFY_STATUS}
-              </option>
-            ))}
-          </select>
-          <br />
-          신고 내용 : {data.NOTIFY_TXT}
-          <br />
-          사진 :{' '}
-          <img
-            src={server_bridge.py_url + '/' + data.IMG_PATH}
-            alt="사진샘플"
-          />
-          {/* 사진 : <img src="" alt="사진샘플" /> */}
-          <br />
-          신고 처리
-          <br />
-          <textarea
-            cols="30"
-            rows="10"
-            defaultValue={data.NOTIFY_RESULT}
-            ref={resultRef}
-          ></textarea>
-          <br />
-          <button onClick={() => updateDispose(data.NOTIFY_IDX)}>
+
+        <div className="reportDispose">
+          <div className="subTitle"><h4>신고내용</h4></div>
+
+          <table className="boardTable boardTable2" border="0" cellPadding="0" cellSpacing="0">
+            <colgroup>
+              <col width="15%" />
+              <col />
+            </colgroup>
+            <tbody>
+              <tr>
+                <th>신고 처리</th>
+                <td>
+                  <div className="searchWrap">
+                    <div className="searchCate">
+                      <select key={uuid()} defaultValue={data.NOTIFY_PNUM} ref={processRef}>
+                        {process.map((val2, key2) => (
+                          <option key={key2} value={val2.NOTIFY_PNUM}>
+                            {val2.NOTIFY_STATUS}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th>처리 사유</th>
+                <td>
+                  <textarea defaultValue={data.NOTIFY_RESULT} ref={resultRef}></textarea>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div className="adminBtnWrap adminBtnWrap2">
+          <button type="button" className="adminBtn adminBtn2" onClick={()=>{navigate('/admin/disposereport')}}>취소</button>
+          <button onClick={() => updateDispose(data.NOTIFY_IDX)} className="adminBtn adminBtn2 adminBtnNavy">
             처리반영
           </button>
         </div>
