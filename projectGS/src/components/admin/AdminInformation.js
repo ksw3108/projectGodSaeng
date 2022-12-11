@@ -23,10 +23,13 @@ const AdminInformation = () => {
       user_idx: window.sessionStorage.getItem('USER_IDX'),
       admin_ox: 'O',
     });
-    if (res.data === 'success') alert('수정 성공!');
+    if (res.data === 'success')
+      //alert('수정 성공!');
+      server_bridge.normalInfoAlert('수정 성공!');
     else {
-      alert('수정 실패!');
-      console.log(res.data);
+      //alert('수정 실패!');
+      server_bridge.normalAlert('수정 실패!' + '\r\n' + res.data);
+      //console.log(res.data);
     }
 
     window.location.href = '/admin/admininfo';

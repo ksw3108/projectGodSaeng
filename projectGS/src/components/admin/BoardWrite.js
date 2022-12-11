@@ -52,9 +52,9 @@ const BoardWrite = () => {
         { headers: { 'Content-Type': 'multipart/form-data' } },
       );
       if (res.data === 'success') {
-        alert('입력성공!');
+        server_bridge.normalInfoAlert('입력 완료!');
       } else {
-        alert('입력실패!');
+        server_bridge.normalAlert('입력 실패!' + '\r\n' + res.data);
       }
     } else {
       //수정모드
@@ -86,10 +86,10 @@ const BoardWrite = () => {
         { headers: { 'Content-Type': 'multipart/form-data' } },
       );
       if (res.data === 'success') {
-        alert('수정성공!');
+        server_bridge.normalInfoAlert('수정성공!');
       } else {
         console.log(res.data);
-        alert('수정실패!');
+        server_bridge.normalAlert('수정 실패!' + '\r\n' + res.data);
       }
     }
 
@@ -106,12 +106,19 @@ const BoardWrite = () => {
 
   return (
     <div className="Contents">
-      <div className="adminTitle"><h3>공지사항 글쓰기</h3></div>
-      
+      <div className="adminTitle">
+        <h3>공지사항 글쓰기</h3>
+      </div>
+
       <div className="pageWrap">
         {/* {mode === mode_list[0] ? '작성모드' : '수정모드'} */}
         <form onSubmit={writeNoti}>
-          <table className="boardTable" border="0" cellPadding="0" cellSpacing="0">
+          <table
+            className="boardTable"
+            border="0"
+            cellPadding="0"
+            cellSpacing="0"
+          >
             <colgroup>
               <col width="100px" />
               <col />
@@ -120,7 +127,12 @@ const BoardWrite = () => {
               <tr>
                 <th>제목</th>
                 <td>
-                    <input type="text" name="title" ref={titleRef} defaultValue={board.BOARD_TIT} />
+                  <input
+                    type="text"
+                    name="title"
+                    ref={titleRef}
+                    defaultValue={board.BOARD_TIT}
+                  />
                 </td>
               </tr>
               <tr>
@@ -137,18 +149,35 @@ const BoardWrite = () => {
               <tr>
                 <th>첨부파일</th>
                 <td>
-                  <div className="attachFile">                
-                    <input type="file" name="notifile" id="notifile" ref={fileRef} onChange={() => changeFile(fileRef.current.files[0].name)} />
-                    <label ref={filelabelRef} className="fileName">파일을 선택해주세요</label>
-                    <label id="labelbutton" htmlFor="notifile" className="chooseFile">파일선택</label>
-                    
+                  <div className="attachFile">
+                    <input
+                      type="file"
+                      name="notifile"
+                      id="notifile"
+                      ref={fileRef}
+                      onChange={() => changeFile(fileRef.current.files[0].name)}
+                    />
+                    <label ref={filelabelRef} className="fileName">
+                      파일을 선택해주세요
+                    </label>
+                    <label
+                      id="labelbutton"
+                      htmlFor="notifile"
+                      className="chooseFile"
+                    >
+                      파일선택
+                    </label>
 
                     {isfileuploading === true ? (
-                      <input type="button" onClick={(e) => {
+                      <input
+                        type="button"
+                        onClick={(e) => {
                           fileRef.current.value = null;
                           changeFile('파일을 선택해주세요');
                         }}
-                        value="삭제" className="deleteFile" />
+                        value="삭제"
+                        className="deleteFile"
+                      />
                     ) : (
                       ''
                     )}
@@ -159,8 +188,22 @@ const BoardWrite = () => {
           </table>
 
           <div className="adminBtnWrap adminBtnWrap2">
-            <button type="button" className="adminBtn adminBtn2" onClick={()=>{navigate('/admin/boardmanage')}}>취소</button>
-            <button type="button" className="adminBtn adminBtn2 adminBtnNavy" onClick={writeNoti}>등록</button>
+            <button
+              type="button"
+              className="adminBtn adminBtn2"
+              onClick={() => {
+                navigate('/admin/boardmanage');
+              }}
+            >
+              취소
+            </button>
+            <button
+              type="button"
+              className="adminBtn adminBtn2 adminBtnNavy"
+              onClick={writeNoti}
+            >
+              등록
+            </button>
           </div>
         </form>
       </div>

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import $ from 'jquery';
 
 import logo from '../../images/logo-w.png';
-import '../../css/user/common.scss'; 
+import '../../css/user/common.scss';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -29,16 +29,23 @@ const Header = () => {
     });
 
     // button
-    document.querySelectorAll('.button').forEach(button => button.innerHTML = '<div><span>' + button.textContent.trim().split('').join('</span><span>') + '</span></div>');
+    document
+      .querySelectorAll('.button')
+      .forEach(
+        (button) =>
+          (button.innerHTML =
+            '<div><span>' +
+            button.textContent.trim().split('').join('</span><span>') +
+            '</span></div>'),
+      );
 
     // mobile
-    $('.ham').on('click', function(){
-      $(this).toggleClass('active'); 
-      $('.menu').toggleClass('active'); 
+    $('#hambtn').on('click', function () {
+      $(this).toggleClass('active');
+      $('.menu').toggleClass('active');
       $('.login').toggleClass('active');
     });
   }, [$]);
-
 
   return (
     <div id="Header">
@@ -105,7 +112,11 @@ const Header = () => {
         )}
       </div>
 
-      <button type="button" className="ham visible-lg"><span className="line line1"></span><span className="line line2"></span><span className="line line3"></span></button>
+      <button type="button" id="hambtn" className="ham visible-lg">
+        <span className="line line1"></span>
+        <span className="line line2"></span>
+        <span className="line line3"></span>
+      </button>
     </div>
   );
 };

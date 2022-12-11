@@ -33,7 +33,7 @@ const Home = () => {
       session.getItem('USER_ID') !== null &&
       session.getItem('ADMIN_OX') !== 'O'
     ) {
-      alert('잘못된 접근입니다! 메인 페이지로 이동합니다.');
+      server_bridge.normalAlert('잘못된 접근입니다! 메인 페이지로 이동합니다.');
       navigate('/');
     } else {
       get_daily_summary();
