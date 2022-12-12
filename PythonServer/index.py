@@ -328,6 +328,14 @@ def send_message():
     socket_io.emit('response2', json, callback='sendmessagetest')
 
 
+@app.route("/getreportcount", methods=["GET", "POST"])
+def get_report_count(): 
+    body_data = get_body_data(request)
+    sendData = dbconnecter.get_report_count(body_data)
+    return jsonify(sendData)
+    # return sendData
+
+
 if __name__ == "__main__":
     socket_io.run(app, debug=True, port=5000)  # 221208 선우 소켓형 서버로 사용방법 전환
     # app.run(debug=True)

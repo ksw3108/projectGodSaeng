@@ -83,7 +83,6 @@ const UserReportList = () => {
   // new Date(now_utc-timeOff).toISOString()은 '2022-05-11T18:09:38.134Z'를 반환
   const today = new Date(now_utc - timeOff).toISOString().split('T')[0];
 
-  const cnt = 0;
   return (
     <>
       <div className="container section">
@@ -197,7 +196,7 @@ const UserReportList = () => {
                           })
                         }
                       >
-                        <td>{cnt}</td>
+                        <td>{totalcnt}</td>
                         <td>{data.NOTIFY_IDX}</td>
                         <td>{data.CATEGORY}</td>
                         <td>{data.NOTIFY_DATE}</td>
@@ -206,7 +205,7 @@ const UserReportList = () => {
                     ))
                 ) : (
                   <tr>
-                    <td colSpan={4}></td>
+                    <td colSpan={5}></td>
                   </tr>
                 )}
               </tbody>

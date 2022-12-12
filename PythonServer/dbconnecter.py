@@ -1080,3 +1080,22 @@ def insert_point(body_data):  # 포인트 증감
     except Exception as e:
         close_conn(db)
         return "err : " + str(e)
+
+def get_report_count(body_data):  # 사용자 신고 건수
+    db = conn_db()
+    cursor = db.cursor(pymysql.cursors.DictCursor)
+    sql = f"""SELECT COUNT(*) AS CNT 
+                FROM NOTIFY WHERE USER_IDX = {body_data(user_idx)}"""
+    try:
+        row_cnt = cursor.execute(sql)
+        if row_cnt > 0:
+            res = cursor.fetchall()
+            close_conn(db)
+            return res
+        else:
+            close_conn(db)
+            return "nothing"
+
+    except Exception as e:
+        close_conn(db)
+        return "err : " + str(e)
