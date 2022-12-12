@@ -30,6 +30,7 @@ const MyPage = () => {
         Swal.fire('회원 탈퇴에 성공했습니다.', {
           icon: 'success',
         });
+        window.sessionStorage.clear();
         navigate('/');
       }
     });
