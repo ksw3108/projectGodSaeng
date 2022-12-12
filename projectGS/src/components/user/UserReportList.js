@@ -93,8 +93,8 @@ const UserReportList = () => {
         <div className="reportForm">
           <div className="row">
             <div className="col-2 col-sm-12">
-              <div className="rTitle">
-                <h3>기간</h3>
+              <div className="subTitle">
+                <h4>기간</h4>
               </div>
             </div>
             <div className="col-10 col-sm-12">
@@ -106,8 +106,8 @@ const UserReportList = () => {
 
           <div className="row">
             <div className="col-2 col-sm-12">
-              <div className="rTitle">
-                <h3>카테고리</h3>
+              <div className="subTitle">
+                <h4>카테고리</h4>
               </div>
             </div>
             <div className="col-10 col-sm-12">
@@ -127,8 +127,8 @@ const UserReportList = () => {
 
           <div className="row">
             <div className="col-2 col-sm-12">
-              <div className="rTitle">
-                <h3>처리 상태</h3>
+              <div className="subTitle">
+                <h4>처리 상태</h4>
               </div>
             </div>
             <div className="col-10 col-sm-12">
@@ -157,6 +157,7 @@ const UserReportList = () => {
           </div>
 
           <div className="noticeBoard">
+            <br />
             <table
               className="adminTable userTable"
               border="0"
