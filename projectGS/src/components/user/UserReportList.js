@@ -87,7 +87,9 @@ const UserReportList = () => {
   return (
     <>
       <div className="container section">
-        <h2>나의 신고 내역</h2>
+        <div className="sub-title my-title">
+          <h2>나의 신고 내역</h2>
+        </div>
         <div className="reportForm">
           <div className="row">
             <div className="col-2 col-sm-12">
