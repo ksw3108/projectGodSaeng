@@ -34,8 +34,8 @@ const GoodsManagement = () => {
       cancelButtonText: '취소', // cancel 버튼 텍스트 지정
 
       reverseButtons: true, // 버튼 순서 거꾸로
-    }).then((willDelete) => {
-      if (willDelete) {
+    }).then((result) => {
+      if (result.isConfirmed) {
         server_bridge.axios_instace
           .post('/deletegoods', {
             goods_idx: goods_idx,
