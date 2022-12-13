@@ -158,22 +158,22 @@ const MyPage = () => {
         <div className="sub-title my-title mypage-title">
           <h3>{name} 님 환영합니다</h3>
         </div>
-        <div className="reportForm">
+        <div className="reportForm_myP">
           <FaUserAlt size="160" />
           <div className="Mycounter">
-            <div className="subTitle">
+            <div className="subTitle_myP">
               <label>적립 포인트 </label>
               <label>{addComma(pluspoint)}</label>
             </div>
-            <div className="subTitle">
+            <div className="subTitle_myP">
               <label>사용 포인트 </label>
               <label>{addComma(minuspoint)}</label>
             </div>
-            <div className="subTitle">
+            <div className="subTitle_myP">
               <label>가용 포인트 </label>
               <label>{addComma(point)}</label>
             </div>
-            <div className="subTitle">
+            <div className="subTitle_myP">
               <label>신고 건수</label>
               <label>{totalcnt}</label>
             </div>
