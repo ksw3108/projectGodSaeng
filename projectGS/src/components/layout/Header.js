@@ -99,7 +99,7 @@ const Header = () => {
         {window.sessionStorage.getItem('USER_ID') ? (
           <ul className="logOn">
             <li className="goMyPage">
-              <a href="/mypage">
+              <a>
                 마이페이지
                 <BiChevronDown size="30" />
               </a>
@@ -113,7 +113,7 @@ const Header = () => {
               </ul>
               <ul className="goPage">
                 <li>
-                  <a href="/MyPage">
+                  <a href="/mypage">
                     <CiEdit />
                     회원정보 수정
                   </a>
