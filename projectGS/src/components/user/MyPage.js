@@ -70,9 +70,9 @@ const MyPage = () => {
 
   const user_id = window.sessionStorage.getItem('USER_ID');
 
-  const [point, setPoint] = useState([]);
-  const [pluspoint, setPlusPoint] = useState([]);
-  const [minuspoint, setMinusPoint] = useState([]);
+  const [point, setPoint] = useState([0]);
+  const [pluspoint, setPlusPoint] = useState([0]);
+  const [minuspoint, setMinusPoint] = useState([0]);
   const havePoint = async () => {
     const response = await server_bridge.axios_instace.post(
       '/pointlistbyuser',
@@ -163,20 +163,20 @@ const MyPage = () => {
           <div className="Mycounter">
             <div className="subTitle_myP">
               <label>적립 포인트 </label>
-              <label>{addComma(pluspoint)}</label>
             </div>
+            <label>{addComma(pluspoint)}</label>
             <div className="subTitle_myP">
               <label>사용 포인트 </label>
-              <label>{addComma(minuspoint)}</label>
             </div>
+            <label>{addComma(minuspoint)}</label>
             <div className="subTitle_myP">
               <label>가용 포인트 </label>
-              <label>{addComma(point)}</label>
             </div>
+            <label>{addComma(point)}</label>
             <div className="subTitle_myP">
               <label>신고 건수</label>
-              <label>{totalcnt}</label>
             </div>
+            <label>{totalcnt}</label>
           </div>
         </div>
         <div className="userBenefit">
