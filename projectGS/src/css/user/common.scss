@@ -2,6 +2,7 @@
   width: 100%;
   position: relative;
   height: 100px;
+  z-index: 999;
 
   .logo {
     position: absolute;
@@ -21,6 +22,7 @@
 
     ul {
       text-align: center;
+
       li {
         display: inline-block;
         margin: 0 40px;
@@ -88,6 +90,7 @@
       }
     }
   }
+
   //   .login {
   //     position: absolute;
   //     right: 100px;
@@ -228,6 +231,7 @@
         width: 0;
       }
     }
+
     //   }
     //==================================================
     // .logOn {
