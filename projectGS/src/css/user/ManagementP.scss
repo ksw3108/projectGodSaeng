@@ -1,19 +1,16 @@
 // 마이페이지-포인트관리
 .managementP {
-  width: 97.5%;
-  //width: 100%;
+  width: 100%;
   max-width: 1400px;
-  //background: #fff;
-  background: #fafafa;
-  border-radius: 10px;
+  background: #fff;
+  border-radius: 20px;
   box-sizing: border-box;
-  //padding: 120px 100px;
-  padding: 50px 80px;
-  margin: 0 auto;
-  //margin: 0 auto 120px;
+  padding: 120px 100px;
+  margin: 0 auto 120px;
   overflow: hidden;
-  //box-shadow: 20px 20px 40px;
+  box-shadow: 20px 20px 40px rgba(0, 0, 0, 0.1);
 }
+
 .miniTitle {
   display: flex;
   justify-content: end;
@@ -21,28 +18,34 @@
   padding: 30px;
   font-size: small;
 }
+
 .pointTitle {
   font-size: larger;
   padding: 30px 30px 10px;
 }
+
 .pointSubTitle {
   background: #eee;
   padding: 10px;
   margin: 15px;
 }
+
 .topList {
   //   background: #f5f5f5;
   margin: 15px;
+
   thead {
     background: #d9d9d9;
   }
 }
+
 .pointInfo {
   display: flex;
   flex-direction: column;
   padding-top: 30px;
   margin: 15px;
 }
-.point_tdcss{
+
+.point_tdcss {
   text-align: right;
 }
