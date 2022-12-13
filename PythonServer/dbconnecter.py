@@ -797,9 +797,9 @@ def update_userinfo(body_data):  # 사용자 정보 수정하기
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
-    # sql = f"""UPDATE USER SET 
-    #             USER_PW = '{body_data['user_pw']}', 
-    #             USER_NAME='{body_data['user_name']}', 
+    # sql = f"""UPDATE USER SET
+    #             USER_PW = '{body_data['user_pw']}',
+    #             USER_NAME='{body_data['user_name']}',
     #             USER_MAIL='{body_data['user_mail']}',
     #             USER_TEL='{body_data['user_tel']}',
     #             USER_OX='{body_data["user_ox"]}'
@@ -1081,11 +1081,15 @@ def insert_point(body_data):  # 포인트 증감
         close_conn(db)
         return "err : " + str(e)
 
+
 def get_report_count(body_data):  # 사용자 신고 건수
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
     sql = f"""SELECT COUNT(*) AS CNT 
-                FROM NOTIFY WHERE USER_IDX = {body_data(user_idx)}"""
+                FROM NOTIFY AS A
+                LEFT JOIN USER AS B ON A.USER_IDX = B.USER_IDX
+                WHERE B.USER_ID = '{body_data['user_id']}';"""
+    print(sql)
     try:
         row_cnt = cursor.execute(sql)
         if row_cnt > 0:

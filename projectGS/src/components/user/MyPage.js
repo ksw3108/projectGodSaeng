@@ -31,10 +31,22 @@ const MyPage = () => {
       backdrop: `rgba(0,0,0,0.4)`,
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire('회원 탈퇴에 성공했습니다.', {
-          icon: 'success',
-        });
-        navigate('/');
+        (async () => {
+          const { value: nothing } = await Swal.fire({
+            title: '비밀번호를 입력하세요.',
+            text: '회원 탈퇴 시 서비스에 설정된 모든 데이터가 삭제됩니다..',
+            input: 'password',
+            inputPlaceholder: '비밀번호 입력',
+          });
+          // 이후 처리되는 내용.
+          if (nothing) {
+            Swal.fire('회원 탈퇴에 성공했습니다.', {
+              icon: 'success',
+            });
+            window.sessionStorage.clear();
+            navigate('/');
+          }
+        })();
       }
     });
     return false;
@@ -51,14 +63,16 @@ const MyPage = () => {
   const navigate = useNavigate();
   useEffect(() => {
     havePoint();
-    PlusPoint();
-    MinusPoint();
+    //PlusPoint();
+    //MinusPoint();
     handleReportList();
   }, []);
 
   const user_id = window.sessionStorage.getItem('USER_ID');
 
   const [point, setPoint] = useState([]);
+  const [pluspoint, setPlusPoint] = useState([]);
+  const [minuspoint, setMinusPoint] = useState([]);
   const havePoint = async () => {
     const response = await server_bridge.axios_instace.post(
       '/pointlistbyuser',
@@ -69,13 +83,19 @@ const MyPage = () => {
     const point_list = response.data;
 
     let temp = 0;
+    let plus = 0;
+    let minus = 0;
     point_list.forEach((item) => {
-      console.log('나옴', item);
-      temp += parseInt(item.POINT_PLUS) - parseInt(item.POINT_MINUS);
+      //console.log('나옴', item);
+
+      plus += parseInt(item.POINT_PLUS);
+      minus += parseInt(item.POINT_MINUS);
+      //temp += parseInt(item.POINT_PLUS) - parseInt(item.POINT_MINUS);
     });
-    setPoint(temp);
+    setPoint(plus - minus);
+    setPlusPoint(plus);
+    setMinusPoint(minus);
   };
-  const [pluspoint, setPlusPoint] = useState([]);
   const PlusPoint = async () => {
     const response = await server_bridge.axios_instace.post(
       '/pointlistbyuser',
@@ -87,13 +107,12 @@ const MyPage = () => {
 
     let plus = 0;
     point_list.forEach((item) => {
-      console.log('플러스', item);
+      //console.log('플러스', item);
       plus += parseInt(item.POINT_PLUS);
     });
     setPlusPoint(plus);
   };
 
-  const [minuspoint, setMinusPoint] = useState([]);
   const MinusPoint = async () => {
     const response = await server_bridge.axios_instace.post(
       '/pointlistbyuser',
@@ -105,7 +124,7 @@ const MyPage = () => {
 
     let minus = 0;
     point_list.forEach((item) => {
-      console.log('마이너스', item);
+      //console.log('마이너스', item);
       minus += parseInt(item.POINT_MINUS);
     });
     setMinusPoint(minus);
@@ -119,7 +138,9 @@ const MyPage = () => {
       '/getreportcount',
       { user_id: user_id },
     );
-    setCnt(res.data.length);
+    const data = res.data[0];
+    console.log(data);
+    setCnt(data.CNT);
   };
   return (
     <div id="MyPage">
