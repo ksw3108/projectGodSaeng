@@ -49,9 +49,9 @@ const Header = () => {
 
     //mobile
     // $('#togglemenu').on('click', function () {
-    //   $(this).toggleClass('active');
-    //   $('.menu').toggleClass('active');
-    //   $('.login').toggleClass('active');
+    // $(this).toggleClass('active');
+    // $('.menu').toggleClass('active');
+    // $('.login').toggleClass('active');
     // });
   }, [$]);
   const handleToggle = () => {
