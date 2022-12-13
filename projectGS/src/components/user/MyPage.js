@@ -112,7 +112,7 @@ const MyPage = () => {
   return (
     <div id="MyPage">
       <div className="subTop">
-        <h1>마이페이지</h1>
+        <h1>회원정보</h1>
       </div>
       <div className="section">
         <div className="mypage-btn">
@@ -122,13 +122,18 @@ const MyPage = () => {
             <MdOutlineSettings />
           </button>
         </div>
-        <div className="mypage-title">
-          <h1>{name} 님 환영합니다</h1>
+        <div className="sub-title my-title mypage-title">
+          <h2>{name} 님 환영합니다</h2>
         </div>
         <div className="reportForm_myP">
           <FaUserAlt className="myprofile" size="150" />
 
-          <table className="mypageTable">
+          <table
+            className="mypageTable"
+            border="0"
+            cellPadding="0"
+            cellSpacing="0"
+          >
             <colgroup>
               <col width="20%" />
               <col width="20%" />
