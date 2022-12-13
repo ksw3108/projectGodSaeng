@@ -122,8 +122,8 @@ const MyPage = () => {
             <MdOutlineSettings />
           </button>
         </div>
-        <div className="sub-title my-title mypage-title">
-          <h2>{name} 님 환영합니다</h2>
+        <div className="mypage-title">
+          <h1>{name} 님 환영합니다</h1>
         </div>
         <div className="reportForm_myP">
           <FaUserAlt className="myprofile" size="150" />

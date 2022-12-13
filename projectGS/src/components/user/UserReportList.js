@@ -86,10 +86,12 @@ const UserReportList = () => {
   const cnt = 0;
   return (
     <>
+      <div className="subTop">
+        <h1>나의 신고 현황</h1>
+      </div>
+
       <div className="container section">
-        <div className="sub-title my-title">
-          <h2>나의 신고 현황</h2>
-        </div>
+        {/* <div className="sub-title my-title"></div> */}
         <div className="reportForm">
           <div className="row">
             <div className="col-2 col-sm-12">
