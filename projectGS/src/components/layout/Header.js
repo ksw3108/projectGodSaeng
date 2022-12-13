@@ -2,6 +2,13 @@ import { Outlet, Link, useNavigate } from 'react-router-dom';
 import * as server_bridge from '../../controller/server_bridge';
 import { useState, useEffect } from 'react';
 import $ from 'jquery';
+//==========================================
+import { BiChevronDown } from 'react-icons/bi';
+import { CiEdit } from 'react-icons/ci';
+import { CiDollar } from 'react-icons/ci';
+import { CiReceipt } from 'react-icons/ci';
+import { CiLogout } from 'react-icons/ci';
+import { FaRegUser } from 'react-icons/fa';
 
 import logo from '../../images/logo-w.png';
 import '../../css/user/common.scss';
@@ -91,14 +98,46 @@ const Header = () => {
       <div className="login">
         {window.sessionStorage.getItem('USER_ID') ? (
           <ul className="logOn">
-            <li>
-              <a onClick={logout}>로그아웃</a>
-            </li>
-            <li>
-              <a href="/mypage" className="goMyPage">
+            <li className="goMyPage">
+              <a href="/mypage">
                 마이페이지
+                <BiChevronDown size="30" />
               </a>
             </li>
+            <div class="dropDown">
+              <ul class="dropDown-content">
+                <li className="myUsecon">
+                  <FaRegUser size="30" />
+                  일반회원
+                </li>
+              </ul>
+              <ul className="goPage">
+                <li>
+                  <a href="/MyPage">
+                    <CiEdit />
+                    회원정보 수정
+                  </a>
+                  <li>
+                    <a href="/ManagementP">
+                      <CiDollar />
+                      포인트 관리
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/myreport">
+                      <CiReceipt />
+                      나의 신고현황
+                    </a>
+                  </li>
+                  <li>
+                    <a onClick={logout}>
+                      <CiLogout />
+                      로그아웃
+                    </a>
+                  </li>
+                </li>
+              </ul>
+            </div>
           </ul>
         ) : (
           <ul>

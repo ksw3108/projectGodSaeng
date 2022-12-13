@@ -5,6 +5,10 @@ import * as server_bridge from '../../controller/server_bridge';
 import Swal from 'sweetalert2';
 import '../../css/user/mypage.css';
 import profile from '../../images/profile.png';
+//=============================================
+import { FaUserAlt } from 'react-icons/fa';
+import { SlArrowLeft } from 'react-icons/sl';
+import { MdOutlineSettings } from 'react-icons/md';
 
 const MyPage = () => {
   const name = window.sessionStorage.getItem('USER_NAME');
@@ -119,35 +123,55 @@ const MyPage = () => {
   };
   return (
     <div id="MyPage">
-      <div className="container section">
-        <div className="sub-title my-title">
-          <h2>마이페이지</h2>
+      <div className="subTop">
+        <h1>마이페이지</h1>
+      </div>
+      <div className="section">
+        <div className="mypage-btn">
+          <button onClick={handleDel}>회원탈퇴</button>
+          <button onClick={handleInfo}>
+            회원정보 수정
+            <MdOutlineSettings />
+          </button>
         </div>
-
         <div className="sub-title my-title mypage-title">
           <h3>{name} 님 환영합니다</h3>
         </div>
         <div className="reportForm">
-          <div className="mypage-btn">
-            <button onClick={handleInfo}>회원정보 수정</button>
-            <button onClick={handleDel}>회원탈퇴</button>
+          <FaUserAlt size="160" />
+          <div className="Mycounter">
+            <div className="subTitle">
+              <label>적립 포인트 </label>
+              <label>{addComma(pluspoint)}</label>
+            </div>
+            <div className="subTitle">
+              <label>사용 포인트 </label>
+              <label>{addComma(minuspoint)}</label>
+            </div>
+            <div className="subTitle">
+              <label>가용 포인트 </label>
+              <label>{addComma(point)}</label>
+            </div>
+            <div className="subTitle">
+              <label>신고 건수</label>
+              <label>{totalcnt}</label>
+            </div>
           </div>
-          <img className="profile" scr={profile} alt="프로필" />
-          <div className="subTitle">
-            <label>적립 포인트 </label>
-            <label>{addComma(pluspoint)}</label>
+        </div>
+        <div className="userBenefit">
+          <div>
+            <p>회원님의 혜택정보</p>
           </div>
-          <div className="subTitle">
-            <label>사용 포인트 </label>
-            <label>{addComma(minuspoint)}</label>
-          </div>
-          <div className="subTitle">
-            <label>가용 포인트 </label>
-            <label>{addComma(point)}</label>
-          </div>
-          <div className="subTitle">
-            <label>신고 건수</label>
-            <label>{totalcnt}</label>
+          <div className="BenefitInfo">
+            - 담당자의 확인을 거쳐 정상처리된 신고건수당
+            <br />
+            50p가 적립되며, 포인트는 온누리 상품권으로 교환이 가능합니다.
+            <br />
+            <br />
+            - 온누리 상품권은 모바일로 발송되오니
+            <br />
+            개인정보 수집 이용에 동의하여 주시기 바랍니다.
+            <br />
           </div>
         </div>
       </div>
