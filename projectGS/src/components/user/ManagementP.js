@@ -98,17 +98,19 @@ const ManagementP = () => {
                             ? ` - 신고번호 [${data.NOTIFY_IDX}]`
                             : '')}
                       </td>
-                      <td>
+                      <td className="point_tdcss">
                         {parseInt(data.POINT_PLUS) === 0
                           ? ''
                           : '+ ' + addComma(data.POINT_PLUS) + '🪙'}
                       </td>
-                      <td>
+                      <td className="point_tdcss">
                         {parseInt(data.POINT_PLUS) !== 0
                           ? ''
                           : '- ' + addComma(data.POINT_MINUS) + '🪙'}
                       </td>
-                      <td>{addComma(pointrecord[idx]) + 'p🪙'}</td>
+                      <td className="point_tdcss">
+                        {addComma(pointrecord[idx]) + '🪙'}
+                      </td>
                     </tr>
                   ))
               ) : (
