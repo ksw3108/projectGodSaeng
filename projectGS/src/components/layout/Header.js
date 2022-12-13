@@ -112,12 +112,14 @@ const Header = () => {
                     회원정보
                   </a>
                 </li>
+                {/* 
+                221213 선우 - 회원정보에 병합되어서 필요 없어졌으므로 삭제
                 <li>
                   <a href="/ManagementP">
                     <CiDollar />
                     포인트 관리
                   </a>
-                </li>
+                </li> */}
                 <li>
                   <a href="/myreport">
                     <CiReceipt />

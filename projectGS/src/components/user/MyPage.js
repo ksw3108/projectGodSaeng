@@ -9,6 +9,7 @@ import profile from '../../images/profile.png';
 import { FaUserAlt } from 'react-icons/fa';
 import { SlArrowLeft } from 'react-icons/sl';
 import { MdOutlineSettings } from 'react-icons/md';
+import ManagementP from './ManagementP';
 
 const MyPage = () => {
   const name = window.sessionStorage.getItem('USER_NAME');
@@ -81,7 +82,6 @@ const MyPage = () => {
       },
     );
     const point_list = response.data;
-
     let temp = 0;
     let plus = 0;
     let minus = 0;
@@ -158,6 +158,9 @@ const MyPage = () => {
             </tbody>
           </table>
         </div>
+
+        <ManagementP />
+
         <div className="userBenefit">
           <div>
             <p>회원님의 혜택정보</p>

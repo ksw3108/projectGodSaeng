@@ -873,17 +873,25 @@ def search_user_info(body_data):  # 사용자 목록 가져오기
 def get_poit_list_by_user(body_data):  # 사용자별 포인트 리스트 가져오기
     db = conn_db()
     cursor = db.cursor(pymysql.cursors.DictCursor)
-
-    sql = f"""            
-            SELECT A.POINT_IDX, A.POINT_PLUS, A.POINT_MINUS, A.POINT_CHANGE, A.NOTIFY_IDX,
-             date_format(A.POINT_DATE, '%Y-%m-%d %H:%i') AS POINT_DATE
+    set_sql = f"""
+        SET @a:= (SELECT COUNT(*) AS CNT 
+        FROM POINT AS A 
+        LEFT JOIN USER AS B ON A.USER_IDX=B.USER_IDX 
+        WHERE B.USER_ID='{body_data["user_id"]}');
+    """
+    sql = f"""          
+            SELECT 
+            (@a:=@a-1) AS POINT_NO,
+            A.POINT_IDX, A.POINT_PLUS, A.POINT_MINUS, A.POINT_CHANGE, A.NOTIFY_IDX,
+            date_format(A.POINT_DATE, '%Y-%m-%d %H:%i') AS POINT_DATE
             FROM POINT AS A
             LEFT JOIN USER AS B ON A.USER_IDX=B.USER_IDX
             WHERE B.USER_ID = '{body_data["user_id"]}'
             ORDER BY A.POINT_IDX DESC;
         """
-
+    print(sql)
     try:
+        cursor.execute(set_sql)
         row_cnt = cursor.execute(sql)
         # db.commit()
         if row_cnt > 0:

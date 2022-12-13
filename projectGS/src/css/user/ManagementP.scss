@@ -1,14 +1,18 @@
 // 마이페이지-포인트관리
 .managementP {
-  width: 100%;
+  width: 97.5%;
+  //width: 100%;
   max-width: 1400px;
-  background: #fff;
-  border-radius: 20px;
+  //background: #fff;
+  background: #fafafa;
+  border-radius: 10px;
   box-sizing: border-box;
-  padding: 120px 100px;
-  margin: 0 auto 120px;
+  //padding: 120px 100px;
+  padding: 50px 80px;
+  margin: 0 auto;
+  //margin: 0 auto 120px;
   overflow: hidden;
-  box-shadow: 20px 20px 40px;
+  //box-shadow: 20px 20px 40px;
 }
 .miniTitle {
   display: flex;
