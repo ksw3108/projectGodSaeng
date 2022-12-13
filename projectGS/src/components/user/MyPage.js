@@ -149,17 +149,17 @@ const MyPage = () => {
       </div>
       <div className="section">
         <div className="mypage-btn">
-          <button onClick={handleDel}>회원탈퇴</button>
+          <button onClick={handleDel}>회원탈퇴</button>|
           <button onClick={handleInfo}>
             회원정보 수정
             <MdOutlineSettings />
           </button>
         </div>
         <div className="sub-title my-title mypage-title">
-          <h3>{name} 님 환영합니다</h3>
+          <h2>{name} 님 환영합니다</h2>
         </div>
         <div className="reportForm_myP">
-          <FaUserAlt size="160" />
+          <FaUserAlt size="150" />
           <div className="Mycounter">
             <div className="subTitle_myP">
               <label>적립 포인트 </label>
