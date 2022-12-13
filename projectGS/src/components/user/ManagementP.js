@@ -90,7 +90,7 @@ const ManagementP = () => {
                   .slice(page * itemcount - itemcount, page * itemcount)
                   .map((data, idx) => (
                     <tr>
-                      <td>{parseInt(data.POINT_NO + 1)}</td>
+                      <td align="center">{parseInt(data.POINT_NO + 1)}</td>
                       <td>{data.POINT_DATE}</td>
                       <td>
                         {data.POINT_CHANGE +

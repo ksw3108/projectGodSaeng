@@ -6,7 +6,7 @@
   text-align: right;
 }
 
-.mypage-btn > button {
+.mypage-btn>button {
   padding: 0 10px;
 }
 
@@ -15,6 +15,7 @@
   height: '30%';
   background-color: powderblue;
 }
+
 /* ==================================== */
 .reportForm_myP {
   background: #fff;
@@ -23,8 +24,9 @@
   margin: 15px;
   border-radius: 10px;
   padding: 50px 0px 50px;
-  box-shadow: 1px 1px 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
 }
+
 .userBenefit {
   display: flex;
   margin: 70px 15px 15px;
@@ -35,10 +37,12 @@
   padding-left: 10%;
   border-radius: 10px;
 }
+
 .BenefitInfo {
   border-left: solid gray;
   padding-left: 5%;
 }
+
 /* .subTitle_myP {
   border-right: solid gray 2px;
 } */
@@ -51,6 +55,7 @@
   height: 100px;
   padding: 30px;
 }
+
 .myprofile {
   padding: 0 100px;
 }
@@ -67,14 +72,17 @@
   padding: 15px 0;
   border-right: solid gray 2px;
 }
+
 .mypageTable td {
   text-align: center;
   vertical-align: middle;
   border-right: solid gray 2px;
 }
+
 .mypageTable td:last-child {
   border-right: none;
 }
+
 .mypageTable th:last-child {
   border-right: none;
 }

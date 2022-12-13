@@ -82,7 +82,7 @@
         box-sizing: border-box;
         text-align: left;
         transition: all 0.3s;
-        cursor: pointer !important;
+        // cursor: pointer !important;
       }
 
       &:first-child a {
@@ -299,6 +299,7 @@
   opacity: 0;
   visibility: hidden;
   transition: all 0.4s;
+  background: rgba(255, 255, 255, 0.9);
 
   svg {
     opacity: 0.6;
