@@ -1,6 +1,7 @@
 .subMain {
   width: 100%;
   position: relative;
+  z-index: -1;
 
   &:before {
     content: '';
@@ -317,7 +318,7 @@ Report.js 불법주정차 신고
             border-radius: 40px;
           }
 
-          &+i {
+          & + i {
             margin-left: 10px;
           }
 
@@ -512,7 +513,7 @@ Report.js 불법주정차 신고
   input[type='checkbox'] {
     display: none;
 
-    &+label {
+    & + label {
       position: relative;
       padding-left: 25px;
       box-sizing: border-box;
@@ -534,7 +535,7 @@ Report.js 불법주정차 신고
       }
     }
 
-    &:checked+label:before {
+    &:checked + label:before {
       content: '\e928';
       font-family: 'xeicon';
       background: #191d73;
@@ -666,7 +667,7 @@ IllegalAreaGuide.js 불법주정차 금지구역
     border-radius: 10px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
 
-    .swiper-horizontal>.swiper-pagination-bullets,
+    .swiper-horizontal > .swiper-pagination-bullets,
     .swiper-pagination-bullets.swiper-pagination-horizontal,
     .swiper-pagination-custom,
     .swiper-pagination-fraction {
@@ -675,8 +676,9 @@ IllegalAreaGuide.js 불법주정차 금지구역
       width: auto;
     }
 
-    .swiper-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet,
-    .swiper-pagination-horizontal.swiper-pagination-bullets .swiper-pagination-bullet {
+    .swiper-horizontal > .swiper-pagination-bullets .swiper-pagination-bullet,
+    .swiper-pagination-horizontal.swiper-pagination-bullets
+      .swiper-pagination-bullet {
       background: #fff;
     }
 
@@ -1020,7 +1022,6 @@ Point.js 포인트 사용
 
   .orderInfo {
     table {
-
       th,
       td {
         text-align: left;
@@ -1365,7 +1366,7 @@ Notice.js 공지사항
   }
 
   .mSection .nBox a .nBoxBottom span,
-  .reportForm input[type='checkbox']+label,
+  .reportForm input[type='checkbox'] + label,
   .reportForm .checkWrap .privacyBtn,
   input::placeholder,
   textarea {

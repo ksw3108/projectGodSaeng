@@ -12,6 +12,7 @@ import { FaRegUser } from 'react-icons/fa';
 
 import logo from '../../images/logo-w.png';
 import '../../css/user/common.scss';
+import '../../css/header.css';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ const Header = () => {
   };
 
   const [login, setLogin] = useState(false);
+  const name = window.sessionStorage.getItem('USER_NAME');
 
   useEffect(() => {
     $('.menu > ul > li').on('mouseover', function () {
@@ -97,47 +99,39 @@ const Header = () => {
       {/* 로그인 여부 확인 */}
       <div className="login">
         {window.sessionStorage.getItem('USER_ID') ? (
-          <ul className="logOn">
-            <li className="goMyPage">
-              <a>
-                마이페이지
-                <BiChevronDown size="30" />
+          <ul className="mydropmenu ">
+            <li className="logOn">
+              <a href="/mypage">
+                <FaRegUser />
+                {name} 님<BiChevronDown />
               </a>
-            </li>
-            <div class="dropDown">
-              <ul class="dropDown-content">
-                <li className="myUsecon">
-                  <FaRegUser size="30" />
-                  일반회원
-                </li>
-              </ul>
-              <ul className="goPage">
+              <ul class="depth_1">
                 <li>
                   <a href="/mypage">
                     <CiEdit />
-                    회원정보 수정
+                    회원정보
                   </a>
-                  <li>
-                    <a href="/ManagementP">
-                      <CiDollar />
-                      포인트 관리
-                    </a>
-                  </li>
-                  <li>
-                    <a href="/myreport">
-                      <CiReceipt />
-                      나의 신고현황
-                    </a>
-                  </li>
-                  <li>
-                    <a onClick={logout}>
-                      <CiLogout />
-                      로그아웃
-                    </a>
-                  </li>
+                </li>
+                <li>
+                  <a href="/ManagementP">
+                    <CiDollar />
+                    포인트 관리
+                  </a>
+                </li>
+                <li>
+                  <a href="/myreport">
+                    <CiReceipt />
+                    신고현황
+                  </a>
+                </li>
+                <li>
+                  <a onClick={logout}>
+                    <CiLogout />
+                    로그아웃
+                  </a>
                 </li>
               </ul>
-            </div>
+            </li>
           </ul>
         ) : (
           <ul>
