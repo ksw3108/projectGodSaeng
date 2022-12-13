@@ -849,7 +849,7 @@ def search_user_info(body_data):  # 사용자 목록 가져오기
     cursor = db.cursor(pymysql.cursors.DictCursor)
 
     sql = f"""SELECT * FROM USER """
-    where = " WHERE ADMIN_OX IS NULL "
+    where = " WHERE ADMIN_OX IS NULL AND USER_OX = 'O' "
     if body_data["is_searching"] == 1:
         where = f"""AND {body_data["search_option"]} LIKE '%{body_data["keyword"]}%'"""
     sql += where + ";"
