@@ -27,11 +27,22 @@ const MyPage = () => {
       backdrop: `rgba(0,0,0,0.4)`,
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire('회원 탈퇴에 성공했습니다.', {
-          icon: 'success',
-        });
-        window.sessionStorage.clear();
-        navigate('/');
+        (async () => {
+          const { value: nothing } = await Swal.fire({
+            title: '비밀번호를 입력하세요.',
+            text: '회원 탈퇴 시 서비스에 설정된 모든 데이터가 삭제됩니다..',
+            input: 'password',
+            inputPlaceholder: '비밀번호 입력',
+          });
+          // 이후 처리되는 내용.
+          if (nothing) {
+            Swal.fire('회원 탈퇴에 성공했습니다.', {
+              icon: 'success',
+            });
+            window.sessionStorage.clear();
+            navigate('/');
+          }
+        })();
       }
     });
     return false;
