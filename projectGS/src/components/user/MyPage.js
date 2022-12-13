@@ -96,39 +96,6 @@ const MyPage = () => {
     setPlusPoint(plus);
     setMinusPoint(minus);
   };
-  const PlusPoint = async () => {
-    const response = await server_bridge.axios_instace.post(
-      '/pointlistbyuser',
-      {
-        user_id: user_id,
-      },
-    );
-    const point_list = response.data;
-
-    let plus = 0;
-    point_list.forEach((item) => {
-      //console.log('플러스', item);
-      plus += parseInt(item.POINT_PLUS);
-    });
-    setPlusPoint(plus);
-  };
-
-  const MinusPoint = async () => {
-    const response = await server_bridge.axios_instace.post(
-      '/pointlistbyuser',
-      {
-        user_id: user_id,
-      },
-    );
-    const point_list = response.data;
-
-    let minus = 0;
-    point_list.forEach((item) => {
-      //console.log('마이너스', item);
-      minus += parseInt(item.POINT_MINUS);
-    });
-    setMinusPoint(minus);
-  };
 
   // 신고 건수 확인 ===================================================
   const [totalcnt, setCnt] = useState(0); //총 게시글 갯수
@@ -159,25 +126,32 @@ const MyPage = () => {
           <h2>{name} 님 환영합니다</h2>
         </div>
         <div className="reportForm_myP">
-          <FaUserAlt size="150" />
-          <div className="Mycounter">
-            <div className="subTitle_myP">
-              <label>적립 포인트 </label>
-            </div>
-            <label>{addComma(pluspoint)}</label>
-            <div className="subTitle_myP">
-              <label>사용 포인트 </label>
-            </div>
-            <label>{addComma(minuspoint)}</label>
-            <div className="subTitle_myP">
-              <label>가용 포인트 </label>
-            </div>
-            <label>{addComma(point)}</label>
-            <div className="subTitle_myP">
-              <label>신고 건수</label>
-            </div>
-            <label>{totalcnt}</label>
-          </div>
+          <FaUserAlt className="myprofile" size="150" />
+
+          <table className="mypageTable">
+            <colgroup>
+              <col width="20%" />
+              <col width="20%" />
+              <col width="20%" />
+              <col width="20%" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>적립 포인트</th>
+                <th>사용 포인트</th>
+                <th>가용 포인트</th>
+                <th>신고 건수</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{addComma(pluspoint)}</td>
+                <td>{addComma(minuspoint)}</td>
+                <td>{addComma(point)}</td>
+                <td>{totalcnt}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div className="userBenefit">
           <div>

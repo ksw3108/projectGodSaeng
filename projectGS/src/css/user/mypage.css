@@ -19,7 +19,7 @@
 .reportForm_myP {
   background: #fafafa;
   display: flex;
-  justify-content: space-evenly;
+  /* justify-content: space-evenly; */
   margin: 15px;
   border-radius: 10px;
   padding: 50px 0px 50px;
@@ -38,9 +38,9 @@
   border-left: solid gray;
   padding-left: 5%;
 }
-.subTitle_myP {
+/* .subTitle_myP {
   border-right: solid gray 2px;
-}
+} */
 .Mycounter {
   background: #f5f5f5;
   width: 60%;
@@ -49,4 +49,21 @@
   justify-content: space-between;
   height: 100px;
   padding: 30px;
+}
+.myprofile {
+  padding: 0 100px;
+}
+
+.mypageTable {
+  width: 90%;
+  background-color: #f5f5f5;
+  margin: 10px 30px;
+}
+
+.mypageTable th {
+  padding: 15px 0;
+}
+.mypageTable td {
+  text-align: center;
+  vertical-align: middle;
 }
