@@ -1,6 +1,5 @@
 .mypage-title {
   text-align: center;
-  padding: 20px 0;
 }
 
 .mypage-btn {
@@ -18,16 +17,17 @@
 }
 /* ==================================== */
 .reportForm_myP {
-  background: #fafafa;
+  background: #fff;
   display: flex;
   /* justify-content: space-evenly; */
   margin: 15px;
   border-radius: 10px;
   padding: 50px 0px 50px;
+  box-shadow: 1px 1px 5px;
 }
 .userBenefit {
   display: flex;
-  margin: 50px 15px 15px;
+  margin: 70px 15px 15px;
   justify-content: space-around;
   background: #f5f5f5;
   padding: 30px;
@@ -59,12 +59,22 @@
   width: 90%;
   background-color: #f5f5f5;
   margin: 10px 30px;
+  padding: 20px;
+  border-radius: 10px;
 }
 
 .mypageTable th {
   padding: 15px 0;
+  border-right: solid gray 2px;
 }
 .mypageTable td {
   text-align: center;
   vertical-align: middle;
+  border-right: solid gray 2px;
+}
+.mypageTable td:last-child {
+  border-right: none;
+}
+.mypageTable th:last-child {
+  border-right: none;
 }
