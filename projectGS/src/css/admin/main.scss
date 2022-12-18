@@ -1,0 +1,210 @@
+.Contents .container {
+    // display: flex;
+    // flex-wrap: wrap;
+    // justify-content: space-between;
+    display: grid;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 30px;
+    grid-auto-rows: 50%;
+    margin-bottom: 30px;
+}
+
+.todoList,
+[class*=cell] {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+[class*=cell] {
+    height: 100%;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.todoList {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+
+    .todoTitle h3 {
+        font-size: 22px;
+        color: #444;
+        padding: 30px;
+    }
+
+    .todoListItem {
+        flex: 1;
+        padding: 20px;
+        cursor: default;
+
+        .todoContainer {
+            padding: 20px;
+            border-radius: 10px;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .cTitle {
+                font-weight: 500;
+                margin-right: 10px;
+            }
+
+            .todoCnt {
+                font-size: 32px;
+
+            }
+        }
+
+        .tc1 {
+            background: rgba(247, 115, 87, 1);
+        }
+
+        .tc2 {
+            background: rgba(121, 105, 204, 0.9);
+        }
+
+        .tc3 {
+            background: rgba(76, 66, 159, 0.9);
+        }
+
+        .tc4 {
+            background: rgba(25, 29, 115, 0.9);
+        }
+
+    }
+}
+
+.mainTitle {
+    margin-bottom: 15px;
+
+    h4 {
+        font-size: 18px;
+        color: #333;
+    }
+
+    .explain {
+        vertical-align: middle;
+
+        i {
+            font-size: 22px;
+            padding-left: 5px;
+            color: #aaa;
+            font-weight: 100;
+        }
+
+        .explainTxt {
+            margin-left: 10px;
+            font-size: 14px;
+            font-family: 'Roboto', 'Noto Sans KR', sans-serif;
+            color: #888;
+            font-weight: 400;
+            border: 2px solid rgba(25, 29, 115, 0.2);
+            border-radius: 5px;
+            padding: 10px;
+            box-sizing: border-box;
+            letter-spacing: 0.01em;
+            opacity: 0;
+            transition: all 0.4s;
+        }
+    }
+}
+
+.cell-a {
+    height: 100% !important;
+    width: 100% !important;
+
+    .recharts-responsive-container {
+        padding-bottom: 20px;
+        box-sizing: border-box;
+    }
+}
+
+
+/**************************************************************
+신고내역
+***************************************************************/
+
+.notifyBoxWrap {
+    display: flex;
+    justify-content: space-between;
+
+    .notifyBox {
+        width: 33.33%;
+        padding: 10px;
+        box-sizing: border-box;
+        overflow: hidden;
+
+        button {
+            border-radius: 10px;
+            background: #fafafa;
+            padding: 20px;
+            box-sizing: border-box;
+            min-height: 280px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            transition: all 0.4s;
+            border: 1px solid #fafafa;
+
+            &:hover {
+                background: #fff;
+                box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+                border-color: #191d73;
+            }
+        }
+
+        .notifyThumb {
+            width: 100%;
+            height: 100px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            img {
+                max-width: 100%;
+                display: block;
+                border: 1px solid #eee;
+                box-sizing: border-box;
+            }
+        }
+
+        .notifyTxt {
+            width: 100%;
+            height: calc(100% - 130px);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: space-between;
+
+            h4 {
+                font-size: 16px;
+                color: #444;
+                font-weight: 500;
+                margin-bottom: 10px;
+            }
+
+            p {
+                font-size: 15px;
+            }
+        }
+    }
+
+    .noReport {
+        width: 100%;
+        padding: 5% 0;
+        box-sizing: border-box;
+        text-align: center;
+        background: #fafafa;
+
+        p {
+            font-size: 16px;
+        }
+    }
+}
